@@ -1,2 +1,2 @@
 # AutoBrake
-A dream for a group of Taiwanese students
+A dream to a group of Taiwanese students
