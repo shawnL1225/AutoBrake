@@ -8,10 +8,12 @@ import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.os.*
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity: AppCompatActivity() {
@@ -23,9 +25,12 @@ class MainActivity: AppCompatActivity() {
         lateinit var m_bluetoothAdapter: BluetoothAdapter
         var m_isConnected: Boolean = false
         lateinit var m_address: String
+
         const val TAG = "BLUETOOTH DEBUG"
-        const val TAG2 = "TAG2"
-        const val MESSAGE_READ: Int = 0
+
+
+        val mmBuffer: ByteArray = ByteArray(1024)
+        var numBytes: Int = 0
 
 
     }
@@ -33,22 +38,59 @@ class MainActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //set BT address
         m_address = "98:D3:31:FC:20:72"
         ConnectToDevice(this).execute()
 
-        reconnect_btn.setOnClickListener {
-            ConnectToDevice(this).execute()
-        }
+        //connect stuff
+        reconnect_btn.setOnClickListener { ConnectToDevice(this).execute() }
         disconnect_btn.setOnClickListener { disconnect() }
+
+        //show BT receiveThread value
         start_recieve_btn.setOnClickListener {
             val handler = @SuppressLint("HandlerLeak") object: Handler() {
                 override fun handleMessage(msg: Message) {
-                    speed_txt.text = msg.what.toString()
+                    if(msg.what==1)
+                    {
+                        var b: ByteArray = mmBuffer.copyOf(numBytes)
+                        val bufToString =  b.toString(Charsets.UTF_8)
+                        Log.d(TAG, bufToString)
+                        val part = bufToString.split('|')
+                        speed_txt.text =  part[0]
+                        bettery_txt.text = part[1]+'%'
+
+                        if(part[2].toInt()>0) {
+                            //Log.d(TAG, "part 2 = true")
+                            warning_img.visibility = View.VISIBLE
+                        }
+                        else
+                        {
+                            //Log.d(TAG, "part 2 = false")
+                            warning_img.visibility = View.INVISIBLE
+                        }
+
+
+
+
+                    }
                 }
             }
-            val Rthread = ReceiveThread(handler)
-            Rthread.start()
+            val thread = ReceiveThread(handler)
+            thread.start()
         }
+
+        //current time
+        object: CountDownTimer(86400000, 1000) {
+            override fun onFinish() {
+                time_txt.text = "ride over 24H ?"
+            }
+            override fun onTick(millisUntilFinished: Long) {
+                val cal = Calendar.getInstance()
+                time_txt.text = SimpleDateFormat("HH:mm:ss").format(cal.time)
+            }
+
+        }.start()
 
 
 
@@ -56,38 +98,36 @@ class MainActivity: AppCompatActivity() {
     }
 
     //BT Receive Data
-    class ReceiveThread(handler: Handler) : Thread() {
-        val handler: Handler = handler
+    class ReceiveThread(val handler: Handler) : Thread() {
         override fun run() {
             //super.run()
-            val mmBuffer: ByteArray = ByteArray(1024)
-            var numBytes: Int = 0
-            var total: Int = 0
-            var available = m_bluetoothSocket!!.inputStream.available()
+
             Log.d(TAG, "START RUN")
-
+            var available = 0
             while (true) {
-
                 try {
-                    available =  m_bluetoothSocket!!.inputStream.available()
-                    if(available==0) {
-                        Thread.sleep(15)
-                        available =  m_bluetoothSocket!!.inputStream.available()
-                        if(available==0) {
-                            val message = Message.obtain()
-                            message.what = total
-                            handler.sendMessage(message)
-                            Log.d(TAG, "Return :  " + total)
-                            total = 0
-                        }
-                    }
-                    numBytes = m_bluetoothSocket!!.inputStream.read(mmBuffer, 0, 500)
+                    available = m_bluetoothSocket!!.inputStream.available()
+                    if(available>0) {
+                        //wait then read
+                        Thread.sleep(80)
+                        numBytes = m_bluetoothSocket!!.inputStream.read(mmBuffer, 0, 500)
 
+                        //debug show what BT got
+                        Log.d(TAG, "numBytes :  " +numBytes)
+                        for(x in 0..numBytes-1)
+                        {
+                            Log.d(TAG, "buffer :  " + mmBuffer[x])
+                        }
+
+                        //return msg to UI
+                        val message = Message.obtain()
+                        message.what = 1
+                        handler.sendMessage(message)
+                        Log.d(TAG, "--------------------------")
+                    }
                 } catch (e: IOException) {
                     Log.d(TAG, "Input stream was disconnected", e)
                 }
-                total+=numBytes
-                Log.d(TAG2, "Return :  " + total)
             }
 
         }
@@ -99,7 +139,7 @@ class MainActivity: AppCompatActivity() {
         if (m_bluetoothSocket != null) {
             try{
 
-                Toast.makeText(this,"writen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"write successfully", Toast.LENGTH_SHORT).show()
                 m_bluetoothSocket!!.outputStream.write(input.toByteArray())
             } catch(e: IOException) {
                 e.printStackTrace()
@@ -122,11 +162,7 @@ class MainActivity: AppCompatActivity() {
 
     private class ConnectToDevice(c: Context) : AsyncTask<Void, Void, String>() {
         private var connectSuccess: Boolean = true
-        private val context: Context
-
-        init {
-            this.context = c
-        }
+        private val context: Context = c
 
         override fun onPreExecute() {
             super.onPreExecute()
