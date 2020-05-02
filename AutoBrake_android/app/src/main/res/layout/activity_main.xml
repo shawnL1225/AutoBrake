@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/myLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#050A1C">
 
 
     <TextView
-        android:id="@+id/bettery_txt"
+        android:id="@+id/battery_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -63,24 +64,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.97" />
 
-    <Button
-        android:id="@+id/start_recieve_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_marginTop="268dp"
-        android:background="@drawable/custom_button"
-        android:text="start"
-        android:textColor="#FFF"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/speed_txt"
-        app:layout_constraintVertical_bias="1.0" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -89,7 +78,7 @@
         <Button
             android:id="@+id/reconnect_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/custom_button"
@@ -97,9 +86,19 @@
             android:textColor="#FFF" />
 
         <Button
+            android:id="@+id/start_receive_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_margin="5dp"
+            android:layout_weight="15"
+            android:background="@drawable/custom_button"
+            android:text="start"
+            android:textColor="#FFF" />
+
+        <Button
             android:id="@+id/disconnect_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/custom_button"
@@ -133,14 +132,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/speed_txt" />
 
+
+    <ProgressBar
+        android:id="@+id/progress_circular"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="237dp"
+        android:layout_height="253dp"
+        android:layout_marginBottom="240dp"
+        android:progress="0"
+        android:progressDrawable="@drawable/progressbar_circle"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ImageView
         android:id="@+id/warning_img"
-        android:layout_width="match_parent"
-        android:layout_height="363dp"
-        android:layout_marginTop="128dp"
+        android:layout_width="332dp"
+        android:layout_height="319dp"
+        android:layout_marginBottom="136dp"
         android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/warning" />
+        app:srcCompat="@mipmap/warning2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

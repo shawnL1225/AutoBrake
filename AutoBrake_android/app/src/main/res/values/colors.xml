@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#71B3E8</color>
-    <color name="colorPrimaryDark">#71B3E8</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimaryDark">#5E93BD</color>
+    <color name="colorAccent">#FFEB3B</color>
+    <color name="circleStart">#03DAC5</color>
+    <color name="circleAlert">#FF5722</color>
     <color name="skyBlue">#71B3E8</color>
 </resources>
