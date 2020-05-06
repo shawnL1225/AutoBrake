@@ -28,9 +28,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         private const val REQUEST_CHECK_SETTINGS = 2
-        //onTouch
-        var x1 =0F
-        var x2 =0F
+        const val MAP_TAG = "MY MAP DEBUG"
+
     }
 
     private lateinit var lastLocation: Location
@@ -74,7 +73,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        Log.d("My MAP Debug", "map start")
+        Log.d(MAP_TAG, "map start")
 
         //zoom btn
         map.getUiSettings().setZoomControlsEnabled(true)
@@ -95,7 +94,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
             if (location != null) {
-                Log.d("My MAP Debug", "start location: "+location.latitude+", "+location.longitude)
+                Log.d(MAP_TAG, "start location: "+location.latitude+", "+location.longitude)
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
 

@@ -7,24 +7,17 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.os.*
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import com.example.autobrake_android.MapsActivity.Companion
 
 class MainActivity: AppCompatActivity() {
 
@@ -37,7 +30,10 @@ class MainActivity: AppCompatActivity() {
         var m_isConnected: Boolean = false
         lateinit var m_address: String
 
-        const val TAG = "BLUETOOTH DEBUG"
+        lateinit var mTTS:TextToSpeech
+
+        const val BT_TAG = "BLUETOOTH DEBUG"
+        const val TOUCH_TAG = "TOUCH DEBUG"
 
         val mmBuffer: ByteArray = ByteArray(1024)
         var numBytes: Int = 0
@@ -45,8 +41,6 @@ class MainActivity: AppCompatActivity() {
         //onTouch
         var x1 =0F
         var x2 =0F
-
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,15 +49,16 @@ class MainActivity: AppCompatActivity() {
         supportActionBar!!.setIcon(R.mipmap.ic_launcher_foreground);
         setContentView(R.layout.activity_main)
 
-//        Handler().postDelayed({
-//            //start main activity
-//            startActivity(Intent(this, MapsActivity::class.java))
-//            //finish this activity
-//            finish()
-//        },10000)
+        myLayout.alpha = 0.3F
+
+        //speech init
+        mTTS = TextToSpeech(applicationContext, TextToSpeech.OnInitListener { status ->
+            if(status != TextToSpeech.ERROR)
+                mTTS.language = Locale.ENGLISH
+        })
 
 
-        //set BT address
+        //set BT address then connect to BT
         m_address = "98:D3:31:FC:20:72"
         ConnectToDevice(this).execute()
 
@@ -74,31 +69,68 @@ class MainActivity: AppCompatActivity() {
 
         //show BT receiveThread value
         start_receive_btn.setOnClickListener {
+            val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            myLayout.alpha = 1F
+            var isSpeaking = false
+
+
+            
             val handler = @SuppressLint("HandlerLeak") object: Handler() {
                 override fun handleMessage(msg: Message) {
                     if(msg.what==BLUETOOTH_SEND_STRING)
                     {
                         var b: ByteArray = mmBuffer.copyOf(numBytes)
                         val bufToString =  b.toString(Charsets.UTF_8)
-                        Log.d(TAG, bufToString)
-                        //[0]:speed, [1]:battery, [2]warning
-                        val part = bufToString.split('|')
-                        speed_txt.text =  part[0]
-                        progress_circular.max = 25
-                        progress_circular.setProgress(part[0].toInt(),true)
+                        Log.d(BT_TAG, bufToString)
 
-                        if(part[1].toInt()>0)
+                        val part = bufToString.split('|')
+                        var speed = part[0].toInt()
+                        var battery = part[1]
+                        var warning_main = part[2].toInt()
+                        var warnning_left = part[3].toInt()
+                        var warning_right = part[4].toInt()
+
+
+                        //set speed and progress bar
+                        if (speed > 30) speed = 30
+                        speed_txt.text =  speed.toString()
+                        progress_circular.max = 40
+                        progress_circular.setProgress(speed, true)
+
+
+                        if(warning_main>0 || warnning_left>0 || warning_right>0)
                         {
-                            //Log.d(TAG, "part 2 = true")
                             warning_img.visibility = View.VISIBLE
                             progress_circular.setProgress(0,true)
+
+                            if (vibrator.hasVibrator()) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
+                                } else {
+                                    vibrator.vibrate(200)
+                                }
+                            }
+
+                            if(!isSpeaking)
+                            {
+                                if(warning_main>0)
+                                    mTTS.speak("watch out!start braking system", TextToSpeech.QUEUE_FLUSH, null)
+                                else if(warnning_left>0)
+                                    mTTS.speak("Be careful of left side", TextToSpeech.QUEUE_FLUSH, null)
+                                else
+                                    mTTS.speak("Be careful of right side", TextToSpeech.QUEUE_FLUSH, null)
+
+                                isSpeaking = true
+
+                            }
                         }
                         else
                         {
-                            //Log.d(TAG, "part 2 = false")
                             warning_img.visibility = View.INVISIBLE
+                            isSpeaking = false
                         }
-                        battery_txt.text = part[2]+'%'
+                        //set battery
+                        battery_txt.text = battery+'%'
                     }
                 }
             }
@@ -108,9 +140,11 @@ class MainActivity: AppCompatActivity() {
 
         //current time
         object: CountDownTimer(86400000, 1000) {
+            @SuppressLint("SetTextI18n")
             override fun onFinish() {
                 time_txt.text = "ride over 24H ?"
             }
+            @SuppressLint("SimpleDateFormat")
             override fun onTick(millisUntilFinished: Long) {
                 val cal = Calendar.getInstance()
                 time_txt.text = SimpleDateFormat("HH:mm:ss").format(cal.time)
@@ -124,15 +158,15 @@ class MainActivity: AppCompatActivity() {
         when (e.action) {
             MotionEvent.ACTION_DOWN -> {
                 x1 = e.getX()
-                Log.d("MY-touch", "DOWN!!!$x1")
+                Log.d(TOUCH_TAG, "DOWN!!!$x1")
             }
             MotionEvent.ACTION_UP -> {
                 x2 = e.getX()
-                Log.d("MY-touch", "UP!!!$x2")
+                Log.d(TOUCH_TAG, "UP!!!$x2")
                 isTouched = true
             }
         }
-        if(x1 > x2 && isTouched)
+        if(x1-x2 > 600 && isTouched)
         {
 
             var intent = Intent(this, MapsActivity::class.java)
@@ -146,43 +180,41 @@ class MainActivity: AppCompatActivity() {
         override fun run() {
             //super.run()
 
-            Log.d(TAG, "START RUN")
+            Log.d(BT_TAG, "START RUN")
             var available = 0
             while (true) {
                 try {
                     available = m_bluetoothSocket!!.inputStream.available()
                     if(available>0) {
-                        //wait then read
-                        Thread.sleep(80)
+                        //wait for read
+                        Thread.sleep(150)
                         numBytes = m_bluetoothSocket!!.inputStream.read(mmBuffer, 0, 500)
 
-                        //debug show what BT got
-                        Log.d(TAG, "numBytes :  " +numBytes)
+                        //debug show the num and value of BT
+                        Log.d(BT_TAG, "numBytes :  " +numBytes)
                         for(x in 0..numBytes-1)
                         {
-                            Log.d(TAG, "buffer :  " + mmBuffer[x])
+                            Log.d(BT_TAG, "buffer :  " + mmBuffer[x])
                         }
 
                         //return msg to UI
                         val message = Message.obtain()
                         message.what = BLUETOOTH_SEND_STRING
                         handler.sendMessage(message)
-                        Log.d(TAG, "--------------------------")
+                        Log.d(BT_TAG, "--------------------------")
                     }
                 } catch (e: IOException) {
-                    Log.d(TAG, "Input stream was disconnected", e)
+                    Log.d(BT_TAG, "BT Input stream was disconnected", e)
                 }
             }
 
         }
     }
 
-    private fun sendCommand(input: String) {
-
-
+    // BT send data
+    private fun sendData(input: String) {
         if (m_bluetoothSocket != null) {
             try{
-
                 Toast.makeText(this,"write successfully", Toast.LENGTH_SHORT).show()
                 m_bluetoothSocket!!.outputStream.write(input.toByteArray())
             } catch(e: IOException) {
@@ -192,6 +224,7 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
+    //BT disconnect
     private fun disconnect(context: Context) {
         if (m_bluetoothSocket != null) {
             try {
@@ -205,6 +238,7 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
+    //BT connect
     private class ConnectToDevice(var context: Context) : AsyncTask<Void, Void, String>() {
         private var connectSuccess: Boolean = true
 
