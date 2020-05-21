@@ -37,11 +37,15 @@ class MainActivity: AppCompatActivity() {
 
         val mmBuffer: ByteArray = ByteArray(1024)
         var numBytes: Int = 0
+        var isRun = false
 
         //onTouch
         var x1 =0F
         var x2 =0F
+
+
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +53,6 @@ class MainActivity: AppCompatActivity() {
         supportActionBar!!.setIcon(R.mipmap.ic_launcher_foreground);
         setContentView(R.layout.activity_main)
 
-        myLayout.alpha = 0.3F
 
         //speech init
         mTTS = TextToSpeech(applicationContext, TextToSpeech.OnInitListener { status ->
@@ -58,23 +61,24 @@ class MainActivity: AppCompatActivity() {
         })
 
 
+
         //set BT address then connect to BT
         m_address = "98:D3:31:FC:20:72"
-        ConnectToDevice(this).execute()
+        ConnectToDevice(this,this).execute()
 
 
         //connect stuff
-        reconnect_btn.setOnClickListener { ConnectToDevice(this).execute() }
-        disconnect_btn.setOnClickListener { disconnect(this) }
+        reconnect_btn.setOnClickListener { ConnectToDevice(this, this).execute() }
+        exit_btn.setOnClickListener { disconnect(this) }
 
-        //show BT receiveThread value
+
+        //start BT and show BT receiveThread value
         start_receive_btn.setOnClickListener {
             val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-            myLayout.alpha = 1F
-            var isSpeaking = false
+
+            var isSpeaking = false  // for warning sign
 
 
-            
             val handler = @SuppressLint("HandlerLeak") object: Handler() {
                 override fun handleMessage(msg: Message) {
                     if(msg.what==BLUETOOTH_SEND_STRING)
@@ -84,65 +88,100 @@ class MainActivity: AppCompatActivity() {
                         Log.d(BT_TAG, bufToString)
 
                         val part = bufToString.split('|')
-                        var speed = part[0].toInt()
-                        var battery = part[1]
-                        var warning_main = part[2].toInt()
-                        var warnning_left = part[3].toInt()
-                        var warning_right = part[4].toInt()
+                        Log.d(BT_TAG, "size: "+part.size.toString())
+                        Log.d(BT_TAG, "--------------------------")
 
-
-                        //set speed and progress bar
-                        if (speed > 30) speed = 30
-                        speed_txt.text =  speed.toString()
-                        progress_circular.max = 40
-                        progress_circular.setProgress(speed, true)
-
-
-                        if(warning_main>0 || warnning_left>0 || warning_right>0)
+                        if(part.size == 6 && bufToString[0] != '|')
                         {
-                            warning_img.visibility = View.VISIBLE
-                            progress_circular.setProgress(0,true)
+                            var speed = part[0].toInt()
+                            var battery = part[1]
+                            var warning_main = part[2].toInt()
+                            var warnning_left = part[3].toInt()
+                            var warning_right = part[4].toInt()
+                            var motor = part[5]
 
-                            if (vibrator.hasVibrator()) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
-                                } else {
-                                    vibrator.vibrate(200)
+
+                            //set speed and progress bar
+                            if (speed > 30) speed = 30
+                            speed_txt.text =  speed.toString()
+                            progress_circular.max = 40
+                            progress_circular.setProgress(speed, true)
+
+
+                            if(warning_main>0 || warnning_left>0 || warning_right>0)
+                            {
+                                warning_img.visibility = View.VISIBLE
+                                progress_circular.setProgress(0,true)
+
+                                if (vibrator.hasVibrator()) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
+                                    } else {
+                                        vibrator.vibrate(200)
+                                    }
+                                }
+
+                                if(!isSpeaking)
+                                {
+                                    if(warning_main>0)
+                                        mTTS.speak("watch out!start braking system", TextToSpeech.QUEUE_FLUSH, null)
+                                    else if(warnning_left>0)
+                                        mTTS.speak("Be careful of left side", TextToSpeech.QUEUE_FLUSH, null)
+                                    else
+                                        mTTS.speak("Be careful of right side", TextToSpeech.QUEUE_FLUSH, null)
+
+                                    isSpeaking = true
+
                                 }
                             }
-
-                            if(!isSpeaking)
+                            else
                             {
-                                if(warning_main>0)
-                                    mTTS.speak("watch out!start braking system", TextToSpeech.QUEUE_FLUSH, null)
-                                else if(warnning_left>0)
-                                    mTTS.speak("Be careful of left side", TextToSpeech.QUEUE_FLUSH, null)
-                                else
-                                    mTTS.speak("Be careful of right side", TextToSpeech.QUEUE_FLUSH, null)
-
-                                isSpeaking = true
-
+                                warning_img.visibility = View.INVISIBLE
+                                isSpeaking = false
                             }
+                            //set battery
+                            battery_txt.text = battery+'%'
+
+                            //set motor
+                            motor_txt.text = motor+'%'
                         }
-                        else
-                        {
-                            warning_img.visibility = View.INVISIBLE
-                            isSpeaking = false
-                        }
-                        //set battery
-                        battery_txt.text = battery+'%'
+
+
                     }
                 }
             }
             val thread = ReceiveThread(handler)
-            thread.start()
+
+
+            if(!isRun)
+            {
+                isRun = true
+                start_receive_btn.setBackgroundResource(R.drawable.custom_button_pause)
+                start_receive_btn.text = "PAUSE"
+                thread.start()
+                val cal = Calendar.getInstance()
+                val dateReturn = '@'+SimpleDateFormat("yy:MM:dd:HH:mm:ss:SS").format(cal.time)
+                sendData(dateReturn)
+            }
+            else
+            {
+                isRun = false
+                start_receive_btn.setBackgroundResource(R.drawable.custom_button)
+                start_receive_btn.text = "START"
+                sendData("#")
+            }
+            
+
+
+            
         }
+
 
         //current time
         object: CountDownTimer(86400000, 1000) {
             @SuppressLint("SetTextI18n")
             override fun onFinish() {
-                time_txt.text = "ride over 24H ?"
+                time_txt.text = "run over 24H"
             }
             @SuppressLint("SimpleDateFormat")
             override fun onTick(millisUntilFinished: Long) {
@@ -178,50 +217,61 @@ class MainActivity: AppCompatActivity() {
     //BT Receive Data
     class ReceiveThread(private val handler: Handler) : Thread() {
         override fun run() {
-            //super.run()
+
 
             Log.d(BT_TAG, "START RUN")
             var available = 0
             while (true) {
-                try {
-                    available = m_bluetoothSocket!!.inputStream.available()
-                    if(available>0) {
-                        //wait for read
-                        Thread.sleep(150)
-                        numBytes = m_bluetoothSocket!!.inputStream.read(mmBuffer, 0, 500)
+                if(!isRun) return
+                if(m_bluetoothSocket != null)
+                {
+                    try {
+                        available = m_bluetoothSocket!!.inputStream.available()
+                        if(available>0) {
+                            //wait for read
+                            Thread.sleep(70 )
+                            numBytes = m_bluetoothSocket!!.inputStream.read(mmBuffer, 0, 500)
 
-                        //debug show the num and value of BT
-                        Log.d(BT_TAG, "numBytes :  " +numBytes)
-                        for(x in 0..numBytes-1)
-                        {
-                            Log.d(BT_TAG, "buffer :  " + mmBuffer[x])
+                            //debug show the num and value of BT
+                            Log.d(BT_TAG, "numBytes :  " +numBytes)
+                            for(x in 0..numBytes-1)
+                            {
+                                Log.d(BT_TAG, "buffer :  " + mmBuffer[x])
+                            }
+
+                            //return msg to UI
+                            val message = Message.obtain()
+                            message.what = BLUETOOTH_SEND_STRING
+                            handler.sendMessage(message)
+
                         }
-
-                        //return msg to UI
-                        val message = Message.obtain()
-                        message.what = BLUETOOTH_SEND_STRING
-                        handler.sendMessage(message)
-                        Log.d(BT_TAG, "--------------------------")
+                    } catch (e: IOException) {
+                        Log.d(BT_TAG, "BT Input stream was disconnected", e)
                     }
-                } catch (e: IOException) {
-                    Log.d(BT_TAG, "BT Input stream was disconnected", e)
                 }
+
+
+
+
             }
 
         }
     }
 
     // BT send data
-    private fun sendData(input: String) {
-        if (m_bluetoothSocket != null) {
+    fun sendData(input: String) {
+        if(m_bluetoothSocket != null)
+        {
             try{
-                Toast.makeText(this,"write successfully", Toast.LENGTH_SHORT).show()
+                Log.d(BT_TAG, "BT write :　"+ input)
                 m_bluetoothSocket!!.outputStream.write(input.toByteArray())
             } catch(e: IOException) {
                 e.printStackTrace()
-                Toast.makeText(this,"write got wrong: "+e.message, Toast.LENGTH_SHORT).show()
+                Log.d(BT_TAG, "BT write got wrong ", e)
             }
         }
+
+
     }
 
     //BT disconnect
@@ -236,10 +286,13 @@ class MainActivity: AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+        finish()
     }
 
     //BT connect
-    private class ConnectToDevice(var context: Context) : AsyncTask<Void, Void, String>() {
+    private class ConnectToDevice(var context: Context, var activity: MainActivity) : AsyncTask<Void, Void, String>() {
+
+
         private var connectSuccess: Boolean = true
 
         override fun onPreExecute() {
@@ -264,15 +317,24 @@ class MainActivity: AppCompatActivity() {
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
+
             if (!connectSuccess) {
                 Toast.makeText(context,"couldn't connect", Toast.LENGTH_SHORT).show()
             } else {
                 m_isConnected = true
+                activity.start_receive_btn.callOnClick()
                 Toast.makeText(context,"connected", Toast.LENGTH_SHORT).show()
             }
             m_progress.dismiss()
 
+
+
+
+
+
+
         }
+
     }
 
 }

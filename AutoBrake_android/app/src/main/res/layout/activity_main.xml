@@ -58,7 +58,7 @@
         android:text="km/h"
         android:textColor="#71B3E8"
         android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/motor_txt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/speed_txt"
@@ -97,40 +97,40 @@
             android:textColor="#FFF" />
 
         <Button
-            android:id="@+id/disconnect_btn"
+            android:id="@+id/exit_btn"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/custom_button"
-            android:text="disconnect"
+            android:text="exit"
             android:textColor="#FFF" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/motor_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
-        android:text="20"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:text="0%"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
         android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/speed_txt"
         app:layout_constraintTop_toBottomOf="@+id/speed_txt" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
         android:text="30"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
         android:textStyle="italic"
-        app:layout_constraintEnd_toStartOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/speed_txt"
         app:layout_constraintTop_toBottomOf="@+id/speed_txt" />
 
 
