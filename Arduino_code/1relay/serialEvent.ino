@@ -12,11 +12,15 @@ void serialEvent(){
   //----------------- Write ----------------------
   if (1){
     String b =' '+String (batteryV)+"\b"+' ';
-    String h = String (int (hv*100));
-    String a = String (int (hv1*100));
-    String sendM= '@' + b+h+' '+a;
-//    Serial.println(sendM);
-    Serial4.print(sendM);
+    double hv;
+    if (abs(hv1-hv2)<1) hv =(hv1+hv2)/2.00;
+    if (abs(hv-lhv)<5){
+      String v = String (int (hv*100));
+      String sendM= '@' + b+v;
+      Serial.println(sendM);
+      Serial4.print(sendM);
+    }
     lrms=rms;
+    lhv=hv;
   }
 }

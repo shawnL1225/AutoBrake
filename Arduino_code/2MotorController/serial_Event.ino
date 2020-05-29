@@ -72,6 +72,7 @@ void serialEvent(){
             Serial.print("   ");
             Serial.println(sS);
             // Send Text to Serial2
+            hv+=0.5;
             String hvS=String(int(hv));
             Serial2.write('S');
             for (int i=0; i<hvS.length();i++) 
