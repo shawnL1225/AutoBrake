@@ -81,72 +81,105 @@ class MainActivity: AppCompatActivity() {
 
             val handler = @SuppressLint("HandlerLeak") object: Handler() {
                 override fun handleMessage(msg: Message) {
-                    if(msg.what==BLUETOOTH_SEND_STRING)
-                    {
+
+                    //GET BT data
+                    if(msg.what==BLUETOOTH_SEND_STRING) {
+                        // copy and split
                         var b: ByteArray = mmBuffer.copyOf(numBytes)
-                        val bufToString =  b.toString(Charsets.UTF_8)
+                        var bufToString = b.toString(Charsets.UTF_8)
+                        // in case n==0 get null
+                        if(bufToString[0] == '|')   bufToString = bufToString.drop(1)
+                        val part = bufToString.split('|').toMutableList()
                         Log.d(BT_TAG, bufToString)
-
-                        val part = bufToString.split('|')
-                        Log.d(BT_TAG, "size: "+part.size.toString())
-                        Log.d(BT_TAG, "--------------------------")
-
-                        if(part.size == 6 && bufToString[0] != '|')
-                        {
-                            var speed = part[0].toInt()
-                            var battery = part[1]
-                            var warning_main = part[2].toInt()
-                            var warnning_left = part[3].toInt()
-                            var warning_right = part[4].toInt()
-                            var motor = part[5]
+                        Log.d(BT_TAG, part.size.toString())
 
 
-                            //set speed and progress bar
-                            if (speed > 30) speed = 30
-                            speed_txt.text =  speed.toString()
-                            progress_circular.max = 40
-                            progress_circular.setProgress(speed, true)
+                        var speed = 0
+                        var battery = ""
+                        var warning_main = 0
+                        var warnning_left = 0
+                        var warning_right = 0
+                        var motor = ""
 
+                        for (i in 0..part.size - 2) {
+                            var differentiate = part[i].first()
+                            part[i] = part[i].drop(1)
+                            when (differentiate) {
 
-                            if(warning_main>0 || warnning_left>0 || warning_right>0)
-                            {
-                                warning_img.visibility = View.VISIBLE
-                                progress_circular.setProgress(0,true)
-
-                                if (vibrator.hasVibrator()) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                        vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
-                                    } else {
-                                        vibrator.vibrate(200)
-                                    }
+                                //set speed and progress bar3
+                                'S' -> {
+                                    speed = part[i].toInt()
+                                    if (speed > 30) speed = 30
+                                    speed_txt.text = speed.toString()
+                                    progress_circular.max = 40
+                                    progress_circular.setProgress(speed, true)
                                 }
 
-                                if(!isSpeaking)
-                                {
-                                    if(warning_main>0)
-                                        mTTS.speak("watch out!start braking system", TextToSpeech.QUEUE_FLUSH, null)
-                                    else if(warnning_left>0)
-                                        mTTS.speak("Be careful of left side", TextToSpeech.QUEUE_FLUSH, null)
-                                    else
-                                        mTTS.speak("Be careful of right side", TextToSpeech.QUEUE_FLUSH, null)
+                                //set battery
+                                'B' -> {
+                                    battery = part[i]
+                                    battery_txt.text = battery + '%'
+                                }
 
-                                    isSpeaking = true
+                                'W' -> warning_main = part[i].toInt()
+                                'L' -> warnning_left = part[i].toInt()
+                                'R' -> warning_right = part[i].toInt()
 
+                                //set motor
+                                'M' -> {
+                                    motor = part[i]
+                                    motor_txt.text = motor + '%'
                                 }
                             }
-                            else
-                            {
-                                warning_img.visibility = View.INVISIBLE
-                                isSpeaking = false
-                            }
-                            //set battery
-                            battery_txt.text = battery+'%'
-
-                            //set motor
-                            motor_txt.text = motor+'%'
                         }
 
 
+
+
+                        if (warning_main > 0 || warnning_left > 0 || warning_right > 0) {
+                            warning_img.visibility = View.VISIBLE
+                            progress_circular.setProgress(0, true)
+
+                            if (vibrator.hasVibrator()) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    vibrator.vibrate(
+                                        VibrationEffect.createOneShot(
+                                            200,
+                                            VibrationEffect.DEFAULT_AMPLITUDE
+                                        )
+                                    )
+                                } else {
+                                    vibrator.vibrate(200)
+                                }
+                            }
+
+                            if (!isSpeaking) {
+                                if (warning_main > 0)
+                                    mTTS.speak(
+                                        "watch out!start braking system",
+                                        TextToSpeech.QUEUE_FLUSH,
+                                        null
+                                    )
+                                else if (warnning_left > 0)
+                                    mTTS.speak(
+                                        "Be careful of left side",
+                                        TextToSpeech.QUEUE_FLUSH,
+                                        null
+                                    )
+                                else
+                                    mTTS.speak(
+                                        "Be careful of right side",
+                                        TextToSpeech.QUEUE_FLUSH,
+                                        null
+                                    )
+
+                                isSpeaking = true
+
+                            }
+                        } else {
+                            warning_img.visibility = View.INVISIBLE
+                            isSpeaking = false
+                        }
                     }
                 }
             }
@@ -162,6 +195,7 @@ class MainActivity: AppCompatActivity() {
                 val cal = Calendar.getInstance()
                 val dateReturn = '@'+SimpleDateFormat("yy:MM:dd:HH:mm:ss:SS").format(cal.time)
                 sendData(dateReturn)
+                ready_txt.visibility = View.INVISIBLE
             }
             else
             {
@@ -177,7 +211,7 @@ class MainActivity: AppCompatActivity() {
         }
 
 
-        //current time
+        // current time
         object: CountDownTimer(86400000, 1000) {
             @SuppressLint("SetTextI18n")
             override fun onFinish() {
@@ -192,7 +226,10 @@ class MainActivity: AppCompatActivity() {
         }.start()
     }
 
+    // google map
     override fun onTouchEvent(e: MotionEvent): Boolean {
+
+
         var isTouched = false
         when (e.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -218,8 +255,7 @@ class MainActivity: AppCompatActivity() {
     class ReceiveThread(private val handler: Handler) : Thread() {
         override fun run() {
 
-
-            Log.d(BT_TAG, "START RUN")
+            Log.d(BT_TAG, "START THREAD")
             var available = 0
             while (true) {
                 if(!isRun) return
@@ -229,14 +265,15 @@ class MainActivity: AppCompatActivity() {
                         available = m_bluetoothSocket!!.inputStream.available()
                         if(available>0) {
                             //wait for read
-                            Thread.sleep(70 )
+                            Thread.sleep(40 )
                             numBytes = m_bluetoothSocket!!.inputStream.read(mmBuffer, 0, 500)
 
                             //debug show the num and value of BT
+                            Log.d(BT_TAG, "--------------------------")
                             Log.d(BT_TAG, "numBytes :  " +numBytes)
                             for(x in 0..numBytes-1)
                             {
-                                Log.d(BT_TAG, "buffer :  " + mmBuffer[x])
+//                                Log.d(BT_TAG, "buffer :  " + mmBuffer[x])
                             }
 
                             //return msg to UI
@@ -322,17 +359,41 @@ class MainActivity: AppCompatActivity() {
                 Toast.makeText(context,"couldn't connect", Toast.LENGTH_SHORT).show()
             } else {
                 m_isConnected = true
-                activity.start_receive_btn.callOnClick()
+                val cal = Calendar.getInstance()
+                val dateReturn = '@'+SimpleDateFormat("yy:MM:dd:HH:mm:ss:SS").format(cal.time)
+                activity.sendData(dateReturn)
+
                 Toast.makeText(context,"connected", Toast.LENGTH_SHORT).show()
             }
             m_progress.dismiss()
 
+            if(m_bluetoothSocket != null) {
+                try {
+                    Log.d(BT_TAG, "start listen")
+                    while(true) {
+
+                        if (m_bluetoothSocket!!.inputStream.available() > 0) {
+                            //wait for read
+//                            Thread.sleep(10)
+                            numBytes = m_bluetoothSocket!!.inputStream.read(mmBuffer, 0, 500)
+
+                            var b: ByteArray = mmBuffer.copyOf(numBytes)
+                            var bufToString = b.toString(Charsets.UTF_8)
+                            Log.d(BT_TAG, bufToString)
+
+                            if (bufToString == "=")
+                                activity.ready_txt.text = "All SET"
+                            break
+
+                        }
+                    }
+
+                } catch (e: IOException) {
+                    Log.d(BT_TAG, "BT Input stream was disconnected", e)
+                }
 
 
-
-
-
-
+            }
         }
 
     }
