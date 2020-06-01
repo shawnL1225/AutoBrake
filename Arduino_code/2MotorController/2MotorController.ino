@@ -13,11 +13,11 @@ int ASPXpower=92;     //Actual final power for SPX
 int LASPXpower=92;    //Last value of incame SPXpower
 int LSPXpower=92;     //Last actual final power for SPX
 int RASPXpowerp=0;    //Real time ASPXpower percentage
-int ost=0, MBR=50 ;   //over speed time
+int ost=0, MBR=30 ;   //over speed time
 int VGALED=13;        //VGA connection light
 int fixhr=0,fixmi=0,fixsec=0,fixmsec=0;  //Add time to arduino millisecond
 
-unsigned long S2lms=0, S2ms=0;      // To caculate the time lag between one another
+unsigned long S2lms=0, S2ms=0, lbsms=0;      // To caculate the time lag between one another
 
 double hv=0, lhv=0;                 //hv -> received velocity ; lhv-> last received velocity (unit:km/hr)
 
@@ -32,7 +32,7 @@ String fileName, lBV/*last battery voltage*/, lsS;/*last speed String*/
     
   // get value from controller [controller value]
     int valueFromController=analogRead(A0);                   //value could be from 0~1023, normal value should be within 180~880
-    int SPXpower = map(valueFromController,178,880,93,145);   //turn analogvalue to servo degree
+    int SPXpower = map(valueFromController,182,880,93,145);   //turn analogvalue to servo degree
     
   // get value of brake   [brake]
     int brakeV = analogRead(A10);

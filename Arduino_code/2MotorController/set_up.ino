@@ -10,52 +10,55 @@ void setup() {
 
   lcd.begin(16, 2);
   randomSeed(analogRead(A1));
+  
   Serial.println("Please connect to the cepllphone");
-  while (Serial2.available()<=0) {
-    lcd.setCursor(0,0);
-    lcd.print("Pls Connect to");
-    lcd.setCursor(0,1);
-    lcd.print("Phone");
-  }
-  if(Serial2.available()) {
-    char in =Serial2.read();
-    if(in == '@') {
-      unsigned long mtime= millis();
-      int amsec=0,asec=0,ami=0,ahr=0;
-      if (mtime%1000>0){
-        asec=mtime/1000;
-        amsec=mtime-1000*asec;
-        if (asec%60>0){
-          ami=asec/60;
-          asec=asec-ami*60;
-          if (ami%60>0){
-            ahr=ami/60;
-            ami=ami-ahr*60;
+  if (1){
+    while (Serial2.available()<=0) {
+      lcd.setCursor(0,0);
+      lcd.print("Pls Connect to");
+      lcd.setCursor(0,1);
+      lcd.print("Phone");
+    }
+    if(Serial2.available()) {
+      char in =Serial2.read();
+      if(in == '@') {
+        unsigned long mtime= millis();
+        int amsec=0,asec=0,ami=0,ahr=0;
+        if (mtime%1000>0){
+          asec=mtime/1000;
+          amsec=mtime-1000*asec;
+          if (asec%60>0){
+            ami=asec/60;
+            asec=asec-ami*60;
+            if (ami%60>0){
+              ahr=ami/60;
+              ami=ami-ahr*60;
+            }
           }
         }
+        int year = Serial2.parseInt();
+        int month = Serial2.parseInt();
+        int date = Serial2.parseInt();
+        int hr = Serial2.parseInt();
+        fixhr = hr - ahr;
+        int mi = Serial2.parseInt();
+        fixmi = mi - ami;
+        int sec = Serial2.parseInt();
+        fixsec = sec - asec;
+        int msec = Serial2.parseInt();
+        int fixmsec = msec - asec;
+        fileName = String(year)+'-'+String(month)+'-'+String(date)+".txt";
+        lcd.clear();
+        String dateS=String(year)+'/'+String(month)+'/'+String(date)+' ';
+        String timeS=String(hr)+':'+String(mi)+':'+String(sec)+'.'+String(msec);
+        lcd.setCursor(0,0);
+        lcd.print(dateS);
+        lcd.setCursor(0,1);
+        lcd.print(timeS);
+        Serial.print(dateS);
+        Serial.println(timeS);
+        delay(1000);
       }
-      int year = Serial2.parseInt();
-      int month = Serial2.parseInt();
-      int date = Serial2.parseInt();
-      int hr = Serial2.parseInt();
-      fixhr = hr - ahr;
-      int mi = Serial2.parseInt();
-      fixmi = mi - ami;
-      int sec = Serial2.parseInt();
-      fixsec = sec - asec;
-      int msec = Serial2.parseInt();
-      int fixmsec = msec - asec;
-      fileName = String(year)+'-'+String(month)+'-'+String(date)+".txt";
-      lcd.clear();
-      String dateS=String(year)+'/'+String(month)+'/'+String(date)+' ';
-      String timeS=String(hr)+':'+String(mi)+':'+String(sec)+'.'+String(msec);
-      lcd.setCursor(0,0);
-      lcd.print(dateS);
-      lcd.setCursor(0,1);
-      lcd.print(timeS);
-      Serial.print(dateS);
-      Serial.println(timeS);
-      delay(1000);
     }
   }
   
@@ -85,14 +88,23 @@ void setup() {
     lcd.print(".");
     delay(100);
     lcd.print(".");
+    Serial2.print("SC");//SD Card Checking
     delay(500);
     int a =0;
     if (!SD.begin(4/*CS port*/)) {
       Serial.println("SD err <I>");
+      Serial2.print("SI"); //Please insert SD Card
       lcd.print("err");
       delay(500);
       a++;
       if (a<=5) return;
+      else {
+        while(1) {
+          Serial.print("Please Restart");
+          lcd.setCursor(0,0);
+          lcd.print("Please Restart");
+        }
+      }
     }
     else {
      //Write 
@@ -101,11 +113,13 @@ void setup() {
       if (file) {
         file.println(randomNo);
         Serial.println("SD(W) OK");
+        Serial2.print("SO"); //SD OK
         file.close();
       }
       else {
         lcd.print("err");
         Serial.println("SD err <W>");
+        Serial2.print("SW"); //SD Writting Error
       }
      //Read
       file = SD.open("test.txt");
@@ -122,6 +136,7 @@ void setup() {
       else {
         lcd.print("err");
         Serial.println("SD Err <R>");
+        Serial2.print("SR"); //SD Reading Error
       }
     
     if (isAlphaNumeric(fileName[1])) ;
@@ -146,6 +161,7 @@ void setup() {
     SPX(92);
     Serial.println("BREAK STOP");
     SDWrite("BREAK STOP");
+    
    //Controller
     int valueFromController = analogRead(A0);
     int changedValueFromController = map(valueFromController, 180, 880, 93, 145);
@@ -153,6 +169,7 @@ void setup() {
     lcd.print("             ");
     lcd.setCursor(0,1);
     lcd.print("CTRL");
+    Serial2.print("CC");
     delay(100);
     lcd.print('.');
     delay(100);
@@ -161,6 +178,7 @@ void setup() {
     if (err) {
       Serial.println("Controller Err");
       SDWrite("Controller Err");
+      Serial.print("CE");
       lcd.print("err");
       delay(1000);
       lcd.setCursor(0,0);

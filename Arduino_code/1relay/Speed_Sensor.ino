@@ -32,7 +32,7 @@ void speedSensor(){
 //    Serial.println("Speed : 0.0km/hr");
   }
 
-  if (0){
+  if (1){
     if ((hv2!=lhv2)||(hv1!=lhv1)){//-------------show value------------------------------
       Serial.print(magnet1);
       Serial.print(" | ");

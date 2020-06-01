@@ -90,15 +90,15 @@ void motor ( int SPXpower, float nowSpeed, bool brake){
    //Speed under limited speed
       if (nowSpeed < maxSpeed){
       //ACCELERATION POSITIVE
-        ost=0;
         if (SPXpower>LASPXpower&&!err&&!brake&&appStart){
           for(int degree=LASPXpower ; (SPXpower>=degree&&(SPXpower>=94)&&appStart) ; degree++){
             int changedValueFromController = map(analogRead(A0),180,880,93,145);
-            if (changedValueFromController <=degree) break;
+            if (changedValueFromController <=degree||hv>maxSpeed) break;
             htc=htc+degree+"　";
             SPX(degree);
+            if (ost=0) ost=1;
             if (degree==94) delay(50); 
-            else delay (MBR);
+            else delay (MBR*ost);
             ASPXpower=degree;
             if (!brake) {
               lcd.setCursor(0,0);
@@ -124,11 +124,12 @@ void motor ( int SPXpower, float nowSpeed, bool brake){
              Serial2.write(RASPXpowerpS[i]);
           Serial2.write('|');
           t=0;
-        }       
+        }
+      ost=0;
       }
       
    //Speed equal limited speed
-      else if (nowSpeed==maxSpeed&&SPXpower!=92&&SPXpower!=93&&SPXpower!=94&&appStart){
+      else if (int(nowSpeed)==maxSpeed&&SPXpower!=92&&SPXpower!=93&&SPXpower!=94&&appStart){
         if(SPXpower>=LASPXpower){
           ASPXpower=LASPXpower;
           SPX(ASPXpower);
@@ -215,7 +216,11 @@ void motor ( int SPXpower, float nowSpeed, bool brake){
           Serial.print(")");
           Serial.print("\t");
           String SDSPX = "("+String(SPXpower)+","+String(LSPXpower)+","+String(ASPXpower)+","+String(LASPXpower)+","+String(nowSpeed)+","+String(maxSpeed)+","+String(brake)+")\t";
-          if ((ASPXpower==92||ASPXpower==93||ASPXpower==94)&&(LASPXpower==92||LASPXpower==93||LASPXpower==94)){
+          if (!appStart){
+            Serial.print("Bike LOCK");
+            SDSPX+="Bike LOCK ";
+          }
+          else if ((ASPXpower==92||ASPXpower==93||ASPXpower==94)&&(LASPXpower==92||LASPXpower==93||LASPXpower==94)){
             Serial.print("BREAK STOPPED ");
             SDSPX+="BREAK STOPPED ";
           }

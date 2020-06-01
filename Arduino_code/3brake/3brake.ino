@@ -3,7 +3,6 @@
 
 SoftwareSerial Serial4(10,11);//(RX,TX)
 Servo S1;
-Servo S2;
 
 char incomingByte;
 String incomeString=" ";
