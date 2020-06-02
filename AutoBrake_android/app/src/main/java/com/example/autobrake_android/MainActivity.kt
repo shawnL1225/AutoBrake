@@ -43,6 +43,7 @@ class MainActivity: AppCompatActivity() {
         var x1 =0F
         var x2 =0F
 
+        lateinit var initHandler: Handler
 
     }
 
@@ -66,11 +67,34 @@ class MainActivity: AppCompatActivity() {
         m_address = "98:D3:31:FC:20:72"
         ConnectToDevice(this,this).execute()
 
+        // bike init status handler
+        initHandler = @SuppressLint("HandlerLeak") object: Handler() {
+            override fun handleMessage(msg: Message) {
+
+                when(msg.what) {
+                    2 -> {
+                        ready_txt.text = "System All Set"
+                        btn_layout.alpha = 1F
+                    }
+                    3 ->  ready_txt.text = "SD Card Checking"
+                    4 ->  ready_txt.text = "SD Card OK"
+                    5 ->  ready_txt.text = "SD Card Error (Please Insert SD Card)"
+                    6 ->  ready_txt.text = "Controller Checking"
+                    7 ->  ready_txt.text = "Controller OK"
+                    8 ->  ready_txt.text = "Controller Error (Please Restart)"
+                }
+
+            }
+        }
+
 
         //connect stuff
-        reconnect_btn.setOnClickListener { ConnectToDevice(this, this).execute() }
-        exit_btn.setOnClickListener { disconnect(this) }
+        reconnect_btn.setOnClickListener { disconnect(this)
+                                        ConnectToDevice(this, this).execute() }
+        exit_btn.setOnClickListener { disconnect(this)
+                                        finish()    }
 
+        btn_layout.alpha = 0.5F
 
         //start BT and show BT receiveThread value
         start_receive_btn.setOnClickListener {
@@ -79,7 +103,7 @@ class MainActivity: AppCompatActivity() {
             var isSpeaking = false  // for warning sign
 
 
-            val handler = @SuppressLint("HandlerLeak") object: Handler() {
+            val startingHandler = @SuppressLint("HandlerLeak") object: Handler() {
                 override fun handleMessage(msg: Message) {
 
                     //GET BT data
@@ -183,7 +207,7 @@ class MainActivity: AppCompatActivity() {
                     }
                 }
             }
-            val thread = ReceiveThread(handler)
+            val thread = ReceiveThread(startingHandler)
 
 
             if(!isRun)
@@ -226,7 +250,7 @@ class MainActivity: AppCompatActivity() {
         }.start()
     }
 
-    // google map
+    // open google map
     override fun onTouchEvent(e: MotionEvent): Boolean {
 
 
@@ -271,10 +295,10 @@ class MainActivity: AppCompatActivity() {
                             //debug show the num and value of BT
                             Log.d(BT_TAG, "--------------------------")
                             Log.d(BT_TAG, "numBytes :  " +numBytes)
-                            for(x in 0..numBytes-1)
-                            {
+//                            for(x in 0..numBytes-1)
+//                            {
 //                                Log.d(BT_TAG, "buffer :  " + mmBuffer[x])
-                            }
+//                            }
 
                             //return msg to UI
                             val message = Message.obtain()
@@ -323,11 +347,11 @@ class MainActivity: AppCompatActivity() {
                 e.printStackTrace()
             }
         }
-        finish()
+//        finish()
     }
 
     //BT connect
-    private class ConnectToDevice(var context: Context, var activity: MainActivity) : AsyncTask<Void, Void, String>() {
+    class ConnectToDevice(var context: Context, var activity: MainActivity) : AsyncTask<Void, Void, String>() {
 
 
         private var connectSuccess: Boolean = true
@@ -352,8 +376,12 @@ class MainActivity: AppCompatActivity() {
             return null
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
+
+
+
 
             if (!connectSuccess) {
                 Toast.makeText(context,"couldn't connect", Toast.LENGTH_SHORT).show()
@@ -367,26 +395,58 @@ class MainActivity: AppCompatActivity() {
             }
             m_progress.dismiss()
 
+
             if(m_bluetoothSocket != null) {
                 try {
-                    Log.d(BT_TAG, "start listen")
-                    while(true) {
+                    Log.d(BT_TAG, "start listen bike status")
 
-                        if (m_bluetoothSocket!!.inputStream.available() > 0) {
-                            //wait for read
-//                            Thread.sleep(10)
-                            numBytes = m_bluetoothSocket!!.inputStream.read(mmBuffer, 0, 500)
 
-                            var b: ByteArray = mmBuffer.copyOf(numBytes)
-                            var bufToString = b.toString(Charsets.UTF_8)
-                            Log.d(BT_TAG, bufToString)
 
-                            if (bufToString == "=")
-                                activity.ready_txt.text = "All SET"
-                            break
+                    Thread {
+                        while (true) {
 
+                            if(m_bluetoothSocket == null) break
+
+                            if (m_bluetoothSocket!!.inputStream.available() > 0) {
+                                // wait for read
+                                Thread.sleep(30)
+                                numBytes = m_bluetoothSocket!!.inputStream.read(mmBuffer, 0, 500)
+
+                                var b: ByteArray = mmBuffer.copyOf(numBytes)
+                                var bufToString = b.toString(Charsets.UTF_8)
+                                Log.d(BT_TAG, bufToString)
+
+
+                                val message = Message.obtain()
+                                if (bufToString == "=") {
+                                    message.what = 2
+                                    initHandler.sendMessage(message)
+                                    break
+                                }
+                                else if (bufToString == "SC") {
+                                    message.what = 3
+                                }
+                                else if (bufToString == "SO") {
+                                    message.what = 4
+                                }
+                                else if (bufToString == "SE") {
+                                    message.what = 5
+                                }
+                                else if (bufToString == "CC") {
+                                    message.what = 6
+                                }
+                                else if (bufToString == "CO") {
+                                    message.what = 7
+                                }
+                                else if (bufToString == "CE") {
+                                    message.what = 8
+                                }
+                                initHandler.sendMessage(message)
+                            }
                         }
-                    }
+                    }.start()
+
+
 
                 } catch (e: IOException) {
                     Log.d(BT_TAG, "BT Input stream was disconnected", e)
