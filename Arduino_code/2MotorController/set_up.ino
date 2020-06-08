@@ -178,7 +178,7 @@ void setup() {
     if (err) {
       Serial.println("Controller Err");
       SDWrite("Controller Err");
-      Serial.print("CE");
+      Serial2.print("CE");
       lcd.print("err");
       delay(1000);
       lcd.setCursor(0,0);
@@ -195,6 +195,7 @@ void setup() {
     else {
       Serial.println("Controller Set");
       SDWrite("Controller Set");
+      Serial2.print("CO");
       lcd.print("SET");
       delay(500);
     }

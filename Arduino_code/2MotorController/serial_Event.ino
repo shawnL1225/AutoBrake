@@ -107,7 +107,7 @@ void serialEvent(){
         String Ntime = '@'+String(year)+'/'+String(month)+'/'+String(date)+' '+ String(hr)+':'+String(mi)+':'+String(sec)+'.'+String(msec)+" Bike UNLOCK";
         appStart=1;
         lcd.setCursor(0,0);
-        lcd.print("0%            ");
+        lcd.print("0%          ");
         SDWrite(Ntime);
         Serial.println("Bike UNLOCK");
       }

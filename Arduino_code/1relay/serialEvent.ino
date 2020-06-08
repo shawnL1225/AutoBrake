@@ -21,7 +21,7 @@ void serialEvent(){
     double hv;
 //    if (abs(hv1-hv2)<1) hv =(hv1+hv2)/2.00;
     if (abs(hv-lhv)<5){
-      hv=hv2;
+      hv=hv1;
       String sendV= 'V'+ String (int (hv*100));
       Serial.println(sendV);
       Serial4.print(sendV);

@@ -3,8 +3,8 @@
 
 #define IRPin1 A0
 #define IRPin2 A1
-#define trigPin 9
-#define echoPin 10
+#define trigPin 4
+#define echoPin 5
 #define model 100500
 
 SoftwareSerial Serial4(10,11);//(RX,TX)
@@ -30,6 +30,8 @@ void setup(){
   Serial.println("\nTransmission begin");
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
+  pinMode(7,INPUT);
+  pinMode(8,INPUT);
   pinMode(11,OUTPUT);
   digitalWrite(11,1);
   pinMode(8,OUTPUT);
@@ -44,8 +46,9 @@ void loop() {
   rms=millis();
   if (rms-lrms>150){
     serialEvent();
+    dS();
   }
   
-  dS();
+  
 
 }

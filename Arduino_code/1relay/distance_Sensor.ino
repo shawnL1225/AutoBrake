@@ -1,5 +1,5 @@
 void dS(){
-  for(char i=0;i<5;i++) {
+  for(char i=0;i<3;i++) {
 //    Serial.println("*************");
     distance_cm_1 = mySensor1.distance();
     distance_cm_2 = mySensor2.distance();
@@ -9,7 +9,7 @@ void dS(){
     dou_distance_cm = dou_distance_cm /2;
     ave_distance_cm = ave_distance_cm + dou_distance_cm;                
    }
-  ave_distance_cm /= 5;
+  ave_distance_cm /= 3;
 
   if (ultraDistance<100) finalV = ultraDistance;
   else finalV = ave_distance_cm;
@@ -41,6 +41,6 @@ void dS(){
     Serial.print(ultraDistance);
     Serial.print("\tFinal  ");
     Serial.println(finalV);
-    delay(50);
+//    delay(50);
   }
 }
