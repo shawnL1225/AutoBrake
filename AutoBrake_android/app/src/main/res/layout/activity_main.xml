@@ -44,7 +44,7 @@
         android:textColor="#71B3E8"
         android:textSize="100sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/btn_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -67,7 +67,7 @@
 
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/btn_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
@@ -121,12 +121,12 @@
         app:layout_constraintTop_toBottomOf="@+id/speed_txt" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/engineT_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
-        android:text="30"
+        android:text="32℃"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
         android:textStyle="italic"
@@ -143,7 +143,7 @@
         android:progress="0"
         android:progressDrawable="@drawable/progressbar_circle"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/btn_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
@@ -154,7 +154,7 @@
         android:layout_height="319dp"
         android:layout_marginBottom="150dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/btn_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
@@ -169,7 +169,7 @@
         android:textAlignment="center"
         android:textColor="#50E888"
         android:textStyle="bold|italic"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/btn_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
