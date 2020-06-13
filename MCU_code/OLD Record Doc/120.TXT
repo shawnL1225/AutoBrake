@@ -1,0 +1,5 @@
+00:00:02.920 ->  SD OK~
+00:00:06.980 ->  BREAK STOP~
+00:00:11.241 ->  Controller Err~
+00:00:16.509 ->  START~
+00:00:20.550 ->  ERROR OCCUR  ~
