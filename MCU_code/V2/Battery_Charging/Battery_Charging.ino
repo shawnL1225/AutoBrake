@@ -1,71 +1,106 @@
 int times = 0;
 
 void setup() {
-  delay(1000);
-  Serial.begin(9600);
+  // Ask PINS to be low 
   pinMode(2,OUTPUT);
   pinMode(3,OUTPUT);
   pinMode(8,OUTPUT);
-  pinMode(A0,INPUT);
-  digitalWrite(3,1);
-  delay(200);
   digitalWrite(2,1);
-  delay(200);
+  digitalWrite(3,1);
+  digitalWrite(8,1);
+  delay(1000);
+  
+  // Serial begin 
+  Serial.begin(9600);
+  Serial.println("Ready for charging");
+
+  // Initilize the PINS for button
+  pinMode(10,OUTPUT);
+  digitalWrite(10,0); 
+  pinMode(12,INPUT_PULLUP);
+
+  // if button pressed make VCCs' open to close 
+  while (digitalRead(12));
+  Serial.println("VCC CLOSE");
+  digitalWrite(2,0);
+  delay(300);
+
+  // if button pressed make GNDs' open to close 
+  while (digitalRead(12)) ;
+  Serial.println("GND CLOSE");
+  digitalWrite(3,0);
+  delay(300);
+
+  // if button pressed make VIN's open to close 
+  while (digitalRead(12)) ;
+  Serial.println("VIN  CLOSE");
   digitalWrite(8,0);
   delay(100);
-  int V = analogRead(A0);
-  V*=3;
-  int BV = map (V , 0,3069,0,1500);
-  if (BV < 1350) {
-    digitalWrite(8,1);
+  
+  // Initilize the PINS for battery voltage
+  int Vin = analogRead(A0);
+  double BV=Vin*5/1024.0/(7500/37500);
+  if (BV < 13.10) {
+    digitalWrite(8,0);
     Serial.println("Start Charging");
   }
-  else if (BV > 1350) {
+  else if (BV > 13.00) {
     Serial.println("Battery Fully Charged");
-    digitalWrite(2,0);
+    digitalWrite(8,1);
     delay(100);
-    digitalWrite(3,0);
-    Serial.print(BV/100.00-.4); 
+    digitalWrite(3,1);
+    delay(100);
+    digitalWrite(2,1);
+    Serial.print("Now Battery Voltage");
+    Serial.print(BV); 
     Serial.println(" V");
+    Serial.print("Now Battery Perecentage");
+    Serial.print((BV-11)*100/2.1);
+    Serial.println(" %");
+//    while(1);
   }
 }
 
 void loop() {
-  //Tell the Battery Voltage
-  int V = analogRead(A0);
-  V*=3;
-  double BV = map (V , 0,3069,0,1500);
-  Serial.print(V/3);
-  Serial.print("\t");
-  Serial.print(BV/100.00-.4);
-  Serial.println(" V");
-  delay(500);
-
+    int Vin = analogRead(A0);
+    double BV=Vin*5/1024.0/(7500/37500);
+    Serial.print("Now Battery Voltage");
+    Serial.print(BV); 
+    Serial.println(" V");
+    Serial.print("Now Battery Perecentage");
+    Serial.print((BV-11)*100/2.1);
+    Serial.println(" %");
+//    while(1);
   //Check Battery Voltage once per min
   unsigned long mil = millis();
   if (mil/60000 > times){
     times++;
-    if (BV>1350){
-      digitalWrite(8,0);
-      delay(50);
-      V = analogRead(A0);
-      V*=3;
-      BV = map (V , 0,3069,0,1500);
-      if (BV >1350){
-        Serial.println("Charging Complete");
-        digitalWrite(2,0);
-        delay(100);
-        digitalWrite(3,0);
-        while(1);
-      }
-      else {
-        digitalWrite(8,1);
-        Serial.println("Keep Charging");
-      }
+    digitalWrite(8,1);
+    delay(50);
+    int Vin = analogRead(A0);
+    double BV=Vin*5/1024.0/(7500/37500);
+    if (BV >1310){
+      Serial.println("Charging Complete");
+      digitalWrite(2,1);
+      delay(100);
+      digitalWrite(3,1);
+      Serial.print("Now Battery Voltage");
+      Serial.print(BV); 
+      Serial.println(" V");
+      Serial.print("Now Battery Perecentage");
+      Serial.print((BV-11)*100/2.1);
+      Serial.println(" %");
+      while(1);
     }
-    else if (BV<=1350){
+    else {
       digitalWrite(8,1);
       Serial.println("Keep Charging");
-    }
+      Serial.print("Now Battery Voltage");
+      Serial.print(BV); 
+      Serial.println(" V");
+      Serial.print("Now Battery Perecentage");
+      Serial.print((BV-11)*100/2.1);
+      Serial.println(" %");
+    } 
   }
 }
