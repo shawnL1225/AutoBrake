@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.Intent
+import android.location.*
 import android.os.*
 import android.speech.tts.TextToSpeech
 import android.util.Log
@@ -14,11 +15,14 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivity: AppCompatActivity() {
 
     companion object {
@@ -48,6 +52,7 @@ class MainActivity: AppCompatActivity() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar!!.setDisplayShowHomeEnabled(true);
@@ -55,17 +60,26 @@ class MainActivity: AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
+
+        //set BT address then connect to BT
+        m_address = "98:D3:31:FC:20:72"
+        ConnectToDevice(this,this).execute()
+
+        //connect stuff
+        reconnect_btn.setOnClickListener { disconnect(this)
+            ConnectToDevice(this, this).execute() }
+        exit_btn.setOnClickListener { disconnect(this)
+            finish()    }
+
+        //GPS
+        getLocation(this)
+
+
         //speech init
         mTTS = TextToSpeech(applicationContext, TextToSpeech.OnInitListener { status ->
             if(status != TextToSpeech.ERROR)
                 mTTS.language = Locale.ENGLISH
         })
-
-
-
-        //set BT address then connect to BT
-        m_address = "98:D3:31:FC:20:72"
-        ConnectToDevice(this,this).execute()
 
         // bike init status handler
         initHandler = @SuppressLint("HandlerLeak") object: Handler() {
@@ -88,18 +102,12 @@ class MainActivity: AppCompatActivity() {
         }
 
 
-        //connect stuff
-        reconnect_btn.setOnClickListener { disconnect(this)
-                                        ConnectToDevice(this, this).execute() }
-        exit_btn.setOnClickListener { disconnect(this)
-                                        finish()    }
 
         btn_layout.alpha = 0.5F
 
         //start BT and show BT receiveThread value
         start_receive_btn.setOnClickListener {
             val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-
             var isSpeaking = false  // for warning sign
 
 
@@ -120,9 +128,9 @@ class MainActivity: AppCompatActivity() {
 
                         var speed = 0
                         var battery = ""
-                        var warning_main = 0
-                        var warnning_left = 0
-                        var warning_right = 0
+                        var warning_main = 2
+                        var warnning_left = 2
+                        var warning_right = 2
                         var motor = ""
 
                         for (i in 0..part.size - 2) {
@@ -130,7 +138,7 @@ class MainActivity: AppCompatActivity() {
                             part[i] = part[i].drop(1)
                             when (differentiate) {
 
-                                //set speed and progress bar3
+                                //set speed and progress bar
                                 'S' -> {
                                     speed = part[i].toInt()
                                     if (speed > 30) speed = 30
@@ -157,10 +165,11 @@ class MainActivity: AppCompatActivity() {
                             }
                         }
 
-
-
-
-                        if (warning_main > 0 || warnning_left > 0 || warning_right > 0) {
+                        if(warning_main == 0 || warnning_left == 0 || warning_right == 0){
+                            warning_img.visibility = View.INVISIBLE
+                            isSpeaking = false
+                        }
+                        if (warning_main == 1 || warnning_left == 1 || warning_right == 1) {
                             warning_img.visibility = View.VISIBLE
                             progress_circular.setProgress(0, true)
 
@@ -168,42 +177,34 @@ class MainActivity: AppCompatActivity() {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                     vibrator.vibrate(
                                         VibrationEffect.createOneShot(
-                                            200,
+                                            1000,
                                             VibrationEffect.DEFAULT_AMPLITUDE
                                         )
                                     )
                                 } else {
-                                    vibrator.vibrate(200)
+                                    vibrator.vibrate(1000)
                                 }
                             }
 
                             if (!isSpeaking) {
                                 if (warning_main > 0)
                                     mTTS.speak(
-                                        "watch out!start braking system",
-                                        TextToSpeech.QUEUE_FLUSH,
-                                        null
+                                        "watch out!start braking system", TextToSpeech.QUEUE_FLUSH, null
                                     )
                                 else if (warnning_left > 0)
                                     mTTS.speak(
-                                        "Be careful of left side",
-                                        TextToSpeech.QUEUE_FLUSH,
-                                        null
+                                        "Be careful of left side", TextToSpeech.QUEUE_FLUSH, null
                                     )
                                 else
                                     mTTS.speak(
-                                        "Be careful of right side",
-                                        TextToSpeech.QUEUE_FLUSH,
-                                        null
+                                        "Be careful of right side", TextToSpeech.QUEUE_FLUSH, null
                                     )
 
                                 isSpeaking = true
 
                             }
-                        } else {
-                            warning_img.visibility = View.INVISIBLE
-                            isSpeaking = false
                         }
+
                     }
                 }
             }
@@ -230,8 +231,6 @@ class MainActivity: AppCompatActivity() {
             }
             
 
-
-            
         }
 
 
@@ -381,26 +380,24 @@ class MainActivity: AppCompatActivity() {
             super.onPostExecute(result)
 
 
-
-
-            if (!connectSuccess) {
-                Toast.makeText(context,"couldn't connect", Toast.LENGTH_SHORT).show()
-            } else {
+            if (connectSuccess) {
                 m_isConnected = true
                 val cal = Calendar.getInstance()
                 val dateReturn = '@'+SimpleDateFormat("yy:MM:dd:HH:mm:ss:SS").format(cal.time)
                 activity.sendData(dateReturn)
 
                 Toast.makeText(context,"connected", Toast.LENGTH_SHORT).show()
+
+            } else {
+                Toast.makeText(context,"couldn't connect", Toast.LENGTH_SHORT).show()
             }
+
             m_progress.dismiss()
 
 
             if(m_bluetoothSocket != null) {
                 try {
-                    Log.d(BT_TAG, "start listen bike status")
-
-
+                    Log.d(BT_TAG, "start listen bike init status")
 
                     Thread {
                         while (true) {
@@ -446,16 +443,87 @@ class MainActivity: AppCompatActivity() {
                         }
                     }.start()
 
-
-
                 } catch (e: IOException) {
                     Log.d(BT_TAG, "BT Input stream was disconnected", e)
                 }
-
-
             }
         }
 
     }
+
+    @SuppressLint("MissingPermission")
+    private fun getLocation(context: Context) {
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val hasGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
+
+
+        //set firebase
+        val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+        val myRef: DatabaseReference = database.getReference("autobrake")
+
+
+
+
+        if (hasGps) {
+            Log.d("GPS", "hasGps")
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5F, object : LocationListener {
+
+                override fun onLocationChanged(location: Location?) {
+                    Log.d("GPS", "changed")
+                    if (location != null) {
+                        val latitude = location.latitude
+                        val longitude = location.longitude
+
+                        Log.d("GPS", " GPS Latitude : $latitude")
+                        Log.d("GPS", " GPS Longitude : $longitude")
+
+                        //to firebase
+                        myRef.child("lat").setValue(latitude)
+                        myRef.child("lon").setValue(longitude)
+
+
+//                        /*------- To get city name from coordinates -------- */
+//                        var cityName: String? = null
+//                        val gcd = Geocoder(context, Locale.getDefault())
+//                        val addresses: List<Address>
+//                        try {
+//                            addresses = gcd.getFromLocation(latitude, longitude, 1)
+//                            if (addresses.isNotEmpty()) {
+//                                cityName = addresses[0].locality
+//                                Log.d("GPS", " GPS City name: $cityName")
+//                            }
+//                        } catch (e: IOException) {
+//                            e.printStackTrace()
+//                        }
+
+
+
+                    }
+                }
+
+                override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+                override fun onProviderEnabled(provider: String?) {}
+                override fun onProviderDisabled(provider: String?) {}
+
+            })
+
+            val localGpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            if (localGpsLocation != null)
+                Log.d("GPS", " End GPS Latitude : " + localGpsLocation.latitude)
+                Log.d("GPS", " End GPS Longitude : " + localGpsLocation.longitude)
+        }
+
+
+    }
+
+//    private fun checkPermission(permissionArray: Array<String>): Boolean {
+//        var allSuccess = true
+//        for (i in permissionArray.indices) {
+//            if (checkCallingOrSelfPermission(permissionArray[i]) == PackageManager.PERMISSION_DENIED)
+//                allSuccess = false
+//        }
+//        return allSuccess
+//    }
 
 }

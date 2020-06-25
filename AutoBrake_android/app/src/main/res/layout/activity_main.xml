@@ -5,7 +5,7 @@
     android:id="@+id/myLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#050A1C">
+    android:background="#BC000410">
 
 
     <TextView
@@ -169,6 +169,7 @@
         android:textAlignment="center"
         android:textColor="#50E888"
         android:textStyle="bold|italic"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/btn_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

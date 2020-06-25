@@ -16,7 +16,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/electrical_bike" />
+        app:srcCompat="@mipmap/logo_black_nobg" />
 
     <TextView
         android:id="@+id/textView3"
