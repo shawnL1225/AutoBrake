@@ -1,4 +1,4 @@
-// Receive Event [Serial1 -> relay] [Serial2-> cellphone] [Serial3 -> brake]
+// Receive Event [Serial1 -> motor_with_battery_brakeD_CTRL] [Serial2-> cellphone] [Serial3 -> Speed Sensor Error]
 
 int RASPXpowerp;
 
@@ -33,16 +33,16 @@ void serialEvent(){
           Serial.println(" V");
         }
         if (in=='^'){
-          Serial1.println("Button Pressed");
+          Serial.println("Button Pressed");
         }
         if (in=='#'){
-          Serial1.println("Brake applied");
+          Serial.println("Brake applied");
         }
         if (in=='E'){
-          Serial1.println("CTRL　Error　Occur");
+          Serial.println("CTRL　Error　Occur");
         }
         if (in=='S'){
-          Serial1.println("CTRL Error Solved");
+          Serial.println("CTRL Error Solved");
         }
       }
     }
