@@ -3,7 +3,7 @@ void speedSensor(){
 //----------------------------if dectect-------------------------------
   magnet1= digitalRead(7);
   magnet2= digitalRead(8);
-//----------------------turn first sensor value------------------------
+//----------------------make first sensor value------------------------
   if (magnet1==0&&lmagnet1!=0){
     ms1=millis();
     ts1=ms1-lms1;
@@ -17,7 +17,7 @@ void speedSensor(){
     sv1=hv1=0;
   }
   
-//----------------------turn second sensor value------------------------
+//----------------------make second sensor value------------------------
   if(magnet2==0&&lmagnet2!=0){
     ms2 = millis();
     ts2 = ms2-lms2;

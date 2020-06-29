@@ -8,7 +8,7 @@ void setup() {
   Serial1.setTimeout(100);
   Serial3.setTimeout(100);
 
-  lcd.begin(16, 2);
+//  lcd.begin(16, 2);
   randomSeed(analogRead(A1));
   
   Serial.println("Please connect to the cepllphone");
