@@ -60,4 +60,11 @@ String fileName, lBV/*last battery voltage*/, lsS;/*last speed String*/
       lcd.print("Check Phone");
       delay(500);
     }
+    
+    if ((ASPXpower<95&&millis()-lbsms>3000)||lbsms==0){
+        battery();
+        lbsms=millis();
+        Serial1.print('T');
+        Serial1.print(random(20,22));
+      }
   }
