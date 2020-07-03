@@ -7,7 +7,9 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.Intent
-import android.location.*
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.*
 import android.speech.tts.TextToSpeech
 import android.util.Log
@@ -15,19 +17,19 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivity: AppCompatActivity() {
 
     companion object {
         var m_myUUID: UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
-        private val BLUETOOTH_SEND_STRING = 1
+        private const val BLUETOOTH_SEND_STRING = 1
         var m_bluetoothSocket: BluetoothSocket? = null
         lateinit var m_progress: ProgressDialog
         var m_bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
@@ -61,11 +63,12 @@ class MainActivity: AppCompatActivity() {
 
 
 
-        //set BT address then connect to BT
-        m_address = "98:D3:31:FC:20:72"
+
+        //connect to BT
+        m_address = "00:21:13:00:17:D1"
         ConnectToDevice(this,this).execute()
 
-        //connect stuff
+        //connect btn
         reconnect_btn.setOnClickListener { disconnect(this)
             ConnectToDevice(this, this).execute() }
         exit_btn.setOnClickListener { disconnect(this)
@@ -108,8 +111,10 @@ class MainActivity: AppCompatActivity() {
         //start BT and show BT receiveThread value
         start_receive_btn.setOnClickListener {
             val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-            var isSpeaking = false  // for warning sign
 
+            var warningLight = 0
+            var warningLine = 0
+            var warningRecognition = 0
 
             val startingHandler = @SuppressLint("HandlerLeak") object: Handler() {
                 override fun handleMessage(msg: Message) {
@@ -122,16 +127,11 @@ class MainActivity: AppCompatActivity() {
                         // in case n==0 get null
                         if(bufToString[0] == '|')   bufToString = bufToString.drop(1)
                         val part = bufToString.split('|').toMutableList()
-                        Log.d(BT_TAG, bufToString)
+                        Log.d(BT_TAG, "BTget: $bufToString")
                         Log.d(BT_TAG, part.size.toString())
 
+                        var warningDirection = ' '
 
-                        var speed = 0
-                        var battery = ""
-                        var warning_main = 2
-                        var warnning_left = 2
-                        var warning_right = 2
-                        var motor = ""
 
                         for (i in 0..part.size - 2) {
                             var differentiate = part[i].first()
@@ -140,7 +140,7 @@ class MainActivity: AppCompatActivity() {
 
                                 //set speed and progress bar
                                 'S' -> {
-                                    speed = part[i].toInt()
+                                    var speed = part[i].toInt()
                                     if (speed > 30) speed = 30
                                     speed_txt.text = speed.toString()
                                     progress_circular.max = 40
@@ -148,29 +148,28 @@ class MainActivity: AppCompatActivity() {
                                 }
 
                                 //set battery
-                                'B' -> {
-                                    battery = part[i]
-                                    battery_txt.text = battery + '%'
-                                }
+                                'B' -> battery_txt.text = part[i] + '%'
 
-                                'W' -> warning_main = part[i].toInt()
-                                'L' -> warnning_left = part[i].toInt()
-                                'R' -> warning_right = part[i].toInt()
+
+                                'X' -> warningLight = part[i].toInt()
+                                'Y' -> warningLine = part[i].toInt()
+                                'Z' -> {warningRecognition = part[i][0].toInt()
+                                        if(part[i].length>1) warningDirection = part[i][1]}
 
                                 //set motor
-                                'M' -> {
-                                    motor = part[i]
-                                    motor_txt.text = motor + '%'
-                                }
+                                'M' -> motor_txt.text = part[i] + '%'
+
+                                'T' -> engineT_txt.text = part[i] + "℃"
+
                             }
                         }
 
-                        if(warning_main == 0 || warnning_left == 0 || warning_right == 0){
+                        if(warningLight == 0 && warningLine == 0 && warningRecognition == 0){
                             warning_img.visibility = View.INVISIBLE
-                            isSpeaking = false
                         }
-                        if (warning_main == 1 || warnning_left == 1 || warning_right == 1) {
-                            warning_img.visibility = View.VISIBLE
+
+                        // if warning
+                        if (warningLight == 1 || warningLine == 1 || warningRecognition == 1) {
                             progress_circular.setProgress(0, true)
 
                             if (vibrator.hasVibrator()) {
@@ -186,22 +185,42 @@ class MainActivity: AppCompatActivity() {
                                 }
                             }
 
-                            if (!isSpeaking) {
-                                if (warning_main > 0)
+                            // object warning
+                            if(warningRecognition == 1) {
+                                warning_img.setImageResource(R.mipmap.close_warning)
+                                warning_img.visibility = View.VISIBLE
+                                if(warningDirection == 'l') {
                                     mTTS.speak(
-                                        "watch out!start braking system", TextToSpeech.QUEUE_FLUSH, null
+                                        "Be careful of light side", TextToSpeech.QUEUE_FLUSH, null
                                     )
-                                else if (warnning_left > 0)
+                                }
+                                else if (warningDirection == 'r'){
                                     mTTS.speak(
                                         "Be careful of left side", TextToSpeech.QUEUE_FLUSH, null
                                     )
-                                else
+                                }else {
                                     mTTS.speak(
-                                        "Be careful of right side", TextToSpeech.QUEUE_FLUSH, null
+                                        "watch out!start braking system", TextToSpeech.QUEUE_FLUSH, null
                                     )
+                                }
+                            }
+                            // traffic light warning
+                            else if(warningLight == 1) {
+                                warning_img.setImageResource(R.mipmap.light_warning)
+                                warning_img.visibility = View.VISIBLE
 
-                                isSpeaking = true
+                                mTTS.speak(
+                                    "Red light detected", TextToSpeech.QUEUE_FLUSH, null
+                                )
+                            }
+                            // deviation warning
+                            else if(warningLine == 1) {
+                                warning_img.setImageResource(R.mipmap.line_warning)
+                                warning_img.visibility = View.VISIBLE
 
+                                mTTS.speak(
+                                    "Please keep on the right side", TextToSpeech.QUEUE_FLUSH, null
+                                )
                             }
                         }
 
@@ -342,7 +361,7 @@ class MainActivity: AppCompatActivity() {
                 m_bluetoothSocket = null
                 m_isConnected = false
                 Toast.makeText(context,"disconnected", Toast.LENGTH_SHORT).show()
-            } catch (e: IOException) {
+            } catch (e: IOException) {0
                 e.printStackTrace()
             }
         }
@@ -350,7 +369,7 @@ class MainActivity: AppCompatActivity() {
     }
 
     //BT connect
-    class ConnectToDevice(var context: Context, var activity: MainActivity) : AsyncTask<Void, Void, String>() {
+    class ConnectToDevice(private var context: Context, private var activity: MainActivity) : AsyncTask<Void, Void, String>() {
 
 
         private var connectSuccess: Boolean = true
@@ -395,14 +414,15 @@ class MainActivity: AppCompatActivity() {
             m_progress.dismiss()
 
 
-            if(m_bluetoothSocket != null) {
+            if(connectSuccess) {
                 try {
                     Log.d(BT_TAG, "start listen bike init status")
 
                     Thread {
                         while (true) {
 
-                            if(m_bluetoothSocket == null) break
+                            Thread.sleep(50)
+                            if(!m_isConnected) break
 
                             if (m_bluetoothSocket!!.inputStream.available() > 0) {
                                 // wait for read
@@ -411,7 +431,7 @@ class MainActivity: AppCompatActivity() {
 
                                 var b: ByteArray = mmBuffer.copyOf(numBytes)
                                 var bufToString = b.toString(Charsets.UTF_8)
-                                Log.d(BT_TAG, bufToString)
+                                Log.d(BT_TAG, "BTget: $bufToString")
 
 
                                 val message = Message.obtain()
@@ -457,17 +477,13 @@ class MainActivity: AppCompatActivity() {
         val hasGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
 
-
-        //set firebase
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
         val myRef: DatabaseReference = database.getReference("autobrake")
 
 
-
-
         if (hasGps) {
             Log.d("GPS", "hasGps")
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5F, object : LocationListener {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0F, object : LocationListener {
 
                 override fun onLocationChanged(location: Location?) {
                     Log.d("GPS", "changed")
@@ -512,18 +528,10 @@ class MainActivity: AppCompatActivity() {
             if (localGpsLocation != null)
                 Log.d("GPS", " End GPS Latitude : " + localGpsLocation.latitude)
                 Log.d("GPS", " End GPS Longitude : " + localGpsLocation.longitude)
+                myRef.child("lat").setValue(localGpsLocation.latitude)
+                myRef.child("lon").setValue(localGpsLocation.longitude)
         }
-
-
+        
     }
-
-//    private fun checkPermission(permissionArray: Array<String>): Boolean {
-//        var allSuccess = true
-//        for (i in permissionArray.indices) {
-//            if (checkCallingOrSelfPermission(permissionArray[i]) == PackageManager.PERMISSION_DENIED)
-//                allSuccess = false
-//        }
-//        return allSuccess
-//    }
 
 }
