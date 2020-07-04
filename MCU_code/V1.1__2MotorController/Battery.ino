@@ -1,6 +1,7 @@
 void battery(){
 //  Serial.println(analogRead(A5));
-  int batteryV =map(analogRead(A5),0,1023,0,1500);
+  int Vin = analogRead(A5);
+  double batteryV=Vin*25/1024.0;
   String BV="Battery :"+String(batteryV/100.00)+" V";
   if (lBV!=BV) SDWrite(BV);
   lBV=BV;

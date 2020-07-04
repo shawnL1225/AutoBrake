@@ -38,6 +38,7 @@ String fileName, lBV/*last battery voltage*/, lsS;/*last speed String*/
     int brakeV = analogRead(A10);
     if (brakeV<300) brake =1;
     else if (brakeV>=300) brake=0;
+    brake=0;
     
   // go to  motor loop
     motor(SPXpower, hv, brake);
@@ -61,10 +62,48 @@ String fileName, lBV/*last battery voltage*/, lsS;/*last speed String*/
       delay(500);
     }
     
-    if ((ASPXpower<95&&millis()-lbsms>3000)||lbsms==0){
-        battery();
+    if (((ASPXpower<95&&millis()-lbsms>3000)||lbsms==0)&&appStart){
+        int r = random(20,23);
+        Serial.print('T');
+        Serial.print(r);
+        Serial.println(' ');
+        delay(10);
+//        battery();
+        Serial1.print("B90|");
         lbsms=millis();
         Serial1.print('T');
-        Serial1.print(random(20,22));
+        Serial1.print(r);
+        Serial1.print('|');
+        
+    }
+    if (!digitalRead(39)){
+      Serial1.print("Z1f|");
+      Serial.println("Z|");
+      Serial.println(analogRead(A2));
+      digitalWrite(24,1);
+      while (analogRead(2)>310){
+        Serial.println(analogRead(A2));
+        if (analogRead(2)<=310){
+          digitalWrite(24,0);
+          break; 
+        }
       }
+      if (analogRead(2)<=310){
+          digitalWrite(24,0);
+        }
+      
+      delay(5000);
+      digitalWrite(22,1);
+      while (analogRead(2)<785){
+        Serial.println(analogRead(A2));
+        if (analogRead(2)>=735){
+          digitalWrite(22,0);
+          break;
+        }
+      }
+      if (analogRead(2)>=735){
+          digitalWrite(22,0);
+      }
+      Serial1.print("Z0|");
+    }
   }

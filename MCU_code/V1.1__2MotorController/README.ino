@@ -1,4 +1,4 @@
-//--------------------------motor active list-------------------------------------
+ //--------------------------motor active list-------------------------------------
   //make SPX move from vslue "SPXpower"
   //~5 or 180~598    NON BREAK STOP
   //6~44             MAX REVERSE

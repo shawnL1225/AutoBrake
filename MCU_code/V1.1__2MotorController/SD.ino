@@ -1,5 +1,6 @@
 //------------------------SDWrite---------------------
-  void SDWrite(String a){
+void SDWrite (String b){}
+  void SDWritee(String a){
       file = SD.open(fileName,FILE_WRITE);
       unsigned long msec= millis();
       int sec=0,mi=0,hr=0;

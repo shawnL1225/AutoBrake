@@ -199,9 +199,16 @@ void motor ( int SPXpower, float nowSpeed, bool brake){
    //Tell the condition
       if(SPXpower!=LSPXpower||ASPXpower!=LASPXpower){
         if (!err){
+          Serial.print('X');
+          Serial.print((SPXpower-94)*100/51);
+          Serial.print(" ");
+          Serial.print('M');
+          Serial.print((ASPXpower-94)*100/51);
+          Serial.print(" ");
+          Serial.print('H');
           Serial.print("(");
           Serial.print(SPXpower);
-          Serial.print(",");
+          Serial.print(","); 
           Serial.print(LSPXpower);
           Serial.print(",");
           Serial.print(ASPXpower);
