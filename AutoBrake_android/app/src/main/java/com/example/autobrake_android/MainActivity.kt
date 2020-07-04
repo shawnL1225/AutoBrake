@@ -65,7 +65,7 @@ class MainActivity: AppCompatActivity() {
 
 
         //connect to BT
-        m_address = "00:21:13:00:17:D1"
+        m_address = "AB:F5:E7:56:34:02"
         ConnectToDevice(this,this).execute()
 
         //connect btn
@@ -153,7 +153,7 @@ class MainActivity: AppCompatActivity() {
 
                                 'X' -> warningLight = part[i].toInt()
                                 'Y' -> warningLine = part[i].toInt()
-                                'Z' -> {warningRecognition = part[i][0].toInt()
+                                'Z' -> {warningRecognition = Character.getNumericValue( part[i][0])
                                         if(part[i].length>1) warningDirection = part[i][1]}
 
                                 //set motor
@@ -167,7 +167,7 @@ class MainActivity: AppCompatActivity() {
                         if(warningLight == 0 && warningLine == 0 && warningRecognition == 0){
                             warning_img.visibility = View.INVISIBLE
                         }
-
+                        Log.d(BT_TAG, "warningRecognition: $warningRecognition,warningDirection: $warningDirection")
                         // if warning
                         if (warningLight == 1 || warningLine == 1 || warningRecognition == 1) {
                             progress_circular.setProgress(0, true)
@@ -191,12 +191,12 @@ class MainActivity: AppCompatActivity() {
                                 warning_img.visibility = View.VISIBLE
                                 if(warningDirection == 'l') {
                                     mTTS.speak(
-                                        "Be careful of light side", TextToSpeech.QUEUE_FLUSH, null
+                                        "Be careful of left side", TextToSpeech.QUEUE_FLUSH, null
                                     )
                                 }
                                 else if (warningDirection == 'r'){
                                     mTTS.speak(
-                                        "Be careful of left side", TextToSpeech.QUEUE_FLUSH, null
+                                        "Be careful of right side", TextToSpeech.QUEUE_FLUSH, null
                                     )
                                 }else {
                                     mTTS.speak(
@@ -298,7 +298,7 @@ class MainActivity: AppCompatActivity() {
         override fun run() {
 
             Log.d(BT_TAG, "START THREAD")
-            var available = 0
+            var available: Int
             while (true) {
                 if(!isRun) return
                 if(m_bluetoothSocket != null)
@@ -403,7 +403,7 @@ class MainActivity: AppCompatActivity() {
                 m_isConnected = true
                 val cal = Calendar.getInstance()
                 val dateReturn = '@'+SimpleDateFormat("yy:MM:dd:HH:mm:ss:SS").format(cal.time)
-                activity.sendData(dateReturn)
+                activity.sendData("?")
 
                 Toast.makeText(context,"connected", Toast.LENGTH_SHORT).show()
 
