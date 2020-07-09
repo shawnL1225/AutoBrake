@@ -31,11 +31,11 @@
             </intent-filter>
         </activity>
 
+
         <activity android:name=".MainActivity"
             android:label="@string/mainActivity_name"/>
 
-        <activity
-            android:name=".MapsActivity"
+        <activity android:name=".MapsActivity"
             android:label="@string/mapsActivity_name">
 
         </activity>

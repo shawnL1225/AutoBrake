@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">AutoBrake_Android</string>
-    <string name="map_key">AIzaSyDP0xSbT5DWrfTqHUv0U7PQzNmZ7nMP1hk</string>
     <string name="mapsActivity_name">AutoBrake_Map</string>
     <string name="mainActivity_name">AutoBrake_Panel</string>
 </resources>

@@ -150,15 +150,15 @@
 
     <ImageView
         android:id="@+id/warning_img"
-        android:layout_width="332dp"
-        android:layout_height="319dp"
+        android:layout_width="350dp"
+        android:layout_height="340dp"
         android:layout_marginBottom="150dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/btn_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@mipmap/warning2" />
+        app:srcCompat="@mipmap/close_warning" />
 
     <TextView
         android:id="@+id/ready_txt"

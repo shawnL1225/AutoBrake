@@ -66,6 +66,7 @@ class MainActivity: AppCompatActivity() {
 
         //connect to BT
         m_address = "AB:F5:E7:56:34:02"
+//        m_address = "78:02:B7:25:01:86"
         ConnectToDevice(this,this).execute()
 
         //connect btn
@@ -476,7 +477,6 @@ class MainActivity: AppCompatActivity() {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val hasGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
-
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
         val myRef: DatabaseReference = database.getReference("autobrake")
 
@@ -525,11 +525,13 @@ class MainActivity: AppCompatActivity() {
             })
 
             val localGpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            if (localGpsLocation != null)
+            if (localGpsLocation != null) {
                 Log.d("GPS", " End GPS Latitude : " + localGpsLocation.latitude)
                 Log.d("GPS", " End GPS Longitude : " + localGpsLocation.longitude)
                 myRef.child("lat").setValue(localGpsLocation.latitude)
                 myRef.child("lon").setValue(localGpsLocation.longitude)
+            }
+
         }
         
     }
