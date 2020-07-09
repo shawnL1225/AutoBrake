@@ -1,5 +1,17 @@
 int t;
 void motor ( int SPXpower, float nowSpeed, bool brake){
+  if (SPXpower!=LSPXpower){
+    Serial.print('X');
+    int SPXP = (SPXpower-94)*100/51;
+    if (SPXP<0) SPXP=0;
+    Serial.print(SPXP);
+    Serial.println("");//turn analogvalue to servo degree
+    delay(10);
+    Serial.print('X');
+    Serial.print(SPXP);
+    Serial.println("");//turn analogvalue to servo degree
+    delay(10);
+  }
    String htc; //how motor value change
    
    //make sure value don't raise sharply by accident & Let value be above 93
@@ -8,20 +20,20 @@ void motor ( int SPXpower, float nowSpeed, bool brake){
       
    //Tell the condition if error occur
       if (err&&!lerr) { //Only print once, could be unlock only by cellphone app
-        Serial.println("ERROR OCCUR");
-        SDWrite("ERROR OCCUR  ");
+        Serial.println("HERROR OCCUR");
         SPX(94);
         ASPXpower=94;
-        Serial.println("BREAK STOP  ");
-        SDWrite("BREAK STOP  ");
+        delay(10);
+        Serial.println("HBREAK STOP  ");
         lerr=err;
+        delay(10);
       }
       else if (!err&&lerr){
-        Serial.println("Error Solved");
-        SDWrite("Error Solved");
+        Serial.println("HError Solved");
         lcd.setCursor(0,0);
         lcd.print("0%         ");
         lerr=err;
+        delay(10);
       }
  
    //Activate the motor
@@ -38,6 +50,7 @@ void motor ( int SPXpower, float nowSpeed, bool brake){
        ASPXpower=SPXpower;
        SPX(ASPXpower);
        Serial1.print("M0|");
+       Serial.print("M0|");
      }
      else if (brake==1){
        if (LASPXpower!=92&&LASPXpower!=93&&LASPXpower!=94){
@@ -70,19 +83,29 @@ void motor ( int SPXpower, float nowSpeed, bool brake){
              t++;
              if (t>2){
                String RASPXpowerpS = String (RASPXpowerp);
-               Serial1.write('M');
-               for(int i=0; i<RASPXpowerpS.length();i++)
+                Serial1.write('M');
+                Serial.print("M");
+                for(int i=0; i<RASPXpowerpS.length();i++){
                   Serial1.write(RASPXpowerpS[i]);
-               Serial1.write('|');
+                  Serial.print(RASPXpowerpS[i]);
+                }
+                Serial1.write('|');
+                Serial.println("");
+                delay(10);
                t=0;
              }
            }
          }
-         Serial1.write('M');
          String RASPXpowerpS = String (RASPXpowerp);
-         for(int i=0; i<RASPXpowerpS.length();i++)
+          Serial1.write('M');
+          Serial.print("M");
+          for(int i=0; i<RASPXpowerpS.length();i++){
             Serial1.write(RASPXpowerpS[i]);
-         Serial1.write('|');
+            Serial.print(RASPXpowerpS[i]);
+          }
+          Serial1.write('|');
+          Serial.println("");
+          delay(10);
          t=0;
        }
      }
@@ -111,18 +134,28 @@ void motor ( int SPXpower, float nowSpeed, bool brake){
               if (t>2){
                 String RASPXpowerpS = String (RASPXpowerp);
                 Serial1.write('M');
-                for(int i=0; i<RASPXpowerpS.length();i++)
-                   Serial1.write(RASPXpowerpS[i]);
+                Serial.print("M");
+                for(int i=0; i<RASPXpowerpS.length();i++){
+                  Serial1.write(RASPXpowerpS[i]);
+                  Serial.print(RASPXpowerpS[i]);
+                }
                 Serial1.write('|');
+                Serial.println("");
+                delay(10);
                 t=0;
               }
             }
           }
-          Serial1.write('M');
           String RASPXpowerpS = String (RASPXpowerp);
-          for(int i=0; i<RASPXpowerpS.length();i++)
-             Serial1.write(RASPXpowerpS[i]);
+          Serial1.write('M');
+          Serial.print("M");
+          for(int i=0; i<RASPXpowerpS.length();i++){
+            Serial1.write(RASPXpowerpS[i]);
+            Serial.print(RASPXpowerpS[i]);
+          }
           Serial1.write('|');
+          Serial.println("");
+          delay(10);
           t=0;
         }
       ost=0;
@@ -186,59 +219,75 @@ void motor ( int SPXpower, float nowSpeed, bool brake){
               }
             }
             Serial1.write('M');
+            Serial.print('M');
             String RASPXpowerpS = String (RASPXpowerp);
-            for(int i=0; i<RASPXpowerpS.length();i++)
-               Serial1.write(RASPXpowerpS[i]);
+            for(int i=0; i<RASPXpowerpS.length();i++) {
+              Serial1.write(RASPXpowerpS[i]);
+              Serial.print(RASPXpowerpS[i]);
+            }
             Serial1.write('|');
+            Serial.println("");
             t=0;
           }
         }
+        Serial.print("M");
+          Serial.print(RASPXpowerp);
+          Serial.println(""); 
+          delay(10);
       }
 
 
    //Tell the condition
       if(SPXpower!=LSPXpower||ASPXpower!=LASPXpower){
         if (!err){
-          Serial.print("(");
-          Serial.print(SPXpower);
-          Serial.print(",");
-          Serial.print(LSPXpower);
-          Serial.print(",");
-          Serial.print(ASPXpower);
-          Serial.print(",");
-          Serial.print(LASPXpower);
-          Serial.print(",");
-          Serial.print(nowSpeed);
-          Serial.print(",");
-          Serial.print(maxSpeed);
-          Serial.print(",");
-          Serial.print(brake);
-          Serial.print(")");
-          Serial.print("\t");
+          Serial.print("M");
+          Serial.print(RASPXpowerp);
+          Serial.println(""); 
+          delay(10);
+          Serial.print("M");
+          Serial.print(RASPXpowerp);
+          Serial.println(""); 
+          delay(10);
+//          Serial.print('H');
+//          Serial.print("(");
+//          Serial.print(SPXpower);
+//          Serial.print(","); 
+//          Serial.print(LSPXpower);
+//          Serial.print(",");
+//          Serial.print(ASPXpower);
+//          Serial.print(",");
+//          Serial.print(LASPXpower);
+//          Serial.print(",");
+//          Serial.print(nowSpeed);
+//          Serial.print(",");
+//          Serial.print(maxSpeed);
+//          Serial.print(",");
+//          Serial.print(brake);
+//          Serial.print(")");
+//          Serial.print("\t");
           String SDSPX = "("+String(SPXpower)+","+String(LSPXpower)+","+String(ASPXpower)+","+String(LASPXpower)+","+String(nowSpeed)+","+String(maxSpeed)+","+String(brake)+")\t";
           if (!appStart){
-            Serial.print("Bike LOCK");
+//            Serial.print("Bike LOCK");
             SDSPX+="Bike LOCK ";
           }
           else if ((ASPXpower==92||ASPXpower==93||ASPXpower==94)&&(LASPXpower==92||LASPXpower==93||LASPXpower==94)){
-            Serial.print("BREAK STOPPED ");
+//            Serial.print("BREAK STOPPED ");
             SDSPX+="BREAK STOPPED ";
           }
           else if ((ASPXpower==92||ASPXpower==93||ASPXpower==94)&&(LASPXpower!=92||LASPXpower!=93&&LASPXpower!=94)){
-            Serial.print("BREAK STOPPING ");
+//            Serial.print("BREAK STOPPING ");
             SDSPX+="BREAK STOPPING ";
           }
           else if (ASPXpower>=95&&ASPXpower<=141){
-            Serial.print("FORWARD     ");
+//            Serial.print("FORWARD     ");
             SDSPX+="FORWARD     ";
           }
           else if (ASPXpower>=142&&ASPXpower<=179){
-            Serial.print("MAX FORWARD ");
+//            Serial.print("MAX FORWARD ");
             SDSPX+="MAX FORWARD ";
           }
           SDSPX+=htc;
-          Serial.println(htc);
-          if (appStart) SDWrite(SDSPX);
+//          Serial.println(htc);
         }
         
         lcd.setCursor(0,0);

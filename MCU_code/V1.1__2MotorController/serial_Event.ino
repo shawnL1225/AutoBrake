@@ -1,9 +1,9 @@
 // Receive Event [Serial2 -> relay] [Serial1-> cellphone] [Serial3 -> brake]
 
-void serialEvent(){
+void serialEvent(){ 
   int rs;
   //--------------------------------Read--------------------------------
-  if (0){
+  if (1){
     if(Serial.available()) {
       char in =Serial.read();
       if(in == '@') {
@@ -33,15 +33,14 @@ void serialEvent(){
         appStart=1;
         lcd.setCursor(0,0);
         lcd.print("0%            ");
-        Serial.println("Bike UNLOCK");
+//        Serial.println("Bike UNLOCK");
       }
       if (in == '#') {
         lcd.setCursor(0,0);
         lcd.print("LOCK         ");
         appStart=0;
         motor(94, hv, brake);
-        SDWrite("Bike LOCK");
-        Serial.println("Bike LOCK");
+//        Serial.println("Bike LOCK");
       }
     }
   }
@@ -59,24 +58,28 @@ void serialEvent(){
         appStart=1;
         lcd.setCursor(0,0);
         lcd.print("0%          ");
-        SDWrite(Ntime);
-        Serial.println("Bike UNLOCK");
+        Serial.println("@");
+        Serial.print('H');
+        Serial.println("Bike UNLOCK ");
       }
       if (in == '#') {
         lcd.setCursor(0,0);
         lcd.print("LOCK      ");
         appStart=0;
         motor(94, hv, brake);
-        SDWrite("Bike LOCK");
-        Serial.println("Bike LOCK");
+        Serial.println("#");
+        Serial.print('H');
+        Serial.println("Bike LOCK ");
       }
     }
   
   if(Serial2.available()) {
     char in = Serial2.read();
     if( in== 'V') {
+      
       hv = Serial2.parseInt();
       hv/=100.00;
+//      Serial.println(hv);
       if (abs(hv-lhv)<5||lhv!=0||hv-lhv>0){
         String sS ="Speed:"+/*sv+" m/s""\t"*/ String(hv) + " km/hr ";
         lcd.setCursor(0,1);
@@ -85,12 +88,15 @@ void serialEvent(){
         lcd.setCursor(10,1);
         lcd.print(" km/hr");
         if (sS!=lsS){
-          SDWrite(sS);
           lsS=sS;
-          Serial.println(sS);
           // Send Text to Serial1
           hv+=0.5;
           String hvS=String(int(hv));
+          hv-=0.5;
+          Serial.print('V');
+          Serial.print(int((hv)*100));
+          Serial.println("");
+          delay(10);
           Serial1.write('S');
           for (int i=0; i<hvS.length();i++) 
             Serial1.write(hvS[i]);//hv*100
@@ -98,7 +104,7 @@ void serialEvent(){
           lhv=hv;
         }
       }
-      else Serial.println("*********************");
     }
+    else if (in== 'E')  Serial.println("*********************");
   }
 }

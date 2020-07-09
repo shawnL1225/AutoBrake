@@ -16,6 +16,9 @@ void speedSensor(){
     lms1=rms;
     sv1=hv1=0;
   }
+  else if (ms1==0){
+    sv1=hv1=0;
+  }
   
 //----------------------make second sensor value------------------------
   if(magnet2==0&&lmagnet2!=0){
@@ -29,9 +32,6 @@ void speedSensor(){
     ts2=ms2-lms2;
     lms2=rms;
     sv2=hv2=0;
-  }
-  else if (ms1==0){
-    sv1=hv1=0;
   }
   else if (ms2==0){
     sv2=hv2=0;
@@ -60,15 +60,17 @@ void speedSensor(){
   }
 
 //----------------------mix two sensor value------------------------
-  if (abs(hv1-hv2)<1) fhv =(hv1+hv2)/2.00;
-  else errt++;
+//  if (abs(hv1-hv2)<2)
+//  else errt++;
+   fhv =(hv1+hv2)/2.00;
 //--------------show fianl value & send value-----------------------
-  if (hv1==0&&hv2==0&&hv1!=printed){
+  if (hv1==0&&hv2==0&&fhv!=printed){
     Serial.print("V0");
     Serial4.print("V0");
     printed=0;
+    errt=9000;
   }
-  if (abs(fhv-lfhv)<5&&fhv!=lfhv&&(fhv!=printed)){
+  if ((abs(fhv-lfhv)<5||abs(hv1-hv2<1))&&fhv!=lfhv&&(fhv!=printed)){
     String sendV= 'V'+ String (int (fhv*100));
     Serial.println(sendV);
     Serial4.print(sendV);
