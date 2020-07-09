@@ -40,7 +40,6 @@ void serialEvent(){
         lcd.print("LOCK         ");
         appStart=0;
         motor(94, hv, brake);
-        SDWrite("Bike LOCK");
 //        Serial.println("Bike LOCK");
       }
     }
@@ -59,8 +58,7 @@ void serialEvent(){
         appStart=1;
         lcd.setCursor(0,0);
         lcd.print("0%          ");
-        SDWrite(Ntime);
-        Serial.print("@ ");
+        Serial.println("@");
         Serial.print('H');
         Serial.println("Bike UNLOCK ");
       }
@@ -69,8 +67,7 @@ void serialEvent(){
         lcd.print("LOCK      ");
         appStart=0;
         motor(94, hv, brake);
-        SDWrite("Bike LOCK");
-        Serial.print(" # ");
+        Serial.println("#");
         Serial.print('H');
         Serial.println("Bike LOCK ");
       }
@@ -91,14 +88,15 @@ void serialEvent(){
         lcd.setCursor(10,1);
         lcd.print(" km/hr");
         if (sS!=lsS){
-          SDWrite(sS);
           lsS=sS;
           // Send Text to Serial1
           hv+=0.5;
           String hvS=String(int(hv));
+          hv-=0.5;
           Serial.print('V');
-          Serial.print(hv*100);
-          Serial.print(' ');
+          Serial.print(int((hv)*100));
+          Serial.println("");
+          delay(10);
           Serial1.write('S');
           for (int i=0; i<hvS.length();i++) 
             Serial1.write(hvS[i]);//hv*100

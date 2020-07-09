@@ -91,11 +91,17 @@ void setup() {
     delay(10);
     Serial.println("?N ");
     delay(10);
-    Serial.println("?R ");
+    Serial.println("?X ");
+    delay(10);
+    Serial.println("?B ");
     delay(10);
     Serial.println("?S ");
     delay(10);
     Serial.println("?T ");
+    delay(10);
+    Serial.println("?D ");
+    delay(10);
+    Serial.println("?E ");
     delay(10);
 
    //Motor
@@ -137,7 +143,6 @@ void setup() {
     }
     else {
       Serial.println("HController Set ");
-      SDWrite("Controller Set");
       Serial1.print("CO");
       lcd.print("SET");
       delay(500);
@@ -156,6 +161,25 @@ void setup() {
     delay(100);
     digitalWrite(VGALED,0);
     appStart=0;
+
+    //autobrake calibration
+      if (analogRead(A2)>1000||analogRead(A2)<100){
+        Serial.println("HAutoBrake(B) Error");
+        while(1);
+      }
+//      else if (analogRead(A2)>780||analogRead(A2)<760){
+//        while (analogReaAd(2)<760){
+//          digitalWrite(22,1);
+//        }
+//        while (analogRead(A2)>780){
+//          digitalWrite(24,1);
+//        }
+//        digitalWrite(24,0);
+//        digitalWrite(24,0);
+//      }
+      else Serial.println("HAutoBrake OK");
+
+    
     
   //------------------------Ready to strat---------------------------------
     lcd.noBacklight();
@@ -173,10 +197,13 @@ void setup() {
     lcd.setCursor(0,0);
     lcd.print("LOCK");
     Serial.println("HBike LOCK ");
+    delay(50);
     Serial.println("HSTART ");
-    SDWrite("START");
     delay(50);
     Serial1.write("=");
     delay(500);
-    Serial.print("B0 T20 S0 M0");
+    Serial.println("T26");
+    delay(10);
+    Serial.println("B90");
+    delay(10);
 }

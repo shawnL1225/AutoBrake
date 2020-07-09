@@ -16,6 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -85,9 +86,9 @@ public class first {
   @SuppressWarnings("deprecation")
   public static void main(String[] args) {
     timer = new Timer();
-    timer.scheduleAtFixedRate(new RemindTask(),0, 1);
+    timer.scheduleAtFixedRate(new RemindTask(),0, 2);
     frame = new JFrame();
-    frame.setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\AutoBrake_ComputerSite_System\\image\\MSBA_icon.png"));
+    frame.setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\AutoBrake\\AutoBrake_ComputerSite_System\\image\\MSBA_icon.png"));
     frame.getContentPane().setBackground(Color.WHITE);
     frame.setBounds(100, 100, 450, 300);
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -96,7 +97,7 @@ public class first {
     frame.getContentPane().setLayout(null);
     
     JScrollPane scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    scrollPane.setBounds(10, 0, 195, 204);
+    scrollPane.setBounds(10, 0, 195, 206);
     frame.getContentPane().add(scrollPane);
     
     Box verticalBox_1 = Box.createVerticalBox();
@@ -208,7 +209,7 @@ public class first {
     Mother_Board.setFont(new Font("新細明體", Font.PLAIN, 14));
     Mother_Board.setHorizontalAlignment(SwingConstants.LEFT);
     
-    JLabel Xavier = new JLabel("NXT             ");
+    JLabel Xavier = new JLabel("XAVIER        ");
     Xavier.setToolTipText("\"Xavier\" connection status");
     Xavier.setHorizontalAlignment(SwingConstants.LEFT);
     Xavier.setFont(new Font("新細明體", Font.PLAIN, 14));
@@ -489,11 +490,11 @@ public class first {
     
     JLabel Wheelchair_figure = new JLabel("");
     Wheelchair_figure.setToolTipText("Wheelchair");
-    Wheelchair_figure.setIcon(new ImageIcon("D:\\AutoBrake_ComputerSite_System\\image\\wheelChair_TOP.png"));
+    Wheelchair_figure.setIcon(new ImageIcon("D:\\AutoBrake\\AutoBrake_ComputerSite_System\\image\\wheelChair_TOP.png"));
     Wheelchair_figure.setBounds(899, 451, 151, 151);
     frame.getContentPane().add(Wheelchair_figure);
     
-    Motor_Temp_V = new JLabel("25\u00B0C");
+    Motor_Temp_V = new JLabel("0\u00B0C");
     Motor_Temp_V.setToolTipText("The temperature renew per half second");
     Motor_Temp_V.setHorizontalAlignment(SwingConstants.CENTER);
     Motor_Temp_V.setFont(new Font("Arial Black", Font.PLAIN, 35));
@@ -670,9 +671,9 @@ public class first {
             Disable_or_enable_the_motor_Button.setBackground(Color.RED);
             Disable_or_enable_the_motor_Button.setText("DISABLE");
             Disable_or_enable_the_motor_Button.setActionCommand("Tap to DISABLE");
-            SimpleDateFormat time = new SimpleDateFormat("yyyy,MM,dd,HH,mm,ss,SSS");
-            String timeS = time.toString();
-            String send = "@"+ timeS + " ";
+            SimpleDateFormat time = new SimpleDateFormat("yyyy,MM,dd HH:mm:ss.SSS");
+            Date current = new Date();
+            String send = "@"+ time.format(current) + " ";
             print(send);
         }
         else if (Disable_or_enable_the_motor_Button.getText().equals("DISABLE")) {
@@ -708,9 +709,15 @@ public class first {
             Dis_Connect.setText("Disconnect");
             COM_selection_comboBox.setEnabled(false);
             hasChoosePort = true ;
-            SimpleDateFormat time = new SimpleDateFormat("yyyy,MM,dd,HH,mm,ss,SSS");
-            String timeS = time.toString();
-            String send = "@"+ timeS ;
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            SimpleDateFormat time = new SimpleDateFormat("yyyy,MM,dd HH:mm:ss.SSS");
+            Date current = new Date();
+            String send = "?"+ time.format(current) + " ";
             print(send);
             try {
                 Thread.sleep(1000);
@@ -727,6 +734,27 @@ public class first {
           hasChoosePort = false;
           COM_selection_comboBox.setEnabled(true);
           Dis_Connect.setText("Connect");
+          Mother_Board_ConditionLight.setForeground(Color.RED);
+          NXT_ConditionLight.setForeground(Color.RED);
+          CTRL_Board_ConditionLight.setForeground(Color.RED);
+          Brake_F_ConditionLight.setForeground(Color.RED);
+          Brake_B_ConditionLight.setForeground(Color.RED);
+          Distance_F_ConditionLight.setForeground(Color.RED);
+          Distance_L_ConditionLight.setForeground(Color.RED);
+          Distance_R_ConditionLight.setForeground(Color.RED);
+          Distance_B_ConditionLight.setForeground(Color.RED);
+          Speed_Sensor_ConditionLight.setForeground(Color.RED);
+          Voltage_n_heat_ConditionLight.setForeground(Color.RED);
+          Motor_Temp_V.setText("0\u00B0C");
+          Vichele_Tilt_Angle_V.setText("0\u00B0");;
+          Vichele_Speed_V.setText("0 km/hr");;
+          Actual_motor_percentage_V.setText("0%");
+          Controller_Perentage_V.setText("0%");
+          Battery_Percentage_V.setText("0%");
+          Front_Brake_V.setText("0 N");
+          Back_Brake_V.setText("0 N");
+          Disable_or_enable_the_motor_Button.setText("ENABLE");
+          Disable_or_enable_the_motor_Button.setBackground(Color.GREEN);
         }
       }
     });
@@ -818,257 +846,273 @@ public class first {
   
 static class RemindTask extends TimerTask {
   public void run() {
-   read();
+    if (hasChoosePort) {
+      String CPV = Controller_Perentage_V.getText();
+      CPV = CPV.replaceAll("%", "");
+      int num = Integer.parseInt(CPV);
+      String AMPV= Actual_motor_percentage_V.getText();
+      AMPV = AMPV.replaceAll("%", "");
+      int a = Integer.parseInt(AMPV);
+//      System.out.println(num+"\t"+a);
+      if (num < a) {
+          Actual_motor_percentage_V.setText(num+"%");
+      }
+      readS();
+//      readSC();
+    }
   }
 }
- static void read() {
-  while (hasChoosePort) {
-    @SuppressWarnings("resource")
-    Scanner scannerS /*System*/ = new Scanner(System.in);
-    if (scannerS.hasNext()) {
-        String line = scannerS.nextLine();
-        print(line);
-    }
-    Scanner scannerSC/*Serial COMM*/ = new Scanner(chosenPort.getInputStream());
-    if (scannerSC.hasNext()) {
-      try {
-        String line = scannerSC.nextLine();
-        System.out.println(line);
-        char in = line.charAt(0);
-        switch(in) {
-          case '@':{
-            Disable_or_enable_the_motor_Button.setBackground(Color.RED);
-            Disable_or_enable_the_motor_Button.setText("DISABLE");
-            Disable_or_enable_the_motor_Button.setActionCommand("Tap to DISABLE");
-            break;
-          }
-          case '#':{
-            Disable_or_enable_the_motor_Button.setBackground(Color.GREEN);
-            Disable_or_enable_the_motor_Button.setText("ENABLE");
-            Disable_or_enable_the_motor_Button.setActionCommand("Tap to ENABLE");
-            break;
-          }
-          case '?':{
-            char CSin = line.charAt(1);
-            switch (CSin) {
-              case 'A':{
-                if (Mother_Board_ConditionLight.getForeground()==Color.RED) {
-                  Mother_Board_ConditionLight.setForeground(Color.GREEN);
-                  Mother_Board_ConditionLight.setToolTipText("connected");
-                }
-                else {
-                  Mother_Board_ConditionLight.setForeground(Color.RED);
-                  Mother_Board_ConditionLight.setToolTipText("disconnect");
-                }
-                break;
+
+static void readSC() {
+  @SuppressWarnings("resource")
+  Scanner scannerS /*System*/ = new Scanner(System.in);
+  if (scannerS.hasNext()) {
+      String line = scannerS.nextLine();
+      print(line);
+  }
+}
+
+static void readS() {
+  Scanner scannerSC/*Serial COMM*/ = new Scanner(chosenPort.getInputStream());
+  if (scannerSC.hasNext()) {
+    try {
+      String line = scannerSC.nextLine();
+      System.out.println(line);
+      char in = line.charAt(0);
+      switch(in) {
+        case '@':{
+          Disable_or_enable_the_motor_Button.setBackground(Color.RED);
+          Disable_or_enable_the_motor_Button.setText("DISABLE");
+          Disable_or_enable_the_motor_Button.setActionCommand("Tap to DISABLE");
+          break;
+        }
+        case '#':{
+          Disable_or_enable_the_motor_Button.setBackground(Color.GREEN);
+          Disable_or_enable_the_motor_Button.setText("ENABLE");
+          Disable_or_enable_the_motor_Button.setActionCommand("Tap to ENABLE");
+          break;
+        }
+        case '?':{
+          char CSin = line.charAt(1);
+          switch (CSin) {
+            case 'A':{
+              if (Mother_Board_ConditionLight.getForeground()==Color.RED) {
+                Mother_Board_ConditionLight.setForeground(Color.GREEN);
+                Mother_Board_ConditionLight.setToolTipText("connected");
               }
-              case 'N':{
-                if (NXT_ConditionLight.getForeground()==Color.RED) {
-                  NXT_ConditionLight.setForeground(Color.GREEN);
-                  NXT_ConditionLight.setToolTipText("connected");
-                }
-                else {
-                  NXT_ConditionLight.setForeground(Color.RED);
-                  NXT_ConditionLight.setToolTipText("disconnect");
-                }
-                break;
+              else {
+                Mother_Board_ConditionLight.setForeground(Color.RED);
+                Mother_Board_ConditionLight.setToolTipText("disconnect");
               }
-              case 'X':{
-                if (CTRL_Board_ConditionLight.getForeground()==Color.RED) {
-                  CTRL_Board_ConditionLight.setForeground(Color.GREEN);
-                  CTRL_Board_ConditionLight.setToolTipText("connected");
-                }
-                else {
-                  CTRL_Board_ConditionLight.setForeground(Color.RED);
-                  CTRL_Board_ConditionLight.setToolTipText("disconnect");
-                }
-                break;
-              }
-              case 'E':{
-                if (Brake_F_ConditionLight.getForeground()==Color.RED) {
-                  Brake_F_ConditionLight.setForeground(Color.GREEN);
-                  Brake_F_ConditionLight.setToolTipText("connected");
-                }
-                else {
-                  Brake_F_ConditionLight.setForeground(Color.RED);
-                  Brake_F_ConditionLight.setToolTipText("disconnect");
-                }
-                break;
-              }
-              case 'D':{
-                if (Brake_B_ConditionLight.getForeground()==Color.RED) {
-                  Brake_B_ConditionLight.setForeground(Color.GREEN);
-                  Brake_B_ConditionLight.setToolTipText("connected");
-                }
-                else {
-                  Brake_B_ConditionLight.setForeground(Color.RED);
-                  Brake_B_ConditionLight.setToolTipText("disconnect");
-                }
-                break;
-              }
-              case 'F':{
-                if (Distance_F_ConditionLight.getForeground()==Color.RED) {
-                  Distance_F_ConditionLight.setForeground(Color.GREEN);
-                  Distance_F_ConditionLight.setToolTipText("connected");
-                }
-                else {
-                  Distance_F_ConditionLight.setForeground(Color.RED);
-                  Distance_F_ConditionLight.setToolTipText("disconnect");
-                }
-                break;
-              }
-              case 'L':{
-                if (Distance_L_ConditionLight.getForeground()==Color.RED) {
-                  Distance_L_ConditionLight.setForeground(Color.GREEN);
-                  Distance_L_ConditionLight.setToolTipText("connected");
-                }
-                else {
-                    Distance_L_ConditionLight.setForeground(Color.RED);
-                    Distance_L_ConditionLight.setToolTipText("disconnect");
-                }
-                break;
-              }
-              case 'R':{
-                if (Distance_R_ConditionLight.getForeground()==Color.RED) {
-                  Distance_R_ConditionLight.setForeground(Color.GREEN);
-                  Distance_R_ConditionLight.setToolTipText("connected");
-                }
-                else {
-                    Distance_R_ConditionLight.setForeground(Color.RED);
-                    Distance_R_ConditionLight.setToolTipText("disconnect");
-                }
-                break;
-              }
-              case 'C':{
-                if (Distance_B_ConditionLight.getForeground()==Color.RED) {
-                  Distance_B_ConditionLight.setForeground(Color.GREEN);
-                  Distance_B_ConditionLight.setToolTipText("connected");
-                }
-                else {
-                    Distance_B_ConditionLight.setForeground(Color.RED);
-                    Distance_B_ConditionLight.setToolTipText("disconnect");
-                }
-                break;
-              }
-              case 'S':{
-                if (Speed_Sensor_ConditionLight.getForeground()==Color.RED) {
-                  Speed_Sensor_ConditionLight.setForeground(Color.GREEN);
-                  Speed_Sensor_ConditionLight.setToolTipText("connected");
-                }
-                else {
-                    Speed_Sensor_ConditionLight.setForeground(Color.RED);
-                    Speed_Sensor_ConditionLight.setToolTipText("disconnect");
-                }
-                break;
-              }
-              case 'T':{
-                if (Voltage_n_heat_ConditionLight.getForeground()==Color.RED) {
-                  Voltage_n_heat_ConditionLight.setForeground(Color.GREEN);
-                  Voltage_n_heat_ConditionLight.setToolTipText("connected");
-                }
-                else {
-                    Voltage_n_heat_ConditionLight.setForeground(Color.RED);
-                    Voltage_n_heat_ConditionLight.setToolTipText("disconnect");
-                }
-                break;
-              }
+              break;
             }
-          }
-          case 'X':{
-            line = line.replaceAll("X", "");
-            int num = Integer.parseInt(line);
-            Controller_Perentage_V.setText(num+"%");
-            Actual_Motor_Percentage_Control_Slider.setValue(num);
-            break;
-          }
-          case 'M':{
-            line = line.replaceAll("M", "");
-            int num = Integer.parseInt(line);
-            Actual_motor_percentage_V.setText(num+"%");
-            break;
-          }
-          case 'V':{
-            line = line.replaceAll("V", "");
-            int num = Integer.parseInt(line);
-            double speed = num / 100.00;
-            Vichele_Speed_V.setText(speed+" km/hr");
-            break;
-          }
-          case 'T':{
-            line = line.replaceAll("T", "");
-            int num = Integer.parseInt(line);
-            System.out.println(num);
-            Motor_Temp_V.setText(line+"\u00B0C");
-            break;
-          }
-          case 'A':{
-            line = line.replaceAll("A", "");
-            int num = Integer.parseInt(line);
-            Vichele_Tilt_Angle_V.setText(num+"\u00B0");
-            break;
-          }
-          case 'B':{
-            line = line.replaceAll("B", "");
-            int num = Integer.parseInt(line);
-            Battery_Percentage_V.setText(num+" %");
-            break;
-          }
-          case 'E':{
-            line = line.replaceAll("E", "");
-            int num = Integer.parseInt(line);
-            Front_Brake_V.setText(num+" N");
-            Front_Brake_Slider.setValue(num);
-            break;
-          }
-          case 'D':{
-            line = line.replaceAll("D", "");
-            int num = Integer.parseInt(line);
-            Back_Brake_V.setText(num+" N");
-            Back_Brake_Slider.setValue(num);
-            break;
-          }
-          case 'H':{
-            String MotherSerial = "";
-            for (int i=1; i<line.length(); i++) {
-              char a = line.charAt(i);
-              MotherSerial = MotherSerial + a ;
+            case 'N':{
+              if (NXT_ConditionLight.getForeground()==Color.RED) {
+                NXT_ConditionLight.setForeground(Color.GREEN);
+                NXT_ConditionLight.setToolTipText("connected");
+              }
+              else {
+                NXT_ConditionLight.setForeground(Color.RED);
+                NXT_ConditionLight.setToolTipText("disconnect");
+              }
+              break;
             }
-            Mother_Board_Serial_List.add(MotherSerial);
-            break;
-          }
-          case 'N':{
-            String NXTSerial = "";
-            for (int i=1; i<line.length(); i++) {
-              char a = line.charAt(i);
-              NXTSerial = NXTSerial + a ;
+            case 'X':{
+              if (CTRL_Board_ConditionLight.getForeground()==Color.RED) {
+                CTRL_Board_ConditionLight.setForeground(Color.GREEN);
+                CTRL_Board_ConditionLight.setToolTipText("connected");
+              }
+              else {
+                CTRL_Board_ConditionLight.setForeground(Color.RED);
+                CTRL_Board_ConditionLight.setToolTipText("disconnect");
+              }
+              break;
             }
-            NXT_Serial_List.add(NXTSerial);
-            break;
-          }
-          //Front distance Sensor
-          case 'F':{
+            case 'E':{
+              if (Brake_F_ConditionLight.getForeground()==Color.RED) {
+                Brake_F_ConditionLight.setForeground(Color.GREEN);
+                Brake_F_ConditionLight.setToolTipText("connected");
+              }
+              else {
+                Brake_F_ConditionLight.setForeground(Color.RED);
+                Brake_F_ConditionLight.setToolTipText("disconnect");
+              }
               break;
-          }
-          //Left distance Sensor
-          case 'L':{
+            }
+            case 'D':{
+              if (Brake_B_ConditionLight.getForeground()==Color.RED) {
+                Brake_B_ConditionLight.setForeground(Color.GREEN);
+                Brake_B_ConditionLight.setToolTipText("connected");
+              }
+              else {
+                Brake_B_ConditionLight.setForeground(Color.RED);
+                Brake_B_ConditionLight.setToolTipText("disconnect");
+              }
               break;
-          }
-          //Back distance Sensor
-          case 'C':{
+            }
+            case 'F':{
+              if (Distance_F_ConditionLight.getForeground()==Color.RED) {
+                Distance_F_ConditionLight.setForeground(Color.GREEN);
+                Distance_F_ConditionLight.setToolTipText("connected");
+              }
+              else {
+                Distance_F_ConditionLight.setForeground(Color.RED);
+                Distance_F_ConditionLight.setToolTipText("disconnect");
+              }
               break;
-          }
-          //Right distance Sensor
-          case 'R':{
+            }
+            case 'L':{
+              if (Distance_L_ConditionLight.getForeground()==Color.RED) {
+                Distance_L_ConditionLight.setForeground(Color.GREEN);
+                Distance_L_ConditionLight.setToolTipText("connected");
+              }
+              else {
+                  Distance_L_ConditionLight.setForeground(Color.RED);
+                  Distance_L_ConditionLight.setToolTipText("disconnect");
+              }
               break;
+            }
+            case 'R':{
+              if (Distance_R_ConditionLight.getForeground()==Color.RED) {
+                Distance_R_ConditionLight.setForeground(Color.GREEN);
+                Distance_R_ConditionLight.setToolTipText("connected");
+              }
+              else {
+                  Distance_R_ConditionLight.setForeground(Color.RED);
+                  Distance_R_ConditionLight.setToolTipText("disconnect");
+              }
+              break;
+            }
+            case 'C':{
+              if (Distance_B_ConditionLight.getForeground()==Color.RED) {
+                Distance_B_ConditionLight.setForeground(Color.GREEN);
+                Distance_B_ConditionLight.setToolTipText("connected");
+              }
+              else {
+                  Distance_B_ConditionLight.setForeground(Color.RED);
+                  Distance_B_ConditionLight.setToolTipText("disconnect");
+              }
+              break;
+            }
+            case 'S':{
+              if (Speed_Sensor_ConditionLight.getForeground()==Color.RED) {
+                Speed_Sensor_ConditionLight.setForeground(Color.GREEN);
+                Speed_Sensor_ConditionLight.setToolTipText("connected");
+              }
+              else {
+                  Speed_Sensor_ConditionLight.setForeground(Color.RED);
+                  Speed_Sensor_ConditionLight.setToolTipText("disconnect");
+              }
+              break;
+            }
+            case 'T':{
+              if (Voltage_n_heat_ConditionLight.getForeground()==Color.RED) {
+                Voltage_n_heat_ConditionLight.setForeground(Color.GREEN);
+                Voltage_n_heat_ConditionLight.setToolTipText("connected");
+              }
+              else {
+                  Voltage_n_heat_ConditionLight.setForeground(Color.RED);
+                  Voltage_n_heat_ConditionLight.setToolTipText("disconnect");
+              }
+              break;
+            }
           }
         }
-          frame.repaint();
+        case 'M':{
+          line = line.replaceAll("M", "");
+          int num = Integer.parseInt(line);
+          Actual_motor_percentage_V.setText(num+"%");
+          break;
+        }
+        case 'X':{
+          line = line.replaceAll("X", "");
+          int num = Integer.parseInt(line);
+          Controller_Perentage_V.setText(num+"%");
+          Actual_Motor_Percentage_Control_Slider.setValue(num);
+          break;
+        }
+        case 'V':{
+          line = line.replaceAll("V", "");
+          int num = Integer.parseInt(line);
+          double speed = num / 100.00;
+          Vichele_Speed_V.setText(speed+" km/hr");
+          break;
+        }
+        case 'T':{
+          line = line.replaceAll("T", "");
+          int num = Integer.parseInt(line);
+          Motor_Temp_V.setText(num+"\u00B0C");
+          break;
+        }
+        case 'A':{
+          line = line.replaceAll("A", "");
+          int num = Integer.parseInt(line);
+          Vichele_Tilt_Angle_V.setText(num+"\u00B0");
+          break;
+        }
+        case 'B':{
+          line = line.replaceAll("B", "");
+          int num = Integer.parseInt(line);
+          Battery_Percentage_V.setText(num+" %");
+          break;
+        }
+        case 'E':{
+          line = line.replaceAll("E", "");
+          int num = Integer.parseInt(line);
+          Front_Brake_V.setText(num+" N");
+          Front_Brake_Slider.setValue(num);
+          break;
+        }
+        case 'D':{
+          line = line.replaceAll("D", "");
+          int num = Integer.parseInt(line);
+          Back_Brake_V.setText(num+" N");
+          Back_Brake_Slider.setValue(num);
+          break;
+        }
+        case 'H':{
+          String MotherSerial = "";
+          for (int i=1; i<line.length(); i++) {
+            char a = line.charAt(i);
+            MotherSerial = MotherSerial + a ;
+          }
+          Mother_Board_Serial_List.add(MotherSerial);
+          Mother_Board_Serial_List.transferFocusUpCycle();
+          break;
+        }
+        case 'N':{
+          String NXTSerial = "";
+          for (int i=1; i<line.length(); i++) {
+            char a = line.charAt(i);
+            NXTSerial = NXTSerial + a ;
+          }
+          NXT_Serial_List.add(NXTSerial);
+          break;
+        }
+        //Front distance Sensor
+        case 'F':{
+            break;
+        }
+        //Left distance Sensor
+        case 'L':{
+            break;
+        }
+        //Back distance Sensor
+        case 'C':{
+            break;
+        }
+        //Right distance Sensor
+        case 'R':{
+            break;
+        }
       }
-      catch(Exception e) {}
+        frame.repaint();
     }
-    scannerSC.close();
+    catch(Exception e) {}
   }
+  scannerSC.close();
 }
+
   static void print(String send) {
     if (hasChoosePort) {
       PrintWriter output = new PrintWriter (chosenPort.getOutputStream());

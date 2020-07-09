@@ -1,12 +1,9 @@
 #include <Wire.h>  
-#include <SPI.h>
-#include <SD.h>
 #include <LiquidCrystal_I2C.h>
 #include <Servo.h>
   
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // set lcd I2C address
 Servo SPX1, SPX2;     //The motor controller get value in Servo type
-File  file;           //SD card 
 
 int maxSpeed=100;     //Max speed for bike
 int ASPXpower=92;     //Actual final power for SPX
@@ -32,7 +29,8 @@ String fileName, lBV/*last battery voltage*/, lsS;/*last speed String*/
     
   // get value from controller [controller value]
     int valueFromController=analogRead(A0);                   //value could be from 0~1023, normal value should be within 180~880
-    int SPXpower = map(valueFromController,182,880,93,145);   //turn analogvalue to servo degree
+    int SPXpower = map(valueFromController,182,880,93,145);
+    
     
   // get value of brake   [brake]
     int brakeV = analogRead(A10);
@@ -63,47 +61,21 @@ String fileName, lBV/*last battery voltage*/, lsS;/*last speed String*/
     }
     
     if (((ASPXpower<95&&millis()-lbsms>3000)||lbsms==0)&&appStart){
-        int r = random(20,23);
+        int r = random(25,28);
         Serial.print('T');
         Serial.print(r);
-        Serial.println(' ');
+        Serial.println("");
         delay(10);
 //        battery();
         Serial1.print("B90|");
+        
         lbsms=millis();
         Serial1.print('T');
         Serial1.print(r);
         Serial1.print('|');
-        
     }
+    
     if (!digitalRead(39)){
-      Serial1.print("Z1f|");
-      Serial.println("Z|");
-      Serial.println(analogRead(A2));
-      digitalWrite(24,1);
-      while (analogRead(2)>310){
-        Serial.println(analogRead(A2));
-        if (analogRead(2)<=310){
-          digitalWrite(24,0);
-          break; 
-        }
-      }
-      if (analogRead(2)<=310){
-          digitalWrite(24,0);
-        }
-      
-      delay(5000);
-      digitalWrite(22,1);
-      while (analogRead(2)<785){
-        Serial.println(analogRead(A2));
-        if (analogRead(2)>=735){
-          digitalWrite(22,0);
-          break;
-        }
-      }
-      if (analogRead(2)>=735){
-          digitalWrite(22,0);
-      }
-      Serial1.print("Z0|");
+      BrakeV();
     }
   }

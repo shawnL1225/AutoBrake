@@ -1,10 +1,15 @@
 package example;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class testCode {
     public static void main(String[] args) {
-        String line = "A123";
-        line = line.replaceAll("A", "");
-        System.out.println(line);
-        int num = Integer.parseInt(line);
-        System.out.println(num);
+      SimpleDateFormat time = new SimpleDateFormat("yyyy,MM,dd HH:mm:ss.SSS");
+      Date current = new Date();
+      System.out.println(time.format(current));
+      String timeS = time.toString();
+      String send = "?"+ timeS ;
+      System.out.println(send);
     }
 }
