@@ -3,30 +3,39 @@
 
 #define IRPin1 A0
 #define IRPin2 A1
+#define model 100500
 #define trigPin 4
 #define echoPin 5
-#define model 100500
+#define condPin 12
 
-SoftwareSerial Serial4(10,11);
-SoftwareSerial Serial5(8,9);
+
+SoftwareSerial TOF (8,9);
+SoftwareSerial Mother (10,11);
+
 SharpIR mySensor1 = SharpIR(IRPin1, model);
 SharpIR mySensor2 = SharpIR(IRPin2, model);
 
-int distance_cm_1, distance_cm_2;
-int dou_distance_cm, ave_distance_cm;
+int IR_distance_cm_1, IR_distance_cm_2;
+int ultra_duration;
 
-double ultraDistance;
-double IR40D,finalV;
+double ultra_distance; 
+double IR_dou_distance_cm, IR_ave_distance_cm;
+double tof_distance;
+double finalV;
 
-long duration;
 
 void setup() {
   Serial.begin(9600);
-  Serial4.begin(9600);
-  Serial5.begin(9600);
-  Serial.println("begin");
+  TOF.begin(9600);
+  Mother.begin(9600);
+  pinMode(condPin,OUTPUT);
+  pinMode(trigPin,OUTPUT);
+  pinMode(echoPin,INPUT);
+  digitalWrite(condPin,1);
+  Serial.println("Begin");
+  
 }
 
 void loop() {
-  dS();
+  IR();
 }

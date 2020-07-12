@@ -14,6 +14,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,6 +66,34 @@ public class first {
   static JLabel Battery_Percentage_V;
   static JLabel Front_Brake_V;
   static JLabel Back_Brake_V;
+  
+  static JLabel distance_sensor_R_1;
+  static JLabel distance_sensor_R_2;
+  static JLabel distance_sensor_R_3;
+  static JLabel distance_sensor_R_4;
+  static JLabel distance_sensor_R_5;
+  static JLabel distance_sensor_L_1;
+  static JLabel distance_sensor_L_2;
+  static JLabel distance_sensor_L_3;
+  static JLabel distance_sensor_L_4;
+  static JLabel distance_sensor_L_5;
+  static JLabel distance_sensor_B_R;
+  static JLabel distance_sensor_B_L;
+  static JLabel distance_sensor_B_M;
+  static JLabel distance_sensor_R_1_V;
+  static JLabel distance_sensor_R_2_V;
+  static JLabel distance_sensor_R_3_V;
+  static JLabel distance_sensor_R_4_V;
+  static JLabel distance_sensor_R_5_V;
+  static JLabel distance_sensor_L_1_V;
+  static JLabel distance_sensor_L_2_V;
+  static JLabel distance_sensor_L_3_V;
+  static JLabel distance_sensor_L_4_V;
+  static JLabel distance_sensor_L_5_V;
+  static JLabel distance_sensor_B_R_V;
+  static JLabel distance_sensor_B_L_V;
+  static JLabel distance_sensor_B_M_V;
+  
   
   static JSlider Actual_Motor_Percentage_Control_Slider;
   static JSlider Front_Brake_Slider;
@@ -491,7 +521,7 @@ public class first {
     JLabel Wheelchair_figure = new JLabel("");
     Wheelchair_figure.setToolTipText("Wheelchair");
     Wheelchair_figure.setIcon(new ImageIcon("D:\\AutoBrake\\AutoBrake_ComputerSite_System\\image\\wheelChair_TOP.png"));
-    Wheelchair_figure.setBounds(899, 451, 151, 151);
+    Wheelchair_figure.setBounds(930, 467, 151, 131);
     frame.getContentPane().add(Wheelchair_figure);
     
     Motor_Temp_V = new JLabel("0\u00B0C");
@@ -659,6 +689,175 @@ public class first {
     Logout_Button.setBounds(583, 13, 76, 23);
     frame.getContentPane().add(Logout_Button);
     
+    distance_sensor_R_1= new JLabel("\u25E3");
+    distance_sensor_R_1.setForeground(Color.RED);
+    distance_sensor_R_1.setFont(new Font("Dialog", Font.PLAIN, 90));
+    distance_sensor_R_1.setBounds(1082, 585, 107, 122);
+    frame.getContentPane().add(distance_sensor_R_1);
+    
+    distance_sensor_R_2 = new JLabel("\u258D");
+    distance_sensor_R_2.setForeground(Color.RED);
+    distance_sensor_R_2.setFont(new Font("Dialog", Font.PLAIN, 90));
+    distance_sensor_R_2.setBounds(1044, 585, 129, 122);
+    frame.getContentPane().add(distance_sensor_R_2);
+    
+    distance_sensor_R_3 = new JLabel("\u2589");
+    distance_sensor_R_3.setForeground(Color.RED);
+    distance_sensor_R_3.setFont(new Font("Dialog", Font.PLAIN, 90));
+    distance_sensor_R_3.setBounds(962, 585, 181, 122);
+    frame.getContentPane().add(distance_sensor_R_3);
+
+    distance_sensor_R_4 = new JLabel("\u258D");
+    distance_sensor_R_4.setForeground(Color.RED);
+    distance_sensor_R_4.setFont(new Font("Dialog", Font.PLAIN, 90));
+    distance_sensor_R_4.setBounds(923, 585, 233, 122);
+    frame.getContentPane().add(distance_sensor_R_4);
+    
+    distance_sensor_R_5 = new JLabel("\u25E2");
+    distance_sensor_R_5.setForeground(Color.RED);
+    distance_sensor_R_5.setFont(new Font("Dialog", Font.PLAIN, 90));
+    distance_sensor_R_5.setBounds(828, 585, 280, 122);
+    frame.getContentPane().add(distance_sensor_R_5);
+    
+    distance_sensor_L_1 = new JLabel("\u25E4");
+    distance_sensor_L_1.setForeground(Color.RED);
+    distance_sensor_L_1.setFont(new Font("Dialog", Font.PLAIN, 90));
+    distance_sensor_L_1.setBounds(1082, 358, 107, 122);
+    frame.getContentPane().add(distance_sensor_L_1);
+    
+    distance_sensor_L_2 = new JLabel("\u258D");
+    distance_sensor_L_2.setForeground(Color.RED);
+    distance_sensor_L_2.setFont(new Font("Dialog", Font.PLAIN, 90));
+    distance_sensor_L_2.setBounds(1044, 358, 129, 122);
+    frame.getContentPane().add(distance_sensor_L_2);
+    
+    distance_sensor_L_3 = new JLabel("\u2589");
+    distance_sensor_L_3.setForeground(Color.RED);
+    distance_sensor_L_3.setFont(new Font("Dialog", Font.PLAIN, 90));
+    distance_sensor_L_3.setBounds(962, 358, 181, 122);
+    frame.getContentPane().add(distance_sensor_L_3);
+    
+    distance_sensor_L_4 = new JLabel("\u258D");
+    distance_sensor_L_4.setForeground(Color.RED);
+    distance_sensor_L_4.setFont(new Font("Dialog", Font.PLAIN, 90));
+    distance_sensor_L_4.setBounds(923, 358, 233, 122);
+    frame.getContentPane().add(distance_sensor_L_4);
+    
+    distance_sensor_L_5 = new JLabel("\u25E5");
+    distance_sensor_L_5.setForeground(Color.RED);
+    distance_sensor_L_5.setFont(new Font("Dialog", Font.PLAIN, 90));
+    distance_sensor_L_5.setBounds(828, 358, 280, 122);
+    frame.getContentPane().add(distance_sensor_L_5);
+    
+    distance_sensor_B_R = new JLabel("\u25E4");
+    distance_sensor_B_R.setForeground(Color.RED);
+    distance_sensor_B_R.setFont(new Font("Dialog", Font.PLAIN, 90));
+    distance_sensor_B_R.setBounds(826, 565, 107, 122);
+    frame.getContentPane().add(distance_sensor_B_R);
+    
+    distance_sensor_B_L = new JLabel("\u25E3");
+    distance_sensor_B_L.setForeground(Color.RED);
+    distance_sensor_B_L.setFont(new Font("Dialog", Font.PLAIN, 90));
+    distance_sensor_B_L.setBounds(826, 386, 107, 122);
+    frame.getContentPane().add(distance_sensor_B_L);
+
+    distance_sensor_B_M = new JLabel("\u2587");
+    distance_sensor_B_M.setForeground(Color.RED);
+    distance_sensor_B_M.setFont(new Font("Dialog", Font.PLAIN, 90));
+    distance_sensor_B_M.setBounds(826, 470, 181, 122);
+    frame.getContentPane().add(distance_sensor_B_M);
+    
+    distance_sensor_R_5_V = new JLabel("00.00");
+    distance_sensor_R_5_V.setHorizontalAlignment(SwingConstants.CENTER);
+    distance_sensor_R_5_V.setForeground(Color.BLACK);
+    distance_sensor_R_5_V.setFont(new Font("Dialog", Font.PLAIN, 13));
+    distance_sensor_R_5_V.setBounds(846, 692, 61, 20);
+    frame.getContentPane().add(distance_sensor_R_5_V);
+    
+    distance_sensor_R_4_V = new JLabel("00.00");
+    distance_sensor_R_4_V.setHorizontalAlignment(SwingConstants.CENTER);
+    distance_sensor_R_4_V.setForeground(Color.BLACK);
+    distance_sensor_R_4_V.setFont(new Font("Dialog", Font.PLAIN, 13));
+    distance_sensor_R_4_V.setBounds(911, 692, 61, 20);
+    frame.getContentPane().add(distance_sensor_R_4_V);
+    
+    distance_sensor_R_3_V = new JLabel("00.00");
+    distance_sensor_R_3_V.setHorizontalAlignment(SwingConstants.CENTER);
+    distance_sensor_R_3_V.setForeground(Color.BLACK);
+    distance_sensor_R_3_V.setFont(new Font("Dialog", Font.PLAIN, 13));
+    distance_sensor_R_3_V.setBounds(972, 692, 61, 20);
+    frame.getContentPane().add(distance_sensor_R_3_V);
+    
+    distance_sensor_R_2_V = new JLabel("00.00");
+    distance_sensor_R_2_V.setHorizontalAlignment(SwingConstants.CENTER);
+    distance_sensor_R_2_V.setForeground(Color.BLACK);
+    distance_sensor_R_2_V.setFont(new Font("Dialog", Font.PLAIN, 13));
+    distance_sensor_R_2_V.setBounds(1031, 692, 61, 20);
+    frame.getContentPane().add(distance_sensor_R_2_V);
+    
+    distance_sensor_R_1_V = new JLabel("00.00");
+    distance_sensor_R_1_V.setHorizontalAlignment(SwingConstants.CENTER);
+    distance_sensor_R_1_V.setForeground(Color.BLACK);
+    distance_sensor_R_1_V.setFont(new Font("Dialog", Font.PLAIN, 13));
+    distance_sensor_R_1_V.setBounds(1092, 692, 61, 20);
+    frame.getContentPane().add(distance_sensor_R_1_V);
+    
+    distance_sensor_L_5_V = new JLabel("00.00");
+    distance_sensor_L_5_V.setHorizontalAlignment(SwingConstants.CENTER);
+    distance_sensor_L_5_V.setForeground(Color.BLACK);
+    distance_sensor_L_5_V.setFont(new Font("Dialog", Font.PLAIN, 13));
+    distance_sensor_L_5_V.setBounds(846, 357, 61, 20);
+    frame.getContentPane().add(distance_sensor_L_5_V);
+    
+    distance_sensor_L_4_V = new JLabel("00.00");
+    distance_sensor_L_4_V.setHorizontalAlignment(SwingConstants.CENTER);
+    distance_sensor_L_4_V.setForeground(Color.BLACK);
+    distance_sensor_L_4_V.setFont(new Font("Dialog", Font.PLAIN, 13));
+    distance_sensor_L_4_V.setBounds(911, 357, 61, 20);
+    frame.getContentPane().add(distance_sensor_L_4_V);
+    
+    distance_sensor_L_3_V = new JLabel("00.00");
+    distance_sensor_L_3_V.setHorizontalAlignment(SwingConstants.CENTER);
+    distance_sensor_L_3_V.setForeground(Color.BLACK);
+    distance_sensor_L_3_V.setFont(new Font("Dialog", Font.PLAIN, 13));
+    distance_sensor_L_3_V.setBounds(972, 357, 61, 20);
+    frame.getContentPane().add(distance_sensor_L_3_V);
+    
+    distance_sensor_L_2_V = new JLabel("00.00");
+    distance_sensor_L_2_V.setHorizontalAlignment(SwingConstants.CENTER);
+    distance_sensor_L_2_V.setForeground(Color.BLACK);
+    distance_sensor_L_2_V.setFont(new Font("Dialog", Font.PLAIN, 13));
+    distance_sensor_L_2_V.setBounds(1031, 357, 61, 20);
+    frame.getContentPane().add(distance_sensor_L_2_V);
+    
+    distance_sensor_L_1_V = new JLabel("00.00");
+    distance_sensor_L_1_V.setHorizontalAlignment(SwingConstants.CENTER);
+    distance_sensor_L_1_V.setForeground(Color.BLACK);
+    distance_sensor_L_1_V.setFont(new Font("Dialog", Font.PLAIN, 13));
+    distance_sensor_L_1_V.setBounds(1092, 357, 61, 20);
+    frame.getContentPane().add(distance_sensor_L_1_V);
+    
+    distance_sensor_B_L_V = new JLabel("00.00");
+    distance_sensor_B_L_V.setHorizontalAlignment(SwingConstants.CENTER);
+    distance_sensor_B_L_V.setForeground(Color.BLACK);
+    distance_sensor_B_L_V.setFont(new Font("Dialog", Font.PLAIN, 13));
+    distance_sensor_B_L_V.setBounds(757, 436, 61, 20);
+    frame.getContentPane().add(distance_sensor_B_L_V);
+    
+    distance_sensor_B_M_V = new JLabel("00.00");
+    distance_sensor_B_M_V.setHorizontalAlignment(SwingConstants.CENTER);
+    distance_sensor_B_M_V.setForeground(Color.BLACK);
+    distance_sensor_B_M_V.setFont(new Font("Dialog", Font.PLAIN, 13));
+    distance_sensor_B_M_V.setBounds(755, 526, 61, 20);
+    frame.getContentPane().add(distance_sensor_B_M_V);
+    
+    distance_sensor_B_R_V = new JLabel("00.00");
+    distance_sensor_B_R_V.setHorizontalAlignment(SwingConstants.CENTER);
+    distance_sensor_B_R_V.setForeground(Color.BLACK);
+    distance_sensor_B_R_V.setFont(new Font("Dialog", Font.PLAIN, 13));
+    distance_sensor_B_R_V.setBounds(757, 616, 61, 20);
+    frame.getContentPane().add(distance_sensor_B_R_V);
+    
     
     
     
@@ -755,6 +954,32 @@ public class first {
           Back_Brake_V.setText("0 N");
           Disable_or_enable_the_motor_Button.setText("ENABLE");
           Disable_or_enable_the_motor_Button.setBackground(Color.GREEN);
+          distance_sensor_R_1_V.setText("00.00");
+          distance_sensor_R_2_V.setText("00.00");
+          distance_sensor_R_3_V.setText("00.00");
+          distance_sensor_R_4_V.setText("00.00");
+          distance_sensor_R_5_V.setText("00.00");
+          distance_sensor_R_1.setForeground(Color.RED);
+          distance_sensor_R_2.setForeground(Color.RED);
+          distance_sensor_R_3.setForeground(Color.RED);
+          distance_sensor_R_4.setForeground(Color.RED);
+          distance_sensor_R_5.setForeground(Color.RED);
+          distance_sensor_L_1_V.setText("00.00");
+          distance_sensor_L_2_V.setText("00.00");
+          distance_sensor_L_3_V.setText("00.00");
+          distance_sensor_L_4_V.setText("00.00");
+          distance_sensor_L_5_V.setText("00.00");
+          distance_sensor_L_1.setForeground(Color.RED);
+          distance_sensor_L_2.setForeground(Color.RED);
+          distance_sensor_L_3.setForeground(Color.RED);
+          distance_sensor_L_4.setForeground(Color.RED);
+          distance_sensor_L_5.setForeground(Color.RED);
+          distance_sensor_B_L_V.setText("00.00");
+          distance_sensor_B_M_V.setText("00.00");
+          distance_sensor_B_R_V.setText("00.00");
+          distance_sensor_B_R.setForeground(Color.RED);
+          distance_sensor_B_M.setForeground(Color.RED);
+          distance_sensor_B_L.setForeground(Color.RED);
         }
       }
     });
@@ -872,13 +1097,18 @@ static void readSC() {
   }
 }
 
+
+
+
+
+
 static void readS() {
   Scanner scannerSC/*Serial COMM*/ = new Scanner(chosenPort.getInputStream());
   if (scannerSC.hasNext()) {
     try {
-      String line = scannerSC.nextLine();
-      System.out.println(line);
-      char in = line.charAt(0);
+      int inascii = scannerSC.next().charAt(0);
+      char in = (char)inascii;
+      System.out.print(in);
       switch(in) {
         case '@':{
           Disable_or_enable_the_motor_Button.setBackground(Color.RED);
@@ -893,7 +1123,8 @@ static void readS() {
           break;
         }
         case '?':{
-          char CSin = line.charAt(1);
+          int CSinascii = scannerSC.next().charAt(0);
+          char CSin = (char)CSinascii;
           switch (CSin) {
             case 'A':{
               if (Mother_Board_ConditionLight.getForeground()==Color.RED) {
@@ -1019,91 +1250,150 @@ static void readS() {
           }
         }
         case 'M':{
-          line = line.replaceAll("M", "");
-          int num = Integer.parseInt(line);
+          int num = scannerSC.nextInt();
           Actual_motor_percentage_V.setText(num+"%");
           break;
         }
         case 'X':{
-          line = line.replaceAll("X", "");
-          int num = Integer.parseInt(line);
+          int num = scannerSC.nextInt();
           Controller_Perentage_V.setText(num+"%");
           Actual_Motor_Percentage_Control_Slider.setValue(num);
           break;
         }
         case 'V':{
-          line = line.replaceAll("V", "");
-          int num = Integer.parseInt(line);
+          int num = scannerSC.nextInt();
           double speed = num / 100.00;
           Vichele_Speed_V.setText(speed+" km/hr");
           break;
         }
         case 'T':{
-          line = line.replaceAll("T", "");
-          int num = Integer.parseInt(line);
+          int num = scannerSC.nextInt();
           Motor_Temp_V.setText(num+"\u00B0C");
           break;
         }
         case 'A':{
-          line = line.replaceAll("A", "");
-          int num = Integer.parseInt(line);
+          int num = scannerSC.nextInt();
           Vichele_Tilt_Angle_V.setText(num+"\u00B0");
           break;
         }
         case 'B':{
-          line = line.replaceAll("B", "");
-          int num = Integer.parseInt(line);
+          int num = scannerSC.nextInt();
           Battery_Percentage_V.setText(num+" %");
           break;
         }
         case 'E':{
-          line = line.replaceAll("E", "");
-          int num = Integer.parseInt(line);
+          int num = scannerSC.nextInt();
           Front_Brake_V.setText(num+" N");
           Front_Brake_Slider.setValue(num);
           break;
         }
         case 'D':{
-          line = line.replaceAll("D", "");
-          int num = Integer.parseInt(line);
+          int num = scannerSC.nextInt();
           Back_Brake_V.setText(num+" N");
           Back_Brake_Slider.setValue(num);
           break;
         }
         case 'H':{
-          String MotherSerial = "";
-          for (int i=1; i<line.length(); i++) {
-            char a = line.charAt(i);
-            MotherSerial = MotherSerial + a ;
-          }
+          String MotherSerial = scannerSC.nextLine();
           Mother_Board_Serial_List.add(MotherSerial);
-          Mother_Board_Serial_List.transferFocusUpCycle();
           break;
         }
         case 'N':{
-          String NXTSerial = "";
-          for (int i=1; i<line.length(); i++) {
-            char a = line.charAt(i);
-            NXTSerial = NXTSerial + a ;
-          }
+          String NXTSerial =scannerSC.nextLine();
           NXT_Serial_List.add(NXTSerial);
           break;
         }
         //Front distance Sensor
         case 'F':{
-            break;
+          break;
         }
         //Left distance Sensor
         case 'L':{
-            break;
+          break;
         }
         //Back distance Sensor
         case 'C':{
-            break;
+          float L_1 = scannerSC.nextFloat();
+          float L_2 = scannerSC.nextFloat();
+          float L_3 = scannerSC.nextFloat();
+          float L_4 = scannerSC.nextFloat();
+          float L_5 = scannerSC.nextFloat();
+          System.out.print("***");
+          String L_1_S = ""+L_1;
+          String L_2_S = ""+L_2;
+          String L_3_S = ""+L_3;
+          String L_4_S = ""+L_4;
+          String L_5_S = ""+L_5;
+          distance_sensor_L_1_V.setText(L_1_S);
+          distance_sensor_L_2_V.setText(L_2_S);
+          distance_sensor_L_3_V.setText(L_3_S);
+          distance_sensor_L_4_V.setText(L_4_S);
+          distance_sensor_L_5_V.setText(L_5_S);
+          double L_1_Wd = L_1/1.96078431372549;
+          double L_2_Wd = L_2/1.96078431372549;
+          double L_3_Wd = L_3/1.96078431372549;
+          double L_4_Wd = L_4/1.96078431372549;
+          double L_5_Wd = L_5/1.96078431372549;
+          int L_1_W = (int)L_1_Wd;
+          int L_2_W = (int)L_2_Wd;
+          int L_3_W = (int)L_3_Wd;
+          int L_4_W = (int)L_4_Wd;
+          int L_5_W = (int)L_5_Wd;
+          if (L_1_W >255) L_1_W = 255;
+          if (L_2_W >255) L_2_W = 255;
+          if (L_3_W >255) L_3_W = 255;
+          if (L_4_W >255) L_4_W = 255;
+          if (L_5_W >255) L_5_W = 255;
+          distance_sensor_L_1.setForeground(new Color(255,L_1_W,L_1_W));
+          distance_sensor_L_2.setForeground(new Color(255,L_2_W,L_2_W));
+          distance_sensor_L_3.setForeground(new Color(255,L_3_W,L_3_W));
+          distance_sensor_L_4.setForeground(new Color(255,L_4_W,L_4_W));
+          distance_sensor_L_5.setForeground(new Color(255,L_5_W,L_5_W));
+          String line = ""+L_1+L_2+L_3+L_4+L_5;
+          System.out.println(line);
+          break;
         }
         //Right distance Sensor
         case 'R':{
-            break;
+          float R_1 = scannerSC.nextFloat();
+          float R_2 = scannerSC.nextFloat();
+          float R_3 = scannerSC.nextFloat();
+          float R_4 = scannerSC.nextFloat();
+          float R_5 = scannerSC.nextFloat();
+          System.out.print("***");
+          String R_1_S = ""+R_1;
+          String R_2_S = ""+R_2;
+          String R_3_S = ""+R_3;
+          String R_4_S = ""+R_4;
+          String R_5_S = ""+R_5;
+          distance_sensor_R_1_V.setText(R_1_S);
+          distance_sensor_R_2_V.setText(R_2_S);
+          distance_sensor_R_3_V.setText(R_3_S);
+          distance_sensor_R_4_V.setText(R_4_S);
+          distance_sensor_R_5_V.setText(R_5_S);
+          double R_1_Wd = R_1/1.96078431372549;
+          double R_2_Wd = R_2/1.96078431372549;
+          double R_3_Wd = R_3/1.96078431372549;
+          double R_4_Wd = R_4/1.96078431372549;
+          double R_5_Wd = R_5/1.96078431372549;
+          int R_1_W = (int)R_1_Wd;
+          int R_2_W = (int)R_2_Wd;
+          int R_3_W = (int)R_3_Wd;
+          int R_4_W = (int)R_4_Wd;
+          int R_5_W = (int)R_5_Wd;
+          if (R_1_W >255) R_1_W = 255;
+          if (R_2_W >255) R_2_W = 255;
+          if (R_3_W >255) R_3_W = 255;
+          if (R_4_W >255) R_4_W = 255;
+          if (R_5_W >255) R_5_W = 255;
+          distance_sensor_R_1.setForeground(new Color(255,R_1_W,R_1_W));
+          distance_sensor_R_2.setForeground(new Color(255,R_2_W,R_2_W));
+          distance_sensor_R_3.setForeground(new Color(255,R_3_W,R_3_W));
+          distance_sensor_R_4.setForeground(new Color(255,R_4_W,R_4_W));
+          distance_sensor_R_5.setForeground(new Color(255,R_5_W,R_5_W));
+          String line = ""+R_1+R_2+R_3+R_4+R_5;
+          System.out.println(line);
+          break;
         }
       }
         frame.repaint();
