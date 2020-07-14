@@ -3,33 +3,7 @@ void loop() {
 
   while(!Serial.available()&&analogRead(A1)<900){
     if (analogRead(A2)>900||analogRead(A2)<100){
-      if (in==1) {
-        in = 2;
-        screen.clearDisplay();
-        screen.setCursor(0, 15); // (x,y)
-        screen.setFont(&FreeSans9pt7b);
-        screen.println("Please Select :");
-        screen.println("1. Get Voltage");
-        screen.setFont(&FreeSansBold9pt7b);
-        screen.println("2. Charge\n");
-        screen.display();
-        buzzer(50,1);
-        delay(500);
-      }
-      else if (in==2){
-        in = 1;
-        screen.clearDisplay();
-        screen.setCursor(0, 15); // (x,y)
-        screen.setFont(&FreeSans9pt7b);
-        screen.println("Please Select :");
-        screen.setFont(&FreeSansBold9pt7b);
-        screen.println("1. Get Voltage");
-        screen.setFont(&FreeSans9pt7b);
-        screen.println("2. Charge\n");
-        screen.display();
-        buzzer(50,1);
-        delay(500);
-      }
+      OLEDwc();
     }
     while(Serial.available()||analogRead(A1)>900){
       if (Serial.available()) in = Serial.parseInt();
@@ -89,7 +63,8 @@ void loop() {
         //Tell battery voltage
         screen.clearDisplay();
         
-        screen.setFont(&FreeSans24pt7b);
+        screen.setFont(&FreeSans12pt7b);
+        screen.setTextSize(2);
         Serial.print("Battery Voltage:");
         Serial.print(BV);
         Serial.print(" V\t");
@@ -148,52 +123,12 @@ void loop() {
         screen.display();
 
         while (!Serial.available()&&analogRead(A1)<900);
-        screen.clearDisplay();
-        screen.setCursor(0, 15); // (x,y)
-        screen.setFont(&FreeSans9pt7b);
-        screen.println("Please Select :");
-        Serial.println("Please select a function below");
-        screen.setFont(&FreeSansBold9pt7b);
-        screen.println("1. Get Voltage");
-        Serial.println("1. Get battery voltage");
-        screen.setFont(&FreeSans9pt7b);
-        screen.println("2. Charge\n");
-        Serial.println("2. Let battery charge");
-        screen.display();
-        buzzer(50,1);
-        buzzer(150,1);
-        delay(1000);
+        showFunc();
         in = 1;
 
         while(!Serial.available()&&analogRead(A1)<900){
           if (analogRead(A2)>900||analogRead(A2)<100){
-            if (in == 1){
-              in = 2;
-              screen.clearDisplay();
-              screen.setCursor(0, 15); // (x,y)
-              screen.setFont(&FreeSans9pt7b);
-              screen.println("Please Select :");
-              screen.println("1. Get Voltage");
-              screen.setFont(&FreeSansBold9pt7b);
-              screen.println("2. Charge\n");
-              screen.display();
-              buzzer(50,1);
-              delay(500);
-            }
-            else if (in == 2){
-              in = 1;
-              screen.clearDisplay();
-              screen.setCursor(0, 15); // (x,y)
-              screen.setFont(&FreeSans9pt7b);
-              screen.println("Please Select :");
-              screen.setFont(&FreeSansBold9pt7b);
-              screen.println("1. Get Voltage");
-              screen.setFont(&FreeSans9pt7b);
-              screen.println("2. Charge\n");
-              screen.display();
-              buzzer(50,1);
-              delay(500);
-            }
+            OLEDwc();
           }
         }
       }
@@ -235,7 +170,8 @@ void loop() {
         if (BV < 13.50) {
           screen.clearDisplay();
           screen.setCursor(30,0);
-          screen.setFont(&FreeSans24pt7b);
+          screen.setFont(&FreeSans12pt7b);
+          screen.setTextSize(2);
           Serial.print("Battery Voltage:");
           Serial.print(BV);
           Serial.print(" V\t");
@@ -285,7 +221,8 @@ void loop() {
               Serial.print(BV);
               Serial.print(" V");
               Serial.print((BV-11.4)*100/2.1);
-              screen.setFont(&FreeSans24pt7b);
+              screen.setFont(&FreeSans12pt7b);
+              screen.setTextSize(2);
               if (per==100) screen.setCursor(3,48);
               else if(per>=10) screen.setCursor(17,48);
               else if (per<10) screen.setCursor(35,48);
@@ -295,7 +232,7 @@ void loop() {
               screen.display();
               buzzer(100,1);
               delay(1500);
-              screen.cleanDisplay();
+              screen.clearDisplay();
               if (per<100){
                 Serial.println("Keep Charging");
                 Serial.println("VIN CLOSE");
@@ -343,7 +280,8 @@ void loop() {
         else if (BV >= 13.50) {
           screen.clearDisplay();
           screen.setCursor(30,0);
-          screen.setFont(&FreeSans24pt7b);
+          screen.setFont(&FreeSans12pt7b);
+          screen.setTextSize(2);
           Serial.print("Battery Voltage:");
           Serial.print(BV);
           Serial.print(" V\t");
@@ -390,52 +328,12 @@ void loop() {
           screen.display();
 
           while (!Serial.available()&&analogRead(A1)<900);
-          screen.clearDisplay();
-          screen.setCursor(0, 15); // (x,y)
-          screen.setFont(&FreeSans9pt7b);
-          screen.println("Please Select :");
-          Serial.println("Please select a function below");
-          screen.setFont(&FreeSansBold9pt7b);
-          screen.println("1. Get Voltage");
-          Serial.println("1. Get battery voltage");
-          screen.setFont(&FreeSans9pt7b);
-          screen.println("2. Charge\n");
-          Serial.println("2. Let battery charge");
-          screen.display();
-          delay(1000);
-          buzzer(50,1);
-          buzzer(150,1);
+          showFunc();
           in = 1;
           
           while(!Serial.available()&&analogRead(A1)<900){
             if (analogRead(A2)>900||analogRead(A2)<100){
-              if (in == 1){
-                in = 2;
-                screen.clearDisplay();
-                screen.setCursor(0, 15); // (x,y)
-                screen.setFont(&FreeSans9pt7b);
-                screen.println("Please Select :");
-                screen.println("1. Get Voltage");
-                screen.setFont(&FreeSansBold9pt7b);
-                screen.println("2. Charge\n");
-                screen.display();
-                buzzer(50,1);
-                delay(500);
-              }
-              else if (in == 2){
-                in = 1;
-                screen.clearDisplay();
-                screen.setCursor(0, 15); // (x,y)
-                screen.setFont(&FreeSans9pt7b);
-                screen.println("Please Select :");
-                screen.setFont(&FreeSansBold9pt7b);
-                screen.println("1. Get Voltage");
-                screen.setFont(&FreeSans9pt7b);
-                screen.println("2. Charge\n");
-                screen.display();
-                buzzer(50,1);
-                delay(500);
-              }
+              OLEDwc();
             }
           }
         }
@@ -515,83 +413,4 @@ void loop() {
       }
     }
   }
-  //Show battery voltage when charging
-//  int Vin = analogRead(A0);
-//  double BV=Vin*25/1024.0;
-//  Serial.print("Battery Voltage:");
-//  Serial.print(BV); 
-//  Serial.print(" V\t");
-//  Serial.print("Battery Perecentage:");
-//  Serial.print((BV-11.4)*100/2.1);
-//  Serial.println(" %");
-//  delay(1000);
-//
-//  //Check Battery Voltage once per min
-//  if (millis()/(60000*3/*3 minutes*/) > times){
-//    times++;
-//    Serial.println("VIN OPEN");
-//    digitalWrite(8,1);
-//    delay(1500);
-//    int Vin = analogRead(A0);
-//    double BV=Vin*25/1024.0;
-//    if (BV >13.50){
-//      screen.clearDisplay();
-//      screen.setCursor(30,0);
-//      Serial.print("Battery Voltage:");
-//      screen.print("Battery Voltage:");
-//      Serial.print(BV);
-//      screen.print(BV);
-//      Serial.print(" V\t");
-//      screen.print(" V\n");
-//      Serial.print("Battery Perecentage:");
-//      screen.print("Battery Perecentage:");
-//      Serial.print((BV-11)*100/2.1);
-//      screen.print((BV-11)*100/2.1);
-//      Serial.println(" %");
-//      screen.println(" %");
-//      Serial.println("Charging Complete");
-//      screen.println("Charging Complete");
-//      Serial.println("GND OPEN");
-//      digitalWrite(3,1);
-//      Serial.println("VCC OPEN");
-//      digitalWrite(2,1);
-//      delay(100);
-//      while(1);
-//    }
-//    
-//    else {
-//      screen.clearDisplay();
-//      screen.setCursor(30,0);
-//      Serial.print("Battery Voltage:");
-//      screen.print("Battery Voltage:");
-//      Serial.print(BV);
-//      screen.print(BV);
-//      Serial.print(" V\t");
-//      screen.print(" V\n");
-//      Serial.print("Battery Perecentage:");
-//      screen.print("Battery Perecentage:");
-//      Serial.print((BV-11)*100/2.1);
-//      screen.print((BV-11)*100/2.1);
-//      Serial.println(" %");
-//      screen.println(" %");
-//      Serial.println("Keep Charging");
-//      screen.println("Keep Charging");
-//      Serial.println("VIN CLOSE");
-//      digitalWrite(8,0);
-//    }
-//    
-//    if (Serial.available()){
-//      if (Serial.parseInt()==0){
-//        Serial.print("RESET function deploy");
-//        delay(100);
-//        Serial.print('.');
-//        delay(100);
-//        Serial.print('.');
-//        delay(100);
-//        Serial.println('.');
-//        delay(50);
-//        resetFunc();
-//      }
-//    }
-//  }
 }

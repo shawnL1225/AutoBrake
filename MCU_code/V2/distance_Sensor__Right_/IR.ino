@@ -1,20 +1,13 @@
 void IR (){
   double IRD150_ave_distance_cm=0 , IRD80_1_ave_distance_cm=0, IRD80_2_ave_distance_cm=0;
-  
-//  for(char i=0;i<10;i++) {
-    IRD150_ave_distance_cm += IR150.distance();
 
-    IRD80_1_ave_distance_cm += IR80_1.distance();
+  IRD80_1_ave_distance_cm += IR80_1.distance();
 
-    IRD80_2_ave_distance_cm += IR80_2.distance();
-//   }
+  IRD80_2_ave_distance_cm += IR80_2.distance();
 
-   IRD150_ave_distance_cm *= 0.971585317;
-   IRD150_ave_distance_cm += -7.274619428;
-   IRD80_1_ave_distance_cm += 1.3;
-   IRD80_2_ave_distance_cm += 1.3;
+  IRD80_1_ave_distance_cm += 1.3;
+  IRD80_2_ave_distance_cm += 1.3;
    
-   IRD150 = IRD150_ave_distance_cm ;
-   IRD80_1 = IRD80_1_ave_distance_cm ;
-   IRD80_2 = IRD80_2_ave_distance_cm ;
+  IRD80_1 = IRD80_1_ave_distance_cm ;
+  IRD80_2 = IRD80_2_ave_distance_cm ;
 }
