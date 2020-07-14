@@ -12,25 +12,8 @@ void loop() {
 //      else delay(1000);
       
       if (in==1){
-        screen.clearDisplay();
-        screen.setCursor(0,20); // (x,y)
         Serial.print("Battery voltage checking procedure launched");
-        screen.println("     Procedure\n     Launched");
-        screen.display();
-        delay(100);
-        screen.setCursor(54,55); // (x,y)
-        Serial.print('.');
-        screen.setFont(&FreeSans12pt7b);
-        screen.print(".");
-        screen.display();
-        delay(100);
-        Serial.print('.');
-        screen.print(".");
-        screen.display();
-        delay(100);
-        Serial.println('.');
-        screen.print(".");
-        screen.display();
+        depani();
         
         //Close Vcc
         Serial.println("VCC CLOSE");
@@ -63,55 +46,32 @@ void loop() {
         //Tell battery voltage
         screen.clearDisplay();
         
-        screen.setFont(&FreeSans12pt7b);
-        screen.setTextSize(2);
-        Serial.print("Battery Voltage:");
-        Serial.print(BV);
-        Serial.print(" V\t");
-        Serial.print("Battery Perecentage:");
-        int per = ((BV-11.4)*100/2.1+0.5);
-        Serial.print((BV-11.4)*100/2.1);
-        if (per<=100||per>=0){
-            if (per==100) screen.setCursor(3,48);
-            else if(per>=10) screen.setCursor(17,48);
-            else if (per<10) screen.setCursor(35,48);
-            screen.print(per);
-            buzzer(100,1);
-          }
-          else {
-            screen.setCursor(10,48);
-            screen.print("ERR");
-          }
-        Serial.println(" %");
-        screen.println("%");
-        screen.display();
+        BVC(BV);
         delay(2000);
         
         screen.clearDisplay();
         screen.setCursor(0,15);
         screen.setFont(&FreeSans9pt7b);
         //Tell battery condition
+        int per = ((BV-11.4)*100/2.1+0.5);
         if (per<20) {
           Serial.println("<STRONGLY recommand for charging>");
           screen.println("   STRONGLY\n recommand for\n      charging");
-          screen.display();
         }
         else if (per<50) {
           Serial.println("<Highly recommand for charging>");
           screen.println("      HIGHLY\n   recommand\n   for charging");
-          screen.display();
         }
         else if (per<75) {
           Serial.println("<Recommand for charging>");
           screen.setCursor(0,30);
           screen.println("   Recommand\n   for charging");
-          screen.display();
         }
         else if (per>=75) {
           Serial.println("<Battery situation well no need to charge>");
           screen.println("  Situation well \n     no need to \n       charge");
-          screen.display();
         }
+        screen.display();
         Serial.println("");
         delay(3000);
 
@@ -133,26 +93,8 @@ void loop() {
         }
       }
       else if (in==2) {
-        screen.clearDisplay();
-        screen.setCursor(0, 20); // (x,y)
         Serial.print("Charging procedure launched");
-        screen.setFont(&FreeSans9pt7b);
-        screen.println("     Procedure\n     Launched");
-        screen.display();
-        delay(100);
-        screen.setCursor(54,55); // (x,y)
-        Serial.print('.');
-        screen.setFont(&FreeSans12pt7b);
-        screen.print(".");
-        screen.display();
-        delay(100);
-        Serial.print('.');
-        screen.print(".");
-        screen.display();
-        delay(100);
-        Serial.println('.');
-        screen.print(".");
-        screen.display();
+        depani();
   
         //VCC Close
         Serial.println("VCC CLOSE");
@@ -169,21 +111,7 @@ void loop() {
         double BV=Vin*25/1024.0;
         if (BV < 13.50) {
           screen.clearDisplay();
-          screen.setCursor(30,0);
-          screen.setFont(&FreeSans12pt7b);
-          screen.setTextSize(2);
-          Serial.print("Battery Voltage:");
-          Serial.print(BV);
-          Serial.print(" V\t");
-          int per = ((BV-11.4)*100/2.1+0.5);
-          Serial.print((BV-11.4)*100/2.1);
-          if (per==100) screen.setCursor(3,48);
-          else if(per>=10) screen.setCursor(17,48);
-          else if (per<10) screen.setCursor(35,48);
-          screen.print(per);
-          Serial.println(" %");
-          screen.println("%");
-          screen.display();
+          BVC(BV);
           delay(2000);
           Serial.println("Start Charging");
           screen.clearDisplay();
@@ -199,6 +127,7 @@ void loop() {
           digitalWrite(8,0);
           delay(100);
           screen.clearDisplay();
+          int per = ((BV-11.4)*100/2.1+0.5);
           while (per<100){
             screen.drawBitmap(0, 0, charging_Frame, 128, 64, WHITE);
             screen.display();
@@ -217,19 +146,7 @@ void loop() {
               Vin = analogRead(A0);
               BV=Vin*25/1024.0;
               per = ((BV-11.4)*100/2.1+0.5);
-              Serial.print("Battery Voltage:");
-              Serial.print(BV);
-              Serial.print(" V");
-              Serial.print((BV-11.4)*100/2.1);
-              screen.setFont(&FreeSans12pt7b);
-              screen.setTextSize(2);
-              if (per==100) screen.setCursor(3,48);
-              else if(per>=10) screen.setCursor(17,48);
-              else if (per<10) screen.setCursor(35,48);
-              screen.print(per);
-              Serial.println(" %");
-              screen.println("%");
-              screen.display();
+              BVC(BV);
               buzzer(100,1);
               delay(1500);
               screen.clearDisplay();
