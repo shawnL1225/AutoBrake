@@ -3,14 +3,15 @@ void serialEvent(){
     if (Serial4.available()){
       char in = Serial4.read();
       if (in == '@') {
-        appStart = 1;
+        digitalWrite(7,0);
         Serial.println("Bike UNLOCK");
       }
       else if (in == '%') {
-        appStart = 0;
-        motor(94, hv, brake);
+        digitalWrite(7,1);
         Serial.println("Bike LOCK");
       }
+      
+      if (in == 'V') nowSpeed = Serial4.parseInt();
     }
   }
 }

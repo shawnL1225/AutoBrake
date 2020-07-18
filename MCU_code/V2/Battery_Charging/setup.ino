@@ -32,8 +32,9 @@ void setup() {
 
   //Say Hello
   Serial.println("Hello and thank you for using <AutoBrake Battery Charging System>");
-  screen.setCursor(0, 10); // (x,y)
+  screen.setCursor(0, 15); // (x,y)
   screen.setFont(&FreeSans9pt7b);
+  screen.setTextSize(1.05);
   screen.println("       Battery\n     Charging \n       System");
   screen.display();
   buzzer(50,1);
@@ -41,5 +42,5 @@ void setup() {
   screen.clearDisplay();
   
   //Request for method
-  showFunc();
+  showFunc(0);
 }

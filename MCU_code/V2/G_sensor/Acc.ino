@@ -6,5 +6,6 @@ void acc(){
   ax = a.acceleration.x + fixax;
   ay = a.acceleration.y + fixay;
   az = a.acceleration.z + fixaz;
+
   
 }

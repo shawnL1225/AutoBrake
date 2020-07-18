@@ -1,4 +1,16 @@
-void showFunc(){
+void showFunc(bool func){
+  if (func){
+    screen.clearDisplay();
+    screen.setCursor(0,15);
+    Serial.println("\n<Or REMOVE the power if finish using>\n");
+    screen.setTextSize(1.05);
+    screen.println("  REMOVE wire \n or RIGHT push  \n    to reselect");
+    //reselect the function 
+    screen.display();
+    while (!Serial.available()&&analogRead(A1)<900);
+  }
+
+  
   screen.clearDisplay();
   screen.setCursor(0, 15); // (x,y)
   screen.setFont(&FreeSans9pt7b);

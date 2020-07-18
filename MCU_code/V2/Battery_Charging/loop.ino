@@ -52,6 +52,7 @@ void loop() {
         screen.clearDisplay();
         screen.setCursor(0,15);
         screen.setFont(&FreeSans9pt7b);
+        screen.setTextSize(1.05);
         //Tell battery condition
         int per = ((BV-11.4)*100/2.1+0.5);
         if (per<20) {
@@ -74,16 +75,8 @@ void loop() {
         screen.display();
         Serial.println("");
         delay(3000);
-
-        screen.clearDisplay();
-        screen.setCursor(0,15);
-        Serial.println("\n<Or REMOVE the power if finish using>\n");
-        screen.println("  REMOVE wire \n or RIGHT push  \n    to reselect");
-        //reselect the function 
-        screen.display();
-
-        while (!Serial.available()&&analogRead(A1)<900);
-        showFunc();
+        
+        showFunc(1);
         in = 1;
 
         while(!Serial.available()&&analogRead(A1)<900){
@@ -117,6 +110,7 @@ void loop() {
           screen.clearDisplay();
           screen.setCursor(5,25);
           screen.setFont(&FreeSans12pt7b);
+          screen.setTextSize(1.05);
           screen.println("     Start \n   Charging");
           screen.display();
           Serial.println("Press the button to start charging");
@@ -128,8 +122,8 @@ void loop() {
           delay(100);
           screen.clearDisplay();
           int per = ((BV-11.4)*100/2.1+0.5);
-          while (per<100){
-            screen.drawBitmap(0, 0, charging_Frame, 128, 64, WHITE);
+          while (per>100){
+            screen.drawBitmap(14, 2, charging_Frame, 99, 62, WHITE);
             screen.display();
             for (int i =0 ; i<75 ; i++){
               screen.drawLine(20+i, 7, 20+i, 71, WHITE);
@@ -196,28 +190,9 @@ void loop() {
         }
         else if (BV >= 13.50) {
           screen.clearDisplay();
-          screen.setCursor(30,0);
-          screen.setFont(&FreeSans12pt7b);
-          screen.setTextSize(2);
-          Serial.print("Battery Voltage:");
-          Serial.print(BV);
-          Serial.print(" V\t");
-          int per = ((BV-11.4)*100/2.1+0.5);
-          Serial.print((BV-11.4)*100/2.1);
-          if (per<=100||per>=0){
-            if (per==100) screen.setCursor(3,48);
-            else if(per>=10) screen.setCursor(17,48);
-            else if (per<10) screen.setCursor(35,48);
-            screen.print(per);
-          }
-          else {
-            screen.setCursor(10,48);
-            screen.print("ERR");
-          }
-          Serial.println(" %");
-          screen.println("%");
-          screen.display();
+          BVC(BV);
           delay(2000);
+          
           Serial.println("Battery Fully Charged");
           screen.clearDisplay();
           screen.setCursor(6,25);
@@ -236,16 +211,7 @@ void loop() {
           digitalWrite(3,0);
           delay(300);
 
-          screen.clearDisplay();
-          screen.setCursor(0,15);
-          screen.setFont(&FreeSans9pt7b);
-          Serial.println("\n<Or REMOVE the power if finish using>\n");
-          screen.println("  REMOVE wire \n or RIGHT push  \n    to reselect");
-          //reselect the function 
-          screen.display();
-
-          while (!Serial.available()&&analogRead(A1)<900);
-          showFunc();
+          showFunc(1);
           in = 1;
           
           while(!Serial.available()&&analogRead(A1)<900){
@@ -254,17 +220,6 @@ void loop() {
             }
           }
         }
-      }
-      else if (in==0){
-        Serial.print("RESET function deploy");
-        delay(100);
-        Serial.print('.');
-        delay(100);
-        Serial.print('.');
-        delay(100);
-        Serial.println('.');
-        delay(50);
-        resetFunc();
       }
       else if (in== 9){
         screen.clearDisplay();
