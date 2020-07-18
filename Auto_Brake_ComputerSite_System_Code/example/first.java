@@ -44,7 +44,7 @@ import javax.swing.JTextPane;
 
 public class first {
 
-  static JFrame frame;
+  static JFrame frmMsbaautobrakecomputersitesystem;
   
   static JLabel Mother_Board_ConditionLight;
   static JLabel NXT_ConditionLight;
@@ -56,16 +56,17 @@ public class first {
   static JLabel Distance_R_ConditionLight;
   static JLabel Distance_B_ConditionLight;
   static JLabel Speed_Sensor_ConditionLight;
-  static JLabel Voltage_n_heat_ConditionLight;
+  static JLabel Heat_n_Gsensor__ConditionLight;
   
   static JLabel Motor_Temp_V;
   static JLabel Vichele_Tilt_Angle_V;
   static JLabel Vichele_Speed_V;
-  static JLabel Actual_motor_percentage_V;
   static JLabel Controller_Perentage_V;
   static JLabel Battery_Percentage_V;
   static JLabel Front_Brake_V;
   static JLabel Back_Brake_V;
+  static JLabel Vichele_Rise_Angle_V;
+  static JLabel Vichele_Acc_V; 
   
   static JLabel distance_sensor_R_1;
   static JLabel distance_sensor_R_2;
@@ -98,6 +99,7 @@ public class first {
   static JSlider Actual_Motor_Percentage_Control_Slider;
   static JSlider Front_Brake_Slider;
   static JSlider Back_Brake_Slider;
+  static JSlider Rader_ON_OFF_Slide;
   
   static List Mother_Board_Serial_List;
   static List NXT_Serial_List;
@@ -117,24 +119,41 @@ public class first {
   public static void main(String[] args) {
     timer = new Timer();
     timer.scheduleAtFixedRate(new RemindTask(),0, 2);
-    frame = new JFrame();
-    frame.setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\AutoBrake\\AutoBrake_ComputerSite_System\\image\\MSBA_icon.png"));
-    frame.getContentPane().setBackground(Color.WHITE);
-    frame.setBounds(100, 100, 450, 300);
-    frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-    frame.setSize(1650,1080);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.getContentPane().setLayout(null);
+    frmMsbaautobrakecomputersitesystem = new JFrame();
+    frmMsbaautobrakecomputersitesystem.setTitle("MSBA_AutoBrake_ComputerSite_System");
+    frmMsbaautobrakecomputersitesystem.setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\AutoBrake\\Auto_Brake_ComputerSite_System_Code\\image\\MSBA_icon.png"));
+    frmMsbaautobrakecomputersitesystem.getContentPane().setBackground(Color.WHITE);
+    frmMsbaautobrakecomputersitesystem.setBounds(100, 100, 450, 300);
+    frmMsbaautobrakecomputersitesystem.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+    frmMsbaautobrakecomputersitesystem.setSize(1650,1080);
+    frmMsbaautobrakecomputersitesystem.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frmMsbaautobrakecomputersitesystem.getContentPane().setLayout(null);
     
     JScrollPane scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     scrollPane.setBounds(10, 0, 195, 206);
-    frame.getContentPane().add(scrollPane);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(scrollPane);
     
     Box verticalBox_1 = Box.createVerticalBox();
     scrollPane.setViewportView(verticalBox_1);
     
     Panel Mother_Board_Panel = new Panel();
     verticalBox_1.add(Mother_Board_Panel);
+    
+    Panel Caculation_chip_Panel = new Panel();
+    verticalBox_1.add(Caculation_chip_Panel);
+    
+    JLabel Caculation_chip_ConditionLight_1 = new JLabel("\u25CF");
+    Caculation_chip_ConditionLight_1.setToolTipText("disconnect");
+    Caculation_chip_ConditionLight_1.setForeground(Color.RED);
+    Caculation_chip_ConditionLight_1.setFont(new Font("新細明體", Font.PLAIN, 16));
+    Caculation_chip_ConditionLight_1.setAlignmentY(0.0f);
+    Caculation_chip_Panel.add(Caculation_chip_ConditionLight_1);
+    
+    JLabel Caculation_chip = new JLabel("Caculation chip");
+    Caculation_chip.setToolTipText("Caculation chip \" connection status");
+    Caculation_chip.setHorizontalAlignment(SwingConstants.LEFT);
+    Caculation_chip.setFont(new Font("新細明體", Font.PLAIN, 14));
+    Caculation_chip_Panel.add(Caculation_chip);
     
     Panel NXT_Panel = new Panel();
     verticalBox_1.add(NXT_Panel);
@@ -163,8 +182,8 @@ public class first {
     Panel Speed_Sensor_Panel = new Panel();
     verticalBox_1.add(Speed_Sensor_Panel);
     
-    Panel Voltage_n_heat_Panel = new Panel();
-    verticalBox_1.add(Voltage_n_heat_Panel);
+    Panel Heat_n_Gsensor_Panel = new Panel();
+    verticalBox_1.add(Heat_n_Gsensor_Panel);
     
     Mother_Board_ConditionLight = new JLabel("\u25CF");
     Mother_Board_ConditionLight.setToolTipText("disconnect");
@@ -227,77 +246,77 @@ public class first {
     Speed_Sensor_ConditionLight.setFont(new Font("新細明體", Font.PLAIN, 16));
     Speed_Sensor_Panel.add(Speed_Sensor_ConditionLight);
 
-    Voltage_n_heat_ConditionLight = new JLabel("\u25CF");
-    Voltage_n_heat_ConditionLight.setToolTipText("disconnect");
-    Voltage_n_heat_ConditionLight.setForeground(Color.RED);
-    Voltage_n_heat_ConditionLight.setFont(new Font("新細明體", Font.PLAIN, 16));
-    Voltage_n_heat_Panel.add(Voltage_n_heat_ConditionLight);
+    Heat_n_Gsensor__ConditionLight = new JLabel("\u25CF");
+    Heat_n_Gsensor__ConditionLight.setToolTipText("disconnect");
+    Heat_n_Gsensor__ConditionLight.setForeground(Color.RED);
+    Heat_n_Gsensor__ConditionLight.setFont(new Font("新細明體", Font.PLAIN, 16));
+    Heat_n_Gsensor_Panel.add(Heat_n_Gsensor__ConditionLight);
     
-    JLabel Mother_Board = new JLabel("Mother Board ");
+    JLabel Mother_Board = new JLabel("Mother Board   ");
     Mother_Board.setToolTipText("\"Mother Board \" connection status");
     Mother_Board_Panel.add(Mother_Board);
     Mother_Board.setFont(new Font("新細明體", Font.PLAIN, 14));
     Mother_Board.setHorizontalAlignment(SwingConstants.LEFT);
     
-    JLabel Xavier = new JLabel("XAVIER        ");
+    JLabel Xavier = new JLabel("XAVIER          ");
     Xavier.setToolTipText("\"Xavier\" connection status");
     Xavier.setHorizontalAlignment(SwingConstants.LEFT);
     Xavier.setFont(new Font("新細明體", Font.PLAIN, 14));
     NXT_Panel.add(Xavier);
     
-    JLabel CTRL_Board = new JLabel("CTRL Board  ");
+    JLabel CTRL_Board = new JLabel("CTRL Board     ");
     CTRL_Board.setToolTipText("\"CTRL Board \" connection status");
     CTRL_Board.setHorizontalAlignment(SwingConstants.LEFT);
     CTRL_Board.setFont(new Font("新細明體", Font.PLAIN, 14));
     CTRL_Board_Panel.add(CTRL_Board);
     
-    JLabel Brake_F = new JLabel("Brake  (F)      ");
+    JLabel Brake_F = new JLabel("Brake  (F)         ");
     Brake_F.setToolTipText("\"Brake  (F)\" connection status");
     Brake_F.setHorizontalAlignment(SwingConstants.LEFT);
     Brake_F.setFont(new Font("新細明體", Font.PLAIN, 14));
     Brake_F_Panel.add(Brake_F);
     
-    JLabel Brake_B = new JLabel("Brake  (B)      ");
+    JLabel Brake_B = new JLabel("Brake  (B)        ");
     Brake_B.setToolTipText("\"Brake  (B)\" connection status");
     Brake_B.setHorizontalAlignment(SwingConstants.LEFT);
     Brake_B.setFont(new Font("新細明體", Font.PLAIN, 14));
     Brake_B_Panel.add(Brake_B);
     
-    JLabel Distance_F = new JLabel("Distance (F)   ");
+    JLabel Distance_F = new JLabel("Distance (F)     ");
     Distance_F.setToolTipText("\"Distance (F)\" connection status");
     Distance_F.setHorizontalAlignment(SwingConstants.LEFT);
     Distance_F.setFont(new Font("新細明體", Font.PLAIN, 14));
     Distance_F_Panel.add(Distance_F);
     
-    JLabel Distance_L = new JLabel("Distance (L)   ");
+    JLabel Distance_L = new JLabel("Distance (L)     ");
     Distance_L.setToolTipText("\"Distance (L)\" connection status");
     Distance_L.setHorizontalAlignment(SwingConstants.LEFT);
     Distance_L.setFont(new Font("新細明體", Font.PLAIN, 14));
     Distance_L_Panel.add(Distance_L);
     
-    JLabel Distance_R = new JLabel("Distance (R)   ");
+    JLabel Distance_R = new JLabel("Distance (R)     ");
     Distance_R.setToolTipText("\"Distance (R)\" connection status");
     Distance_R.setHorizontalAlignment(SwingConstants.LEFT);
     Distance_R.setFont(new Font("新細明體", Font.PLAIN, 14));
     Distance_R_Panel.add(Distance_R);
     
-    JLabel Distance_B = new JLabel("Distance (B)   ");
+    JLabel Distance_B = new JLabel("Distance (B)     ");
     Distance_B.setToolTipText("\"Distance (B)\" connection statua");
     Distance_B.setHorizontalAlignment(SwingConstants.LEFT);
     Distance_B.setFont(new Font("新細明體", Font.PLAIN, 14));
     Distance_B_Panel.add(Distance_B);
     
-    JLabel Speed_Sensor = new JLabel("Speed Sensor  ");
+    JLabel Speed_Sensor = new JLabel("Speed Sensor    ");
     Speed_Sensor.setToolTipText("\"Speed Sensor\" connection status");
     Speed_Sensor.setHorizontalAlignment(SwingConstants.LEFT);
     Speed_Sensor.setFont(new Font("新細明體", Font.PLAIN, 14));
     Speed_Sensor_Panel.add(Speed_Sensor);
     
-    JLabel Voltage_n_heat = new JLabel("Voltage & heat");
-    Voltage_n_heat.setToolTipText("\"Voltage & heat\" connection status");
-    Voltage_n_heat.setHorizontalAlignment(SwingConstants.LEFT);
-    Voltage_n_heat.setFont(new Font("新細明體", Font.PLAIN, 14));
-    Voltage_n_heat_Panel.add(Voltage_n_heat);
+    JLabel Heat_n_Gsensor = new JLabel("Heat & Gsensor");
+    Heat_n_Gsensor.setToolTipText("\"Heat & Gsensor\" connection status");
+    Heat_n_Gsensor.setHorizontalAlignment(SwingConstants.LEFT);
+    Heat_n_Gsensor.setFont(new Font("新細明體", Font.PLAIN, 14));
+    Heat_n_Gsensor_Panel.add(Heat_n_Gsensor);
     
     JLabel Connection_Status = new JLabel("Connection Status");
     Connection_Status.setToolTipText("To see every microcontrollers' connection");
@@ -310,261 +329,248 @@ public class first {
     UID.setHorizontalAlignment(SwingConstants.LEFT);
     UID.setFont(new Font("Arial Black", Font.PLAIN, 20));
     UID.setBounds(213, 12, 61, 24);
-    frame.getContentPane().add(UID);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(UID);
     
     JLabel Mother_Board_COM = new JLabel("Mother Board :");
     Mother_Board_COM.setHorizontalAlignment(SwingConstants.LEFT);
     Mother_Board_COM.setFont(new Font("Arial Black", Font.PLAIN, 20));
     Mother_Board_COM.setBounds(213, 63, 190, 24);
-    frame.getContentPane().add(Mother_Board_COM);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Mother_Board_COM);
     
     JLabel Front_Brake = new JLabel("Front Brake");
     Front_Brake.setHorizontalAlignment(SwingConstants.CENTER);
     Front_Brake.setFont(new Font("Arial", Font.PLAIN, 20));
     Front_Brake.setBounds(917, 10, 190, 24);
-    frame.getContentPane().add(Front_Brake);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Front_Brake);
     
     JLabel Back_Brake = new JLabel("Back Brake");
     Back_Brake.setHorizontalAlignment(SwingConstants.CENTER);
     Back_Brake.setFont(new Font("Arial", Font.PLAIN, 20));
     Back_Brake.setBounds(1159, 10, 190, 24);
-    frame.getContentPane().add(Back_Brake);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Back_Brake);
     
     JSeparator separator = new JSeparator();
     separator.setForeground(Color.LIGHT_GRAY);
     separator.setBounds(10, 603, 659, 2);
-    frame.getContentPane().add(separator);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator);
     
     JSeparator separator_1 = new JSeparator();
     separator_1.setForeground(Color.LIGHT_GRAY);
     separator_1.setBounds(11, 375, 658, 2);
-    frame.getContentPane().add(separator_1);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_1);
     
     JSeparator separator_2 = new JSeparator();
     separator_2.setForeground(Color.LIGHT_GRAY);
     separator_2.setBounds(11, 250, 658, 2);
-    frame.getContentPane().add(separator_2);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_2);
     
     JSeparator separator_3 = new JSeparator();
     separator_3.setForeground(Color.BLACK);
     separator_3.setBounds(11, 329, 658, 2);
-    frame.getContentPane().add(separator_3);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_3);
     
     JSeparator separator_4 = new JSeparator();
     separator_4.setForeground(Color.BLACK);
     separator_4.setBounds(11, 557, 658, 2);
-    frame.getContentPane().add(separator_4);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_4);
     
     JSeparator separator_5 = new JSeparator();
     separator_5.setForeground(Color.BLACK);
     separator_5.setBounds(11, 204, 658, 2);
-    frame.getContentPane().add(separator_5);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_5);
     
     JSeparator separator_6 = new JSeparator();
     separator_6.setOrientation(SwingConstants.VERTICAL);
     separator_6.setForeground(Color.BLACK);
     separator_6.setBounds(669, 0, 8, 714);
-    frame.getContentPane().add(separator_6);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_6);
     
     JSeparator separator_7 = new JSeparator();
     separator_7.setForeground(Color.BLACK);
     separator_7.setBounds(11, 451, 658, 2);
-    frame.getContentPane().add(separator_7);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_7);
     
     JSeparator separator_8 = new JSeparator();
     separator_8.setForeground(Color.LIGHT_GRAY);
     separator_8.setBounds(11, 500, 658, 2);
-    frame.getContentPane().add(separator_8);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_8);
     
     JSeparator separator_9 = new JSeparator();
     separator_9.setOrientation(SwingConstants.VERTICAL);
     separator_9.setForeground(Color.BLACK);
     separator_9.setBounds(10, 0, 8, 714);
-    frame.getContentPane().add(separator_9);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_9);
     
     JSeparator separator_10 = new JSeparator();
     separator_10.setForeground(Color.BLACK);
     separator_10.setBounds(8, 0, 1369, 2);
-    frame.getContentPane().add(separator_10);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_10);
     
     JSeparator separator_11 = new JSeparator();
     separator_11.setForeground(Color.LIGHT_GRAY);
     separator_11.setBounds(206, 46, 1171, 2);
-    frame.getContentPane().add(separator_11);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_11);
     
     JSeparator separator_12 = new JSeparator();
     separator_12.setForeground(Color.BLACK);
     separator_12.setBounds(669, 102, 708, 2);
-    frame.getContentPane().add(separator_12);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_12);
     
     JSeparator separator_13 = new JSeparator();
     separator_13.setOrientation(SwingConstants.VERTICAL);
     separator_13.setForeground(Color.BLACK);
     separator_13.setBounds(899, 0, 8, 103);
-    frame.getContentPane().add(separator_13);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_13);
     
     JSeparator separator_14 = new JSeparator();
     separator_14.setOrientation(SwingConstants.VERTICAL);
     separator_14.setForeground(Color.BLACK);
     separator_14.setBounds(901, 0, 8, 103);
-    frame.getContentPane().add(separator_14);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_14);
     
     JSeparator separator_15 = new JSeparator();
     separator_15.setOrientation(SwingConstants.VERTICAL);
     separator_15.setForeground(Color.BLACK);
     separator_15.setBounds(900, 0, 8, 103);
-    frame.getContentPane().add(separator_15);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_15);
     
     JSeparator separator_16 = new JSeparator();
     separator_16.setForeground(Color.BLACK);
     separator_16.setBounds(669, 346, 708, 2);
-    frame.getContentPane().add(separator_16);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_16);
     
     JSeparator separator_17 = new JSeparator();
     separator_17.setOrientation(SwingConstants.VERTICAL);
     separator_17.setForeground(Color.BLACK);
     separator_17.setBounds(1022, 102, 8, 246);
-    frame.getContentPane().add(separator_17);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_17);
     
     JSeparator separator_18 = new JSeparator();
     separator_18.setForeground(Color.LIGHT_GRAY);
     separator_18.setBounds(204, 102, 468, 2);
-    frame.getContentPane().add(separator_18);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_18);
     
     JSeparator separator_19 = new JSeparator();
     separator_19.setOrientation(SwingConstants.VERTICAL);
     separator_19.setForeground(Color.BLACK);
     separator_19.setBounds(1131, 0, 8, 103);
-    frame.getContentPane().add(separator_19);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_19);
     
     JSeparator separator_20 = new JSeparator();
     separator_20.setOrientation(SwingConstants.VERTICAL);
     separator_20.setForeground(Color.BLACK);
     separator_20.setBounds(1060, 46, 8, 58);
-    frame.getContentPane().add(separator_20);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_20);
     
     JSeparator separator_21 = new JSeparator();
     separator_21.setOrientation(SwingConstants.VERTICAL);
     separator_21.setForeground(Color.BLACK);
     separator_21.setBounds(1294, 46, 8, 58);
-    frame.getContentPane().add(separator_21);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_21);
     
     JSeparator separator_22 = new JSeparator();
     separator_22.setForeground(Color.DARK_GRAY);
     separator_22.setBounds(669, 140, 708, 2);
-    frame.getContentPane().add(separator_22);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(separator_22);
     
     JLabel Motor_Temp = new JLabel("Motor Temperature");
     Motor_Temp.setFont(new Font("Arial", Font.PLAIN, 20));
-    Motor_Temp.setBounds(116, 569, 171, 24);
-    frame.getContentPane().add(Motor_Temp);
+    Motor_Temp.setBounds(118, 341, 171, 24);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Motor_Temp);
     
     JLabel Vehicle_Tilt_Angle = new JLabel("Vehicle Tilt Angle");
     Vehicle_Tilt_Angle.setFont(new Font("Arial", Font.PLAIN, 20));
-    Vehicle_Tilt_Angle.setBounds(436, 569, 151, 24);
-    frame.getContentPane().add(Vehicle_Tilt_Angle);
-    
-    JLabel Actual_motor_percentage = new JLabel("Actual Motor Percentage");
-    Actual_motor_percentage.setHorizontalAlignment(SwingConstants.CENTER);
-    Actual_motor_percentage.setFont(new Font("Arial", Font.PLAIN, 20));
-    Actual_motor_percentage.setBounds(81, 341, 240, 24);
-    frame.getContentPane().add(Actual_motor_percentage);
+    Vehicle_Tilt_Angle.setBounds(462, 569, 151, 24);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Vehicle_Tilt_Angle);
     
     JLabel Vichele_Speed = new JLabel("Vichele Speed");
     Vichele_Speed.setFont(new Font("Arial", Font.PLAIN, 20));
     Vichele_Speed.setBounds(448, 341, 127, 24);
-    frame.getContentPane().add(Vichele_Speed);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Vichele_Speed);
     
     JLabel Controller_Perentage = new JLabel("Controller Percentage");
     Controller_Perentage.setHorizontalAlignment(SwingConstants.CENTER);
     Controller_Perentage.setFont(new Font("Arial", Font.PLAIN, 20));
     Controller_Perentage.setBounds(93, 216, 216, 24);
-    frame.getContentPane().add(Controller_Perentage);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Controller_Perentage);
     
     JLabel Disable_or_enable_the_motor = new JLabel("Disable or enable the motor");
     Disable_or_enable_the_motor.setHorizontalAlignment(SwingConstants.CENTER);
     Disable_or_enable_the_motor.setFont(new Font("Arial", Font.PLAIN, 20));
     Disable_or_enable_the_motor.setBounds(390, 216, 250, 24);
-    frame.getContentPane().add(Disable_or_enable_the_motor);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Disable_or_enable_the_motor);
     
     JLabel Actual_Motor_Percentage_Control = new JLabel("Actual Motor Percentage Control");
     Actual_Motor_Percentage_Control.setFont(new Font("Arial", Font.PLAIN, 20));
     Actual_Motor_Percentage_Control.setBounds(204, 463, 288, 24);
-    frame.getContentPane().add(Actual_Motor_Percentage_Control);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Actual_Motor_Percentage_Control);
 
     JLabel Battery_Percentage = new JLabel("Battery percentage");
     Battery_Percentage.setHorizontalAlignment(SwingConstants.CENTER);
     Battery_Percentage.setFont(new Font("Arial", Font.PLAIN, 20));
     Battery_Percentage.setBounds(689, 12, 190, 24);
-    frame.getContentPane().add(Battery_Percentage);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Battery_Percentage);
     
     JLabel Mother_Board_Serial = new JLabel("Mother Board Serial");
     Mother_Board_Serial.setForeground(new Color(51, 204, 204));
     Mother_Board_Serial.setHorizontalAlignment(SwingConstants.CENTER);
     Mother_Board_Serial.setFont(new Font("Arial", Font.PLAIN, 20));
     Mother_Board_Serial.setBounds(750, 110, 190, 24);
-    frame.getContentPane().add(Mother_Board_Serial);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Mother_Board_Serial);
     
     JLabel NXT_Serial = new JLabel("Xavier Serial");
     NXT_Serial.setForeground(new Color(51, 204, 204));
     NXT_Serial.setHorizontalAlignment(SwingConstants.CENTER);
     NXT_Serial.setFont(new Font("Arial", Font.PLAIN, 20));
     NXT_Serial.setBounds(1118, 110, 190, 24);
-    frame.getContentPane().add(NXT_Serial);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(NXT_Serial);
     
     JLabel Rader = new JLabel("Rader");
     Rader.setHorizontalAlignment(SwingConstants.LEFT);
     Rader.setFont(new Font("Arial", Font.PLAIN, 20));
     Rader.setBounds(681, 350, 61, 24);
-    frame.getContentPane().add(Rader);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Rader);
     
     JLabel Wheelchair_figure = new JLabel("");
     Wheelchair_figure.setToolTipText("Wheelchair");
-    Wheelchair_figure.setIcon(new ImageIcon("D:\\AutoBrake\\AutoBrake_ComputerSite_System\\image\\wheelChair_TOP.png"));
-    Wheelchair_figure.setBounds(930, 467, 151, 131);
-    frame.getContentPane().add(Wheelchair_figure);
+    Wheelchair_figure.setIcon(new ImageIcon("D:\\AutoBrake\\Auto_Brake_ComputerSite_System_Code\\image\\wheelChair_TOP.png"));
+    Wheelchair_figure.setBounds(1005, 456, 151, 131);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Wheelchair_figure);
     
     Motor_Temp_V = new JLabel("0\u00B0C");
     Motor_Temp_V.setToolTipText("The temperature renew per half second");
     Motor_Temp_V.setHorizontalAlignment(SwingConstants.CENTER);
     Motor_Temp_V.setFont(new Font("Arial Black", Font.PLAIN, 35));
-    Motor_Temp_V.setBounds(137, 603, 129, 58);
-    frame.getContentPane().add(Motor_Temp_V);
+    Motor_Temp_V.setBounds(139, 375, 129, 58);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Motor_Temp_V);
 
     Vichele_Tilt_Angle_V = new JLabel("0\u00B0");
     Vichele_Tilt_Angle_V.setToolTipText("Angle renew per 10 millisecond");
     Vichele_Tilt_Angle_V.setHorizontalAlignment(SwingConstants.CENTER);
     Vichele_Tilt_Angle_V.setFont(new Font("Arial Black", Font.PLAIN, 35));
-    Vichele_Tilt_Angle_V.setBounds(457, 603, 108, 58);
-    frame.getContentPane().add(Vichele_Tilt_Angle_V);
+    Vichele_Tilt_Angle_V.setBounds(483, 603, 108, 58);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Vichele_Tilt_Angle_V);
 
     Vichele_Speed_V = new JLabel("0 km/hr");
     Vichele_Speed_V.setToolTipText("Speed Value renew immediately");
     Vichele_Speed_V.setHorizontalAlignment(SwingConstants.CENTER);
     Vichele_Speed_V.setFont(new Font("Arial Black", Font.PLAIN, 35));
     Vichele_Speed_V.setBounds(405, 375, 219, 58);
-    frame.getContentPane().add(Vichele_Speed_V);
-
-    Actual_motor_percentage_V = new JLabel("0%");
-    Actual_motor_percentage_V.setToolTipText("Motor percentage value renew immediately");
-    Actual_motor_percentage_V.setHorizontalAlignment(SwingConstants.CENTER);
-    Actual_motor_percentage_V.setFont(new Font("Arial Black", Font.PLAIN, 35));
-    Actual_motor_percentage_V.setBounds(144, 375, 115, 58);
-    frame.getContentPane().add(Actual_motor_percentage_V);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Vichele_Speed_V);
 
     Controller_Perentage_V = new JLabel("0%");
     Controller_Perentage_V.setToolTipText("Controller percentage renew immediately");
     Controller_Perentage_V.setHorizontalAlignment(SwingConstants.CENTER);
     Controller_Perentage_V.setFont(new Font("Arial Black", Font.PLAIN, 35));
     Controller_Perentage_V.setBounds(133, 250, 137, 58);
-    frame.getContentPane().add(Controller_Perentage_V);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Controller_Perentage_V);
 
     Battery_Percentage_V = new JLabel("0%");
     Battery_Percentage_V.setToolTipText("Battery percentage renew per minute when vehicle motor has no apply");
     Battery_Percentage_V.setHorizontalAlignment(SwingConstants.CENTER);
     Battery_Percentage_V.setFont(new Font("Arial Black", Font.PLAIN, 35));
     Battery_Percentage_V.setBounds(716, 46, 137, 58);
-    frame.getContentPane().add(Battery_Percentage_V);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Battery_Percentage_V);
 
     Front_Brake_V = new JLabel("0 N");
     Front_Brake_V.setToolTipText("Front Brake Valuerenew immediately");
@@ -572,7 +578,7 @@ public class first {
     Front_Brake_V.setForeground(new Color(0, 0, 0));
     Front_Brake_V.setFont(new Font("Arial", Font.PLAIN, 20));
     Front_Brake_V.setBounds(1062, 63, 69, 24);
-    frame.getContentPane().add(Front_Brake_V);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Front_Brake_V);
 
     Back_Brake_V = new JLabel("0 N");
     Back_Brake_V.setToolTipText("Back Brake Valuerenew immediately");
@@ -580,7 +586,7 @@ public class first {
     Back_Brake_V.setForeground(Color.BLACK);
     Back_Brake_V.setFont(new Font("Arial", Font.PLAIN, 20));
     Back_Brake_V.setBounds(1296, 63, 69, 24);
-    frame.getContentPane().add(Back_Brake_V);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Back_Brake_V);
     
     JLabel UID_No = new JLabel("0000000000");
     UID_No.setToolTipText("The UID number of the user");
@@ -588,19 +594,19 @@ public class first {
     UID_No.setHorizontalAlignment(SwingConstants.LEFT);
     UID_No.setFont(new Font("Consolas", Font.PLAIN, 28));
     UID_No.setBounds(284, 12, 190, 36);
-    frame.getContentPane().add(UID_No);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(UID_No);
     
     Mother_Board_Serial_List = new List();
     Mother_Board_Serial_List.setMultipleSelections(false);
     Mother_Board_Serial_List.setFont(new Font("Arial", Font.PLAIN, 18));
     Mother_Board_Serial_List.setBounds(673, 140, 348, 165);
-    frame.getContentPane().add(Mother_Board_Serial_List);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Mother_Board_Serial_List);
     
     NXT_Serial_List = new List();
     NXT_Serial_List.setMultipleSelections(false);
     NXT_Serial_List.setFont(new Font("Arial", Font.PLAIN, 18));
     NXT_Serial_List.setBounds(1026, 140, 348, 165);
-    frame.getContentPane().add(NXT_Serial_List);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(NXT_Serial_List);
     
     
     
@@ -608,13 +614,15 @@ public class first {
 
   //Motor
     Disable_or_enable_the_motor_Button = new JButton("ENABLE");
+    Disable_or_enable_the_motor_Button.setEnabled(false);
     Disable_or_enable_the_motor_Button.setActionCommand("Tap to ENABLE");
     Disable_or_enable_the_motor_Button.setBackground(Color.GREEN);
     Disable_or_enable_the_motor_Button.setFont(new Font("Arial Black", Font.PLAIN, 35));
     Disable_or_enable_the_motor_Button.setBounds(405, 262, 219, 43);
-    frame.getContentPane().add(Disable_or_enable_the_motor_Button);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Disable_or_enable_the_motor_Button);
     
     Actual_Motor_Percentage_Control_Slider = new JSlider();
+    Actual_Motor_Percentage_Control_Slider.setEnabled(false);
     Actual_Motor_Percentage_Control_Slider.setToolTipText("Slide the bar as the controller,REMEMBER to ENABLE the motor");
     Actual_Motor_Percentage_Control_Slider.setPaintLabels(true);
     Actual_Motor_Percentage_Control_Slider.setSnapToTicks(true);
@@ -622,7 +630,7 @@ public class first {
     Actual_Motor_Percentage_Control_Slider.setForeground(Color.GREEN);
     Actual_Motor_Percentage_Control_Slider.setValue(0);
     Actual_Motor_Percentage_Control_Slider.setBounds(21, 505, 644, 48);
-    frame.getContentPane().add(Actual_Motor_Percentage_Control_Slider);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Actual_Motor_Percentage_Control_Slider);
     
   //Connection
     COM_selection_comboBox = new JComboBox<String>();
@@ -632,38 +640,43 @@ public class first {
     COM_selection_comboBox.setBounds(379, 58, 151, 34);
     SerialPort[] portNames = SerialPort.getCommPorts();
     for(int i = 0; i < portNames.length; i++) COM_selection_comboBox.addItem(portNames[i].getSystemPortName());
-    frame.getContentPane().add(COM_selection_comboBox);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(COM_selection_comboBox);
     
     JButton Dis_Connect = new JButton("Connect");
     Dis_Connect.setForeground(Color.BLACK);
     Dis_Connect.setBackground(Color.WHITE);
     Dis_Connect.setBounds(536, 58, 123, 34);
-    frame.getContentPane().add(Dis_Connect);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Dis_Connect);
     
   //Mother Board Serial
     JFormattedTextField Mother_Board_Serial_TextBox = new JFormattedTextField();
+    Mother_Board_Serial_TextBox.setEnabled(false);
     Mother_Board_Serial_TextBox.setToolTipText("<English only>  \r\nType here to send message to Mother Board via Serial");
     Mother_Board_Serial_TextBox.setFont(new Font("Constantia", Font.PLAIN, 14));
     Mother_Board_Serial_TextBox.setBounds(671, 307, 277, 38);
-    frame.getContentPane().add(Mother_Board_Serial_TextBox);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Mother_Board_Serial_TextBox);
     
     Button Mother_Board_Serial_SendButton = new Button("Send");
+    Mother_Board_Serial_SendButton.setEnabled(false);
     Mother_Board_Serial_SendButton.setBounds(946, 307, 76, 38);
-    frame.getContentPane().add(Mother_Board_Serial_SendButton);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Mother_Board_Serial_SendButton);
     
   //NXT Serial
     JFormattedTextField NXT_Serial_TextBox = new JFormattedTextField();
+    NXT_Serial_TextBox.setEnabled(false);
     NXT_Serial_TextBox.setToolTipText("<English only>  \r\nType here to send message to NXT via Serial");
     NXT_Serial_TextBox.setFont(new Font("Constantia", Font.PLAIN, 14));
     NXT_Serial_TextBox.setBounds(1024, 307, 277, 38);
-    frame.getContentPane().add(NXT_Serial_TextBox);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(NXT_Serial_TextBox);
     
     Button NXT_Serial_SendButton = new Button("Send");
+    NXT_Serial_SendButton.setEnabled(false);
     NXT_Serial_SendButton.setBounds(1298, 307, 76, 38);
-    frame.getContentPane().add(NXT_Serial_SendButton);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(NXT_Serial_SendButton);
 
   //Front Brake
     Front_Brake_Slider = new JSlider();
+    Front_Brake_Slider.setEnabled(false);
     Front_Brake_Slider.setToolTipText("Slide to controller FRONT brake");
     Front_Brake_Slider.setBackground(Color.WHITE);
     Front_Brake_Slider.setForeground(Color.WHITE);
@@ -671,10 +684,11 @@ public class first {
     Front_Brake_Slider.setPaintLabels(true);
     Front_Brake_Slider.setValue(0);
     Front_Brake_Slider.setBounds(903, 62, 156, 26);
-    frame.getContentPane().add(Front_Brake_Slider);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Front_Brake_Slider);
     
   //Back Brake
     Back_Brake_Slider = new JSlider();
+    Back_Brake_Slider.setEnabled(false);
     Back_Brake_Slider.setToolTipText("Slide to controller BACK brake");
     Back_Brake_Slider.setBackground(Color.WHITE);
     Back_Brake_Slider.setForeground(Color.WHITE);
@@ -682,181 +696,223 @@ public class first {
     Back_Brake_Slider.setSnapToTicks(true);
     Back_Brake_Slider.setPaintLabels(true);
     Back_Brake_Slider.setBounds(1134, 62, 159, 26);
-    frame.getContentPane().add(Back_Brake_Slider);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Back_Brake_Slider);
     
   //Logout
     Button Logout_Button = new Button("Log Out");
     Logout_Button.setBounds(583, 13, 76, 23);
-    frame.getContentPane().add(Logout_Button);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Logout_Button);
     
     distance_sensor_R_1= new JLabel("\u25E3");
-    distance_sensor_R_1.setForeground(Color.RED);
+    distance_sensor_R_1.setForeground(Color.WHITE);
     distance_sensor_R_1.setFont(new Font("Dialog", Font.PLAIN, 90));
-    distance_sensor_R_1.setBounds(1082, 585, 107, 122);
-    frame.getContentPane().add(distance_sensor_R_1);
+    distance_sensor_R_1.setBounds(1157, 574, 107, 122);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_R_1);
     
     distance_sensor_R_2 = new JLabel("\u258D");
-    distance_sensor_R_2.setForeground(Color.RED);
+    distance_sensor_R_2.setForeground(Color.WHITE);
     distance_sensor_R_2.setFont(new Font("Dialog", Font.PLAIN, 90));
-    distance_sensor_R_2.setBounds(1044, 585, 129, 122);
-    frame.getContentPane().add(distance_sensor_R_2);
+    distance_sensor_R_2.setBounds(1119, 574, 129, 122);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_R_2);
     
     distance_sensor_R_3 = new JLabel("\u2589");
-    distance_sensor_R_3.setForeground(Color.RED);
+    distance_sensor_R_3.setForeground(Color.WHITE);
     distance_sensor_R_3.setFont(new Font("Dialog", Font.PLAIN, 90));
-    distance_sensor_R_3.setBounds(962, 585, 181, 122);
-    frame.getContentPane().add(distance_sensor_R_3);
+    distance_sensor_R_3.setBounds(1037, 574, 181, 122);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_R_3);
 
     distance_sensor_R_4 = new JLabel("\u258D");
-    distance_sensor_R_4.setForeground(Color.RED);
+    distance_sensor_R_4.setForeground(Color.WHITE);
     distance_sensor_R_4.setFont(new Font("Dialog", Font.PLAIN, 90));
-    distance_sensor_R_4.setBounds(923, 585, 233, 122);
-    frame.getContentPane().add(distance_sensor_R_4);
+    distance_sensor_R_4.setBounds(998, 574, 233, 122);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_R_4);
     
     distance_sensor_R_5 = new JLabel("\u25E2");
-    distance_sensor_R_5.setForeground(Color.RED);
+    distance_sensor_R_5.setForeground(Color.WHITE);
     distance_sensor_R_5.setFont(new Font("Dialog", Font.PLAIN, 90));
-    distance_sensor_R_5.setBounds(828, 585, 280, 122);
-    frame.getContentPane().add(distance_sensor_R_5);
+    distance_sensor_R_5.setBounds(903, 574, 280, 122);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_R_5);
     
     distance_sensor_L_1 = new JLabel("\u25E4");
-    distance_sensor_L_1.setForeground(Color.RED);
+    distance_sensor_L_1.setForeground(Color.WHITE);
     distance_sensor_L_1.setFont(new Font("Dialog", Font.PLAIN, 90));
-    distance_sensor_L_1.setBounds(1082, 358, 107, 122);
-    frame.getContentPane().add(distance_sensor_L_1);
+    distance_sensor_L_1.setBounds(1157, 347, 107, 122);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_L_1);
     
     distance_sensor_L_2 = new JLabel("\u258D");
-    distance_sensor_L_2.setForeground(Color.RED);
+    distance_sensor_L_2.setForeground(Color.WHITE);
     distance_sensor_L_2.setFont(new Font("Dialog", Font.PLAIN, 90));
-    distance_sensor_L_2.setBounds(1044, 358, 129, 122);
-    frame.getContentPane().add(distance_sensor_L_2);
+    distance_sensor_L_2.setBounds(1119, 347, 129, 122);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_L_2);
     
     distance_sensor_L_3 = new JLabel("\u2589");
-    distance_sensor_L_3.setForeground(Color.RED);
+    distance_sensor_L_3.setForeground(Color.WHITE);
     distance_sensor_L_3.setFont(new Font("Dialog", Font.PLAIN, 90));
-    distance_sensor_L_3.setBounds(962, 358, 181, 122);
-    frame.getContentPane().add(distance_sensor_L_3);
+    distance_sensor_L_3.setBounds(1037, 347, 181, 122);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_L_3);
     
     distance_sensor_L_4 = new JLabel("\u258D");
-    distance_sensor_L_4.setForeground(Color.RED);
+    distance_sensor_L_4.setForeground(Color.WHITE);
     distance_sensor_L_4.setFont(new Font("Dialog", Font.PLAIN, 90));
-    distance_sensor_L_4.setBounds(923, 358, 233, 122);
-    frame.getContentPane().add(distance_sensor_L_4);
+    distance_sensor_L_4.setBounds(998, 347, 233, 122);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_L_4);
     
     distance_sensor_L_5 = new JLabel("\u25E5");
-    distance_sensor_L_5.setForeground(Color.RED);
+    distance_sensor_L_5.setForeground(Color.WHITE);
     distance_sensor_L_5.setFont(new Font("Dialog", Font.PLAIN, 90));
-    distance_sensor_L_5.setBounds(828, 358, 280, 122);
-    frame.getContentPane().add(distance_sensor_L_5);
+    distance_sensor_L_5.setBounds(903, 347, 280, 122);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_L_5);
     
     distance_sensor_B_R = new JLabel("\u25E4");
-    distance_sensor_B_R.setForeground(Color.RED);
+    distance_sensor_B_R.setForeground(Color.WHITE);
     distance_sensor_B_R.setFont(new Font("Dialog", Font.PLAIN, 90));
-    distance_sensor_B_R.setBounds(826, 565, 107, 122);
-    frame.getContentPane().add(distance_sensor_B_R);
+    distance_sensor_B_R.setBounds(901, 554, 107, 122);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_B_R);
     
     distance_sensor_B_L = new JLabel("\u25E3");
-    distance_sensor_B_L.setForeground(Color.RED);
+    distance_sensor_B_L.setForeground(Color.WHITE);
     distance_sensor_B_L.setFont(new Font("Dialog", Font.PLAIN, 90));
-    distance_sensor_B_L.setBounds(826, 386, 107, 122);
-    frame.getContentPane().add(distance_sensor_B_L);
+    distance_sensor_B_L.setBounds(901, 375, 107, 122);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_B_L);
 
     distance_sensor_B_M = new JLabel("\u2587");
-    distance_sensor_B_M.setForeground(Color.RED);
+    distance_sensor_B_M.setForeground(Color.WHITE);
     distance_sensor_B_M.setFont(new Font("Dialog", Font.PLAIN, 90));
-    distance_sensor_B_M.setBounds(826, 470, 181, 122);
-    frame.getContentPane().add(distance_sensor_B_M);
+    distance_sensor_B_M.setBounds(901, 459, 181, 122);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_B_M);
     
     distance_sensor_R_5_V = new JLabel("00.00");
     distance_sensor_R_5_V.setHorizontalAlignment(SwingConstants.CENTER);
     distance_sensor_R_5_V.setForeground(Color.BLACK);
     distance_sensor_R_5_V.setFont(new Font("Dialog", Font.PLAIN, 13));
-    distance_sensor_R_5_V.setBounds(846, 692, 61, 20);
-    frame.getContentPane().add(distance_sensor_R_5_V);
+    distance_sensor_R_5_V.setBounds(921, 681, 61, 20);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_R_5_V);
     
     distance_sensor_R_4_V = new JLabel("00.00");
     distance_sensor_R_4_V.setHorizontalAlignment(SwingConstants.CENTER);
     distance_sensor_R_4_V.setForeground(Color.BLACK);
     distance_sensor_R_4_V.setFont(new Font("Dialog", Font.PLAIN, 13));
-    distance_sensor_R_4_V.setBounds(911, 692, 61, 20);
-    frame.getContentPane().add(distance_sensor_R_4_V);
+    distance_sensor_R_4_V.setBounds(986, 681, 61, 20);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_R_4_V);
     
     distance_sensor_R_3_V = new JLabel("00.00");
     distance_sensor_R_3_V.setHorizontalAlignment(SwingConstants.CENTER);
     distance_sensor_R_3_V.setForeground(Color.BLACK);
     distance_sensor_R_3_V.setFont(new Font("Dialog", Font.PLAIN, 13));
-    distance_sensor_R_3_V.setBounds(972, 692, 61, 20);
-    frame.getContentPane().add(distance_sensor_R_3_V);
+    distance_sensor_R_3_V.setBounds(1047, 681, 61, 20);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_R_3_V);
     
     distance_sensor_R_2_V = new JLabel("00.00");
     distance_sensor_R_2_V.setHorizontalAlignment(SwingConstants.CENTER);
     distance_sensor_R_2_V.setForeground(Color.BLACK);
     distance_sensor_R_2_V.setFont(new Font("Dialog", Font.PLAIN, 13));
-    distance_sensor_R_2_V.setBounds(1031, 692, 61, 20);
-    frame.getContentPane().add(distance_sensor_R_2_V);
+    distance_sensor_R_2_V.setBounds(1106, 681, 61, 20);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_R_2_V);
     
     distance_sensor_R_1_V = new JLabel("00.00");
     distance_sensor_R_1_V.setHorizontalAlignment(SwingConstants.CENTER);
     distance_sensor_R_1_V.setForeground(Color.BLACK);
     distance_sensor_R_1_V.setFont(new Font("Dialog", Font.PLAIN, 13));
-    distance_sensor_R_1_V.setBounds(1092, 692, 61, 20);
-    frame.getContentPane().add(distance_sensor_R_1_V);
+    distance_sensor_R_1_V.setBounds(1167, 681, 61, 20);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_R_1_V);
     
     distance_sensor_L_5_V = new JLabel("00.00");
     distance_sensor_L_5_V.setHorizontalAlignment(SwingConstants.CENTER);
     distance_sensor_L_5_V.setForeground(Color.BLACK);
     distance_sensor_L_5_V.setFont(new Font("Dialog", Font.PLAIN, 13));
-    distance_sensor_L_5_V.setBounds(846, 357, 61, 20);
-    frame.getContentPane().add(distance_sensor_L_5_V);
+    distance_sensor_L_5_V.setBounds(921, 346, 61, 20);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_L_5_V);
     
     distance_sensor_L_4_V = new JLabel("00.00");
     distance_sensor_L_4_V.setHorizontalAlignment(SwingConstants.CENTER);
     distance_sensor_L_4_V.setForeground(Color.BLACK);
     distance_sensor_L_4_V.setFont(new Font("Dialog", Font.PLAIN, 13));
-    distance_sensor_L_4_V.setBounds(911, 357, 61, 20);
-    frame.getContentPane().add(distance_sensor_L_4_V);
+    distance_sensor_L_4_V.setBounds(986, 346, 61, 20);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_L_4_V);
     
     distance_sensor_L_3_V = new JLabel("00.00");
     distance_sensor_L_3_V.setHorizontalAlignment(SwingConstants.CENTER);
     distance_sensor_L_3_V.setForeground(Color.BLACK);
     distance_sensor_L_3_V.setFont(new Font("Dialog", Font.PLAIN, 13));
-    distance_sensor_L_3_V.setBounds(972, 357, 61, 20);
-    frame.getContentPane().add(distance_sensor_L_3_V);
+    distance_sensor_L_3_V.setBounds(1047, 346, 61, 20);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_L_3_V);
     
     distance_sensor_L_2_V = new JLabel("00.00");
     distance_sensor_L_2_V.setHorizontalAlignment(SwingConstants.CENTER);
     distance_sensor_L_2_V.setForeground(Color.BLACK);
     distance_sensor_L_2_V.setFont(new Font("Dialog", Font.PLAIN, 13));
-    distance_sensor_L_2_V.setBounds(1031, 357, 61, 20);
-    frame.getContentPane().add(distance_sensor_L_2_V);
+    distance_sensor_L_2_V.setBounds(1106, 346, 61, 20);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_L_2_V);
     
     distance_sensor_L_1_V = new JLabel("00.00");
     distance_sensor_L_1_V.setHorizontalAlignment(SwingConstants.CENTER);
     distance_sensor_L_1_V.setForeground(Color.BLACK);
     distance_sensor_L_1_V.setFont(new Font("Dialog", Font.PLAIN, 13));
-    distance_sensor_L_1_V.setBounds(1092, 357, 61, 20);
-    frame.getContentPane().add(distance_sensor_L_1_V);
+    distance_sensor_L_1_V.setBounds(1167, 346, 61, 20);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_L_1_V);
     
     distance_sensor_B_L_V = new JLabel("00.00");
     distance_sensor_B_L_V.setHorizontalAlignment(SwingConstants.CENTER);
     distance_sensor_B_L_V.setForeground(Color.BLACK);
     distance_sensor_B_L_V.setFont(new Font("Dialog", Font.PLAIN, 13));
-    distance_sensor_B_L_V.setBounds(757, 436, 61, 20);
-    frame.getContentPane().add(distance_sensor_B_L_V);
+    distance_sensor_B_L_V.setBounds(832, 425, 61, 20);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_B_L_V);
     
     distance_sensor_B_M_V = new JLabel("00.00");
     distance_sensor_B_M_V.setHorizontalAlignment(SwingConstants.CENTER);
     distance_sensor_B_M_V.setForeground(Color.BLACK);
     distance_sensor_B_M_V.setFont(new Font("Dialog", Font.PLAIN, 13));
-    distance_sensor_B_M_V.setBounds(755, 526, 61, 20);
-    frame.getContentPane().add(distance_sensor_B_M_V);
+    distance_sensor_B_M_V.setBounds(830, 515, 61, 20);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_B_M_V);
     
     distance_sensor_B_R_V = new JLabel("00.00");
     distance_sensor_B_R_V.setHorizontalAlignment(SwingConstants.CENTER);
     distance_sensor_B_R_V.setForeground(Color.BLACK);
     distance_sensor_B_R_V.setFont(new Font("Dialog", Font.PLAIN, 13));
-    distance_sensor_B_R_V.setBounds(757, 616, 61, 20);
-    frame.getContentPane().add(distance_sensor_B_R_V);
+    distance_sensor_B_R_V.setBounds(832, 605, 61, 20);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(distance_sensor_B_R_V);
+    
+    JLabel Vehicle_Rise_Angle = new JLabel("Vehicle Rise Angle");
+    Vehicle_Rise_Angle.setHorizontalAlignment(SwingConstants.CENTER);
+    Vehicle_Rise_Angle.setFont(new Font("Arial", Font.PLAIN, 20));
+    Vehicle_Rise_Angle.setBounds(260, 569, 174, 24);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Vehicle_Rise_Angle);
+    
+    JLabel Vehicle_Acc = new JLabel("Vehicle accelerate");
+    Vehicle_Acc.setHorizontalAlignment(SwingConstants.CENTER);
+    Vehicle_Acc.setFont(new Font("Arial", Font.PLAIN, 20));
+    Vehicle_Acc.setBounds(45, 569, 174, 24);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Vehicle_Acc);
+    
+    Vichele_Rise_Angle_V = new JLabel("0\u00B0");
+    Vichele_Rise_Angle_V.setToolTipText("Angle renew per 10 millisecond");
+    Vichele_Rise_Angle_V.setHorizontalAlignment(SwingConstants.CENTER);
+    Vichele_Rise_Angle_V.setFont(new Font("Arial Black", Font.PLAIN, 35));
+    Vichele_Rise_Angle_V.setBounds(292, 603, 108, 58);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Vichele_Rise_Angle_V);
+
+    Vichele_Acc_V = new JLabel("0 m/s2");
+    Vichele_Acc_V.setToolTipText("Angle renew per 10 millisecond");
+    Vichele_Acc_V.setHorizontalAlignment(SwingConstants.CENTER);
+    Vichele_Acc_V.setFont(new Font("Arial Black", Font.PLAIN, 35));
+    Vichele_Acc_V.setBounds(55, 603, 164, 58);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Vichele_Acc_V);
+    
+    Rader_ON_OFF_Slide = new JSlider();
+    Rader_ON_OFF_Slide.setEnabled(false);
+    Rader_ON_OFF_Slide.setForeground(Color.WHITE);
+    Rader_ON_OFF_Slide.setBackground(Color.WHITE);
+    Rader_ON_OFF_Slide.setToolTipText("Turn on the rader may reduce the speed of  the renew rate");
+    Rader_ON_OFF_Slide.setMaximum(1);
+    Rader_ON_OFF_Slide.setValue(0);
+    Rader_ON_OFF_Slide.setBounds(725, 375, 48, 26);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(Rader_ON_OFF_Slide);
+    
+    JLabel lblOnOff = new JLabel("OFF          ON");
+    lblOnOff.setHorizontalAlignment(SwingConstants.LEFT);
+    lblOnOff.setFont(new Font("Arial", Font.PLAIN, 20));
+    lblOnOff.setBounds(679, 375, 145, 24);
+    frmMsbaautobrakecomputersitesystem.getContentPane().add(lblOnOff);
     
     
     
@@ -896,6 +952,48 @@ public class first {
         }
       }
     });
+    //-------------------------------------------------------------have to be edit--------------------------------------------------------------
+    Rader_ON_OFF_Slide.addChangeListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        JSlider source = (JSlider)e.getSource();
+        if (!source.getValueIsAdjusting()) {
+          int slide_on_off = (int)source.getValue();
+          if (slide_on_off==0) {
+              print("");
+              distance_sensor_R_1_V.setText("00.00");
+              distance_sensor_R_2_V.setText("00.00");
+              distance_sensor_R_3_V.setText("00.00");
+              distance_sensor_R_4_V.setText("00.00");
+              distance_sensor_R_5_V.setText("00.00");
+              distance_sensor_R_1.setForeground(Color.WHITE);
+              distance_sensor_R_2.setForeground(Color.WHITE);
+              distance_sensor_R_3.setForeground(Color.WHITE);
+              distance_sensor_R_4.setForeground(Color.WHITE);
+              distance_sensor_R_5.setForeground(Color.WHITE);
+              distance_sensor_L_1_V.setText("00.00");
+              distance_sensor_L_2_V.setText("00.00");
+              distance_sensor_L_3_V.setText("00.00");
+              distance_sensor_L_4_V.setText("00.00");
+              distance_sensor_L_5_V.setText("00.00");
+              distance_sensor_L_1.setForeground(Color.WHITE);
+              distance_sensor_L_2.setForeground(Color.WHITE);
+              distance_sensor_L_3.setForeground(Color.WHITE);
+              distance_sensor_L_4.setForeground(Color.WHITE);
+              distance_sensor_L_5.setForeground(Color.WHITE);
+              distance_sensor_B_L_V.setText("00.00");
+              distance_sensor_B_M_V.setText("00.00");
+              distance_sensor_B_R_V.setText("00.00");
+              distance_sensor_B_R.setForeground(Color.WHITE);
+              distance_sensor_B_M.setForeground(Color.WHITE);
+              distance_sensor_B_L.setForeground(Color.WHITE);
+          }
+          else if (slide_on_off==1) {
+              print("");
+          }
+        }
+      }
+    });
+    //-------------------------------------------------------------------------------------------------------------------------------
     
     Dis_Connect.addActionListener(new ActionListener(){
       @Override 
@@ -914,16 +1012,22 @@ public class first {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
-            SimpleDateFormat time = new SimpleDateFormat("yyyy,MM,dd HH:mm:ss.SSS");
-            Date current = new Date();
-            String send = "?"+ time.format(current) + " ";
-            print(send);
+            print("?");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             print("$C ");
+            Rader_ON_OFF_Slide.enable();
+            Actual_Motor_Percentage_Control_Slider.enable();
+            Front_Brake_Slider.enable();
+            Back_Brake_Slider.enable();
+            Disable_or_enable_the_motor_Button.enable();
+            Mother_Board_Serial_SendButton.enable();
+            NXT_Serial_SendButton.enable();
+            NXT_Serial_TextBox.enable();
+            Mother_Board_Serial_TextBox.enable();
           }
         }
         else {
@@ -943,11 +1047,10 @@ public class first {
           Distance_R_ConditionLight.setForeground(Color.RED);
           Distance_B_ConditionLight.setForeground(Color.RED);
           Speed_Sensor_ConditionLight.setForeground(Color.RED);
-          Voltage_n_heat_ConditionLight.setForeground(Color.RED);
+          Heat_n_Gsensor__ConditionLight.setForeground(Color.RED);
           Motor_Temp_V.setText("0\u00B0C");
           Vichele_Tilt_Angle_V.setText("0\u00B0");;
           Vichele_Speed_V.setText("0 km/hr");;
-          Actual_motor_percentage_V.setText("0%");
           Controller_Perentage_V.setText("0%");
           Battery_Percentage_V.setText("0%");
           Front_Brake_V.setText("0 N");
@@ -959,27 +1062,43 @@ public class first {
           distance_sensor_R_3_V.setText("00.00");
           distance_sensor_R_4_V.setText("00.00");
           distance_sensor_R_5_V.setText("00.00");
-          distance_sensor_R_1.setForeground(Color.RED);
-          distance_sensor_R_2.setForeground(Color.RED);
-          distance_sensor_R_3.setForeground(Color.RED);
-          distance_sensor_R_4.setForeground(Color.RED);
-          distance_sensor_R_5.setForeground(Color.RED);
+          distance_sensor_R_1.setForeground(Color.WHITE);
+          distance_sensor_R_2.setForeground(Color.WHITE);
+          distance_sensor_R_3.setForeground(Color.WHITE);
+          distance_sensor_R_4.setForeground(Color.WHITE);
+          distance_sensor_R_5.setForeground(Color.WHITE);
           distance_sensor_L_1_V.setText("00.00");
           distance_sensor_L_2_V.setText("00.00");
           distance_sensor_L_3_V.setText("00.00");
           distance_sensor_L_4_V.setText("00.00");
           distance_sensor_L_5_V.setText("00.00");
-          distance_sensor_L_1.setForeground(Color.RED);
-          distance_sensor_L_2.setForeground(Color.RED);
-          distance_sensor_L_3.setForeground(Color.RED);
-          distance_sensor_L_4.setForeground(Color.RED);
-          distance_sensor_L_5.setForeground(Color.RED);
+          distance_sensor_L_1.setForeground(Color.WHITE);
+          distance_sensor_L_2.setForeground(Color.WHITE);
+          distance_sensor_L_3.setForeground(Color.WHITE);
+          distance_sensor_L_4.setForeground(Color.WHITE);
+          distance_sensor_L_5.setForeground(Color.WHITE);
           distance_sensor_B_L_V.setText("00.00");
           distance_sensor_B_M_V.setText("00.00");
           distance_sensor_B_R_V.setText("00.00");
-          distance_sensor_B_R.setForeground(Color.RED);
-          distance_sensor_B_M.setForeground(Color.RED);
-          distance_sensor_B_L.setForeground(Color.RED);
+          distance_sensor_B_R.setForeground(Color.WHITE);
+          distance_sensor_B_M.setForeground(Color.WHITE);
+          distance_sensor_B_L.setForeground(Color.WHITE);
+          Rader_ON_OFF_Slide.setValue(0);
+          Actual_Motor_Percentage_Control_Slider.setValue(0);
+          Front_Brake_Slider.setValue(0);
+          Back_Brake_Slider.setValue(0);
+          Rader_ON_OFF_Slide.disable();
+          Actual_Motor_Percentage_Control_Slider.disable();
+          Front_Brake_Slider.disable();
+          Back_Brake_Slider.disable();
+          Disable_or_enable_the_motor_Button.disable();
+          Mother_Board_Serial_SendButton.disable();
+          NXT_Serial_SendButton.disable();
+          NXT_Serial_TextBox.disable();
+          Mother_Board_Serial_TextBox.disable();
+          COM_selection_comboBox.removeAll();
+          SerialPort[] portNames = SerialPort.getCommPorts();
+          for(int i = 0; i < portNames.length; i++) COM_selection_comboBox.addItem(portNames[i].getSystemPortName());
         }
       }
     });
@@ -1066,22 +1185,12 @@ public class first {
       }
     });
     
-    frame.setVisible(true);
+    frmMsbaautobrakecomputersitesystem.setVisible(true);
   }
   
 static class RemindTask extends TimerTask {
   public void run() {
     if (hasChoosePort) {
-      String CPV = Controller_Perentage_V.getText();
-      CPV = CPV.replaceAll("%", "");
-      int num = Integer.parseInt(CPV);
-      String AMPV= Actual_motor_percentage_V.getText();
-      AMPV = AMPV.replaceAll("%", "");
-      int a = Integer.parseInt(AMPV);
-//      System.out.println(num+"\t"+a);
-      if (num < a) {
-          Actual_motor_percentage_V.setText(num+"%");
-      }
       readS();
 //      readSC();
     }
@@ -1237,22 +1346,17 @@ static void readS() {
               break;
             }
             case 'T':{
-              if (Voltage_n_heat_ConditionLight.getForeground()==Color.RED) {
-                Voltage_n_heat_ConditionLight.setForeground(Color.GREEN);
-                Voltage_n_heat_ConditionLight.setToolTipText("connected");
+              if (Heat_n_Gsensor__ConditionLight.getForeground()==Color.RED) {
+                Heat_n_Gsensor__ConditionLight.setForeground(Color.GREEN);
+                Heat_n_Gsensor__ConditionLight.setToolTipText("connected");
               }
               else {
-                  Voltage_n_heat_ConditionLight.setForeground(Color.RED);
-                  Voltage_n_heat_ConditionLight.setToolTipText("disconnect");
+                  Heat_n_Gsensor__ConditionLight.setForeground(Color.RED);
+                  Heat_n_Gsensor__ConditionLight.setToolTipText("disconnect");
               }
               break;
             }
           }
-        }
-        case 'M':{
-          int num = scannerSC.nextInt();
-          Actual_motor_percentage_V.setText(num+"%");
-          break;
         }
         case 'X':{
           int num = scannerSC.nextInt();
@@ -1271,9 +1375,19 @@ static void readS() {
           Motor_Temp_V.setText(num+"\u00B0C");
           break;
         }
-        case 'A':{
+        case 'G':{
           int num = scannerSC.nextInt();
           Vichele_Tilt_Angle_V.setText(num+"\u00B0");
+          break;
+        }
+        case 'I':{
+          int num = scannerSC.nextInt();
+          Vichele_Rise_Angle_V.setText(num+"\u00B0");
+          break;
+        }
+        case 'A':{
+          int num = scannerSC.nextInt();
+          Vichele_Acc_V.setText(num+"m/s2");
           break;
         }
         case 'B':{
@@ -1394,7 +1508,7 @@ static void readS() {
           break;
         }
       }
-        frame.repaint();
+        frmMsbaautobrakecomputersitesystem.repaint();
     }
     catch(Exception e) {}
   }
