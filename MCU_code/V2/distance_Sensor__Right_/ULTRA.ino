@@ -15,8 +15,26 @@ void ultra(){
   long Mduration = pulseIn(ultraMEP, HIGH);
   long Rduration = pulseIn(ultraREP, HIGH);
   
-  ultraLD = Lduration/58.0;
-  ultraMD = Mduration/58.0;
+  ultraLD = Lduration/soundSpeed;
+  if (ultraLD<50) {
+    BultraLD = 1 ;
+    trigger_time  = millis();;
+  }
+  else if (trigger_time - millis()<5000) BultraLD = 0 ;
+  
+  ultraMD = Mduration/soundSpeed;
   ultraMD-=3.1;
-  ultraRD = Rduration/58.0;
+  if (ultraMD<50) {
+    BultraMD = 1 ;
+    trigger_time  = millis();
+  }
+  else if (trigger_time - millis()<2000) BultraMD = 0 ;
+  
+  ultraRD = Rduration/soundSpeed;
+  if (ultraRD<50) {
+    BultraRD = 1 ;
+    trigger_time  = millis();
+  }
+  else if (trigger_time - millis()<5000) BultraRD = 0 ;
+  
 }

@@ -1,8 +1,10 @@
+#include <SoftwareSerial.h>
 #include <Wire.h>  
 #include <SPI.h>
 #include <SD.h>
 #include <LiquidCrystal_I2C.h>
 
+SoftwareSerial 
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // set lcd I2C address
 File  file;           //SD card 
 

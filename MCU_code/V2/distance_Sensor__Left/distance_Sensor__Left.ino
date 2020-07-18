@@ -12,7 +12,7 @@
 #define ultraRTP 4
 #define ultraREP 5
 
-SoftwareSerial Mother(10,11);
+SoftwareSerial Serial4(10,11);
 
 SharpIR IR80_1 = SharpIR(IR80_1P, model80);
 SharpIR IR80_2 = SharpIR(IR80_2P, model80);
@@ -20,15 +20,20 @@ SharpIR IR80_2 = SharpIR(IR80_2P, model80);
 double IRD80_1,IRD80_2;
 double ultraLD,ultraMD,ultraRD;
 
+double soundSpeed=58.0;
 
+unsigned long trigger_time=0;
+
+bool BIRD80_1 = 0,BIRD80_2 = 0,BultraLD = 0,BultraMD = 0,BultraRD = 0;
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
+  Serial4.begin(9600);
 }
 
 void loop() {
   IR();
   ultra();
   show();
+  detect();
 }

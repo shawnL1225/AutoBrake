@@ -7,6 +7,7 @@ void show (){
   String send = "R " +String(ultraRD) +' '+  String(IRD80_2) + ' ' + String(ultraMD) + ' ' + String(IRD80_2) + ' '+  String(ultraLD);
 //  delay(10);
   Serial.println(send);
+  Serial4.print(send);
   delay(100);
 //  Serial.println("========================================");
 }

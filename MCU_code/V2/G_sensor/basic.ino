@@ -1,6 +1,7 @@
 void setup() {
   //setup
   Serial.begin(9600);
+  Serial4.begin(9600);
   dht.begin();
   mpu6050.begin();
   Wire.begin();

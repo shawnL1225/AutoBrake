@@ -1,5 +1,6 @@
+#include <SoftwareSerial.h>
 #include <DHT.h>
-#include<Wire.h>
+#include <Wire.h>
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
 
@@ -7,6 +8,7 @@
 #define MPU6050_addr 0x68
 #define dhtType DHT11 
 
+SoftwareSerial Serial4(10,11);
 DHT dht(dhtPin, dhtType);
 Adafruit_MPU6050 mpu6050;
 
@@ -22,19 +24,3 @@ double ax,dx;
 double ay,dy;
 double az,dz;
 double h,t;
-
-
-
-void serialEvent(){
-  if (Serial.available()>0){
-    char in = Serial.read();
-    if (in=='R'){
-      fixax=-ax;
-      fixay=-ay;
-      fixaz=-az;
-      fixdx=-dx;
-      fixdy=-dy;
-      fixdz=-dz;
-    }
-  }
-}
