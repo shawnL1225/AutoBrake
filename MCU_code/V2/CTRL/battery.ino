@@ -1,10 +1,11 @@
 void battery(){
   if ((CTRLP<=1&&millis()-lbsms>3000)||lbsms==0){
-    int batteryV =map(analogRead(A2),0,1023,0,1500);
+    double batteryV=analogRead(A5)*25/1024.0;
     Serial.print("Battery Voltage = ");
     Serial.print(batteryV/100.00);
-    Serial.println(" B");
-    String sendS = 'B'+String(batteryV)+' ';
+    Serial.println(" V");
+    int percentage=map(batteryV,1050,1350,0,100);
+    String sendS = 'B'+String(percentage)+' ';
     Serial4.print(sendS);
     lbsms=millis();
   }

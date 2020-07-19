@@ -1,15 +1,41 @@
 // -------------------------PORTS----------------------------------------
   //Communication
 /**/// -----=========Serial (deskopSite)======---------
-    // --Code symbol for Serial (I)--
-      //
     // --Code symbol for Serial (O)--
-      //
-
-      
+      //'@' -> Enable
+      //'#' -> Disable
+      //'M' + CTRLP
+      //'A' + '1/0' -> 1>>require distance
+      //'?' -> request for now status
+      //"$C" -> connected
+      //"$D" -> disconnected
+      //'E' + frontBrakeForce
+      //'D' + backBrakeForce
+      //'H' + mother board Serial
+      //'N' + NXT board Serial
+    // --Code symbol for Serial (I)--
+      //'?' + charOfMCU -> status
+      //'@' -> Enable
+      //'#' -> Disable
+      //'X' + CTRLP 
+      //'V' + nowSpeed 
+      //'T' + motorTemp 
+      //'G' + tiltAngle
+      //'I' + riseAngle
+      //'A' + vichileAcc
+      //'B' + BatteryP
+      //'E' + frontBrakeForce
+      //'D' + backBrakeForce
+      //'H' + motherBoardSerial
+      //'N' + NXTSerial
+      //'F' + F_1 + F_2 + F_3
+      //'L' + L_1 + L_2 + L_3 + L_4 + L_5
+      //'R' + R_1 + R_2 + R_3 + R_4 + R_5
+      //'C' + C_1 + C_2 + C_3      
+    
     // -----=========Serial1 (bluetooth)|33|======---------
     // --Code symbol for Serial1 (I)--
-      //'?' -> request for 
+      //'?' -> request for now status
       //'@' -> motor permited
       //'#' -> motor not permited
     // --Code symbol for Serial1 (O)--

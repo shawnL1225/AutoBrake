@@ -9,7 +9,7 @@ SoftwareSerial Serial7 (28,29);
 SoftwareSerial Serial8 (30,32);
 
 File file;  //SD card 
-
+String statusForBluetooth = "";
 String fileName;
 
 void loop() {
