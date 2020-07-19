@@ -2,18 +2,6 @@
   //Communication
 /**/// -----=========Serial (deskopSite)======---------
     // --Code symbol for Serial (O)--
-      //'@' -> Enable
-      //'#' -> Disable
-      //'M' + CTRLP
-      //'A' + '1/0' -> 1>>require distance
-      //'?' -> request for now status
-      //"$C" -> connected
-      //"$D" -> disconnected
-      //'E' + frontBrakeForce
-      //'D' + backBrakeForce
-      //'H' + mother board Serial
-      //'N' + NXT board Serial
-    // --Code symbol for Serial (I)--
       //'?' + charOfMCU -> status
       //'@' -> Enable
       //'#' -> Disable
@@ -31,8 +19,20 @@
       //'F' + F_1 + F_2 + F_3
       //'L' + L_1 + L_2 + L_3 + L_4 + L_5
       //'R' + R_1 + R_2 + R_3 + R_4 + R_5
-      //'C' + C_1 + C_2 + C_3      
-    
+      //'C' + C_1 + C_2 + C_3 
+    // --Code symbol for Serial (I)--
+      //'@' -> Enable
+      //'#' -> Disable
+      //'M' + CTRLP
+      //'A' + '1/0' -> 1>>require distance
+      //'?' -> request for now status
+      //"$C" -> connected
+      //"$D" -> disconnected
+      //'E' + frontBrakeForce
+      //'D' + backBrakeForce
+      //'H' + mother board Serial
+      //'N' + NXT board Serial
+      
     // -----=========Serial1 (bluetooth)|33|======---------
     // --Code symbol for Serial1 (I)--
       //'?' -> request for now status
@@ -99,6 +99,8 @@
       //'B' + batteryV <Actual Voltage *100>
     // --Code symbol for Serial7 (O)--
       //'V' + nowSpeed 
+    //digitalPin 
+      //D41 -> motor permission
 
     // -----=========Serial8 (Heat n Gsensor <T>)|40|======---------
     // --Code symbol for Serial8 (I)--

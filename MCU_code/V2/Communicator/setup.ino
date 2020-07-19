@@ -20,22 +20,32 @@ void setup() {
   Serial6.setTimeout(100);
   Serial7.setTimeout(100);
   Serial8.setTimeout(100);
-  
-  //--------------------------board check----------------------------
     
-  //------------------------===== SD Check ====-------------
+  //------------------===== SD Check ====-------------
     randomSeed(analogRead(A1));
+    int a = 0;
     if (!SD.begin(4/*CS port*/)) {
       Serial.println("SD err <I>");
-      Serial2.print("SI"); //Please insert SD Card
       a++;
       if (a<=5) return;
       else {
-        statusForBluetooth = "SE";
+        statusForBluetooth = "E";
       }
     }
+    
+    //--------------------------board check----------------------------
+    Serial.print("?A");
+    if (digitalRead(34)) Serial.print("?R");
+    if (digitalRead(35)) Serial.print("?L");
+    if (digitalRead(36)) Serial.print("?C");
+    if (digitalRead(37)) Serial.print("?S");
+    if (digitalRead(38)) Serial.print("?Z");
+    else statusForBluetooth = 'E';
+    if (digitalRead(39)) Serial.print("?X");
+    else statusForBluetooth = 'E';
+    if (digitalRead(40)) Serial.print("?T");
 
-    // Name a file name
+    // ----------------------Name a file name------------------
     if (isAlphaNumeric(fileName[1])) ;
     else {
       file = SD.open("fileNo.txt");
@@ -48,11 +58,6 @@ void setup() {
       file.println(fileNo);
       file.close();
     }
-    Serial.println(fileName);
-    }
-    
-  //------------------------Ready to strat---------------------------------
-    Serial.println("Bike LOCK");
-    Serial.println("START");
+
     if (statusForBluetooth == "") statusForBluetooth = "=";
 }
