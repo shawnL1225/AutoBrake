@@ -25,7 +25,7 @@ double soundSpeed=58.0;
 unsigned long trigger_time=0;
 
 bool BIRD80_1 = 0,BIRD80_2 = 0,BultraLD = 0,BultraMD = 0,BultraRD = 0;
-
+bool Serial4required = 0;
 
 void setup() {
   Serial.begin(9600);

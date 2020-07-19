@@ -1,5 +1,3 @@
-// Receive Event [Serial1 -> motor_with_battery_brakeD_CTRL] [Serial2-> cellphone] [Serial3 -> Speed Sensor Error]
-
 int RASPXpowerp;
 
 void serialEvent(){

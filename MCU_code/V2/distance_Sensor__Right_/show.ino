@@ -4,10 +4,15 @@ void show (){
 //  Serial.println("----------------------------------------");
   if (IRD80_1>50) IRD80_1 = ultraMD;
   if (IRD80_2>50) IRD80_2 = ultraMD;
-  String send = "R " +String(ultraRD) +' '+  String(IRD80_2) + ' ' + String(ultraMD) + ' ' + String(IRD80_2) + ' '+  String(ultraLD);
+  String send = "R " +String(ultraRD) +' '+  String(IRD80_2) + ' ' + String(ultraMD) + ' ' + String(IRD80_2) + ' '+  String(ultraLD)+ ' ';
 //  delay(10);
   Serial.println(send);
-  Serial4.print(send);
+  if (Serial4.available()){
+    Serial4required = bool (Serial.parseInt());
+  }
+  if (Serial4required){
+    Serial4.println(send);
+  }
   delay(100);
 //  Serial.println("========================================");
 }

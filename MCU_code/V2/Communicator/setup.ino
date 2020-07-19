@@ -4,16 +4,25 @@ void setup() {
   Serial1.begin (9600);
   Serial2.begin(9600);
   Serial3.begin(9600);
-  lcd.begin(16, 2);
+  Serial4.begin(9600);
+  Serial5.begin(9600);
+  Serial6.begin(9600);
+  Serial7.begin(9600);
+  Serial8.begin(9600);
 
   // Set parseInt timeout
   Serial.setTimeout(100);
   Serial1.setTimeout(100);
   Serial2.setTimeout(100);
   Serial3.setTimeout(100);
+  Serial4.setTimeout(100);
+  Serial5.setTimeout(100);
+  Serial6.setTimeout(100);
+  Serial7.setTimeout(100);
+  Serial8.setTimeout(100);
   
   // Phone connection
-  Serial.println("Please connect to the cepllphone");
+  Serial.println("Please connect to the cellphone");
   if (1){
     while (Serial2.available()<=0) {
       lcd.setCursor(0,0);

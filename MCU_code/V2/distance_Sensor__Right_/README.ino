@@ -18,3 +18,6 @@
        // --Code symbol for Serial4 (O)--
         //'R' -> ultraRD + IRD80_1 + ultraMD + IRD80_2 + ultraLD
         //RS -> Right side has car
+      // --Code symbol for Serial1 (O)--
+        //'A' + '1/0' -> 1 is all distance is required / 0 is not required
+        

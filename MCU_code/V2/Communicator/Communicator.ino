@@ -1,26 +1,17 @@
 #include <SoftwareSerial.h>
-#include <Wire.h>  
 #include <SPI.h>
 #include <SD.h>
-#include <LiquidCrystal_I2C.h>
 
-SoftwareSerial 
-LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // set lcd I2C address
-File  file;           //SD card 
+SoftwareSerial Serial4 (22,23);
+SoftwareSerial Serial5 (24,25);
+SoftwareSerial Serial6 (26,27);
+SoftwareSerial Serial7 (28,29);
+SoftwareSerial Serial8 (30,32);
 
-int fixhr=0,fixmi=0,fixsec=0,fixmsec=0;  //Add time to arduino millisecond
-int Speed;
-int BV;
-int Temp;
+File  file;  //SD card 
 
-double hv=0;
-
-bool appStart=0;
-bool brake=0;
-
-String fileName, lBV/*last battery voltage*/, lsS;/*last speed String*/
-
+String fileName;
 
 void loop() {
-  serialEvent();
+  
 }
