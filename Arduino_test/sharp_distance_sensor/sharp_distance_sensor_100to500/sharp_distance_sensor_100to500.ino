@@ -5,7 +5,7 @@
 #define IRPin A0
 #define model 100500
 // Create variable to store the distance:
-int distance_cm;
+int distance_cm = 5;
 /* Model :
   GP2Y0A02YK0F --> 20150
   GP2Y0A21YK0F --> 1080

@@ -12,6 +12,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.*
 import android.speech.tts.TextToSpeech
+import android.text.Html
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -24,7 +25,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivity: AppCompatActivity() {
 
     companion object {
@@ -168,7 +168,7 @@ class MainActivity: AppCompatActivity() {
                         if(warningLight == 0 && warningLine == 0 && warningRecognition == 0){
                             warning_img.visibility = View.INVISIBLE
                         }
-                        Log.d(BT_TAG, "warningRecognition: $warningRecognition,warningDirection: $warningDirection")
+
                         // if warning
                         if (warningLight == 1 || warningLine == 1 || warningRecognition == 1) {
                             progress_circular.setProgress(0, true)
@@ -192,16 +192,20 @@ class MainActivity: AppCompatActivity() {
                                 warning_img.visibility = View.VISIBLE
                                 if(warningDirection == 'l') {
                                     mTTS.speak(
-                                        "Be careful of left side", TextToSpeech.QUEUE_FLUSH, null
+                                        "Beware of left side", TextToSpeech.QUEUE_FLUSH, null
                                     )
                                 }
                                 else if (warningDirection == 'r'){
                                     mTTS.speak(
-                                        "Be careful of right side", TextToSpeech.QUEUE_FLUSH, null
+                                        "Beware of right side", TextToSpeech.QUEUE_FLUSH, null
+                                    )
+                                }else if(warningDirection == 'f'){
+                                    mTTS.speak(
+                                        "watch out!start braking system", TextToSpeech.QUEUE_FLUSH, null
                                     )
                                 }else {
                                     mTTS.speak(
-                                        "watch out!start braking system", TextToSpeech.QUEUE_FLUSH, null
+                                        "Beware of the rear", TextToSpeech.QUEUE_FLUSH, null
                                     )
                                 }
                             }
@@ -362,7 +366,7 @@ class MainActivity: AppCompatActivity() {
                 m_bluetoothSocket = null
                 m_isConnected = false
                 Toast.makeText(context,"disconnected", Toast.LENGTH_SHORT).show()
-            } catch (e: IOException) {0
+            } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
@@ -402,8 +406,6 @@ class MainActivity: AppCompatActivity() {
 
             if (connectSuccess) {
                 m_isConnected = true
-                val cal = Calendar.getInstance()
-                val dateReturn = '@'+SimpleDateFormat("yy:MM:dd:HH:mm:ss:SS").format(cal.time)
                 activity.sendData("?")
 
                 Toast.makeText(context,"connected", Toast.LENGTH_SHORT).show()
@@ -494,9 +496,15 @@ class MainActivity: AppCompatActivity() {
                         Log.d("GPS", " GPS Latitude : $latitude")
                         Log.d("GPS", " GPS Longitude : $longitude")
 
+                        val cal = Calendar.getInstance()
+                        val date = SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(cal.time)
+
+
                         //to firebase
-                        myRef.child("lat").setValue(latitude)
-                        myRef.child("lon").setValue(longitude)
+                        myRef.child("lat").setValue(latitude.toString())
+                        myRef.child("lon").setValue(longitude.toString())
+                        myRef.child("date").setValue(date)
+
 
 
 //                        /*------- To get city name from coordinates -------- */
@@ -528,8 +536,14 @@ class MainActivity: AppCompatActivity() {
             if (localGpsLocation != null) {
                 Log.d("GPS", " End GPS Latitude : " + localGpsLocation.latitude)
                 Log.d("GPS", " End GPS Longitude : " + localGpsLocation.longitude)
-                myRef.child("lat").setValue(localGpsLocation.latitude)
-                myRef.child("lon").setValue(localGpsLocation.longitude)
+
+                val cal = Calendar.getInstance()
+                val date = SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(cal.time)
+
+                myRef.child("lat").setValue(localGpsLocation.latitude.toString())
+                myRef.child("lon").setValue(localGpsLocation.longitude.toString())
+                myRef.child("date").setValue(date)
+
             }
 
         }
