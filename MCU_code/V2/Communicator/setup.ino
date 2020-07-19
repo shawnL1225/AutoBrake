@@ -21,73 +21,8 @@ void setup() {
   Serial7.setTimeout(100);
   Serial8.setTimeout(100);
   
-  // Phone connection
-  Serial.println("Please connect to the cellphone");
-  if (1){
-    while (Serial2.available()<=0) {
-      lcd.setCursor(0,0);
-      lcd.print("Pls Connect to");
-      lcd.setCursor(0,1);
-      lcd.print("Phone");
-    }
-    if(Serial2.available()) {
-      char in =Serial2.read();
-      if(in == '@') {
-        unsigned long mtime= millis();
-        int amsec=0,asec=0,ami=0,ahr=0;
-        if (mtime%1000>0){
-          asec=mtime/1000;
-          amsec=mtime-1000*asec;
-          if (asec%60>0){
-            ami=asec/60;
-            asec=asec-ami*60;
-            if (ami%60>0){
-              ahr=ami/60;
-              ami=ami-ahr*60;
-            }
-          }
-        }
-        int year = Serial2.parseInt();
-        int month = Serial2.parseInt();
-        int date = Serial2.parseInt();
-        int hr = Serial2.parseInt();
-        fixhr = hr - ahr;
-        int mi = Serial2.parseInt();
-        fixmi = mi - ami;
-        int sec = Serial2.parseInt();
-        fixsec = sec - asec;
-        int msec = Serial2.parseInt();
-        int fixmsec = msec - asec;
-        fileName = String(year)+'-'+String(month)+'-'+String(date)+".txt";
-        lcd.clear();
-        String dateS=String(year)+'/'+String(month)+'/'+String(date)+' ';
-        String timeS=String(hr)+':'+String(mi)+':'+String(sec)+'.'+String(msec);
-        lcd.setCursor(0,0);
-        lcd.print(dateS);
-        lcd.setCursor(0,1);
-        lcd.print(timeS);
-        Serial.print(dateS);
-        Serial.println(timeS);
-        delay(1000);
-      }
-    }
-  }
-  
-  //--------------------------initialize----------------------------
-  if (1){
-    delay(50);
-    lcd.setCursor(0,0); // set cursor at first line first alphabet
-    lcd.print("Initializing");
-    Serial.println("Initializing");
-    delay(100);
-    lcd.print(".");
-    delay(100);
-    lcd.print(".");
-    delay(100);
-    lcd.println(".");
-    delay(100);
-    Serial.println("lcd OK");
-}
+  //--------------------------board check----------------------------
+    if 
   //------------------------- Set up all ----------------------
    //--SD Card Check--
     randomSeed(analogRead(A1));

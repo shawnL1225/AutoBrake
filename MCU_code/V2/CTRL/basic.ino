@@ -12,5 +12,6 @@ void loop() {
   CTRL();
   battery();
   serialEvent();
+  motorper = (digitalRead(2)&&digitalRead(3));
 //  speed();
 }

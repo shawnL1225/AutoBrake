@@ -8,7 +8,7 @@ SoftwareSerial Serial6 (26,27);
 SoftwareSerial Serial7 (28,29);
 SoftwareSerial Serial8 (30,32);
 
-File  file;  //SD card 
+File file;  //SD card 
 
 String fileName;
 

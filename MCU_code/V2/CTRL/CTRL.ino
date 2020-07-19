@@ -8,3 +8,5 @@ int maxSpeed = 25, nowSpeed = 0;
 unsigned long lbsms=0;
 
 double hv=0, lhv=0;                 //hv -> received velocity ; lhv-> last received velocity (unit:km/hr)
+
+bool motorper = 0;
