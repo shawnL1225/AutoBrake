@@ -11,7 +11,7 @@ void speedSensor(){
     hv1=sv1*0.36;
     lms1=ms1;
   }
-  if (rms-lms1>4000){
+  if (rms-lms1>2500){
     ts1=ms1-lms1;
     lms1=rms;
     sv1=hv1=0;
@@ -28,7 +28,7 @@ void speedSensor(){
     hv2=sv2*0.36;
     lms2=ms2;
   }
-  if (rms-lms2>4000){
+  if (rms-lms2>2500){
     ts2=ms2-lms2;
     lms2=rms;
     sv2=hv2=0;

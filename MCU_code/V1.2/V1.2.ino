@@ -6,18 +6,25 @@ bool motorper = 0;
 
 void setup() {
   pinMode(31,OUTPUT);
-  digitalWrite(31,1);
+  pinMode(30,INPUT_PULLUP);
+  pinMode(22,OUTPUT);
+  pinMode(24,OUTPUT);
+  pinMode(25,OUTPUT);
+  pinMode(25,OUTPUT);
+  digitalWrite(25,0);
+  digitalWrite(22,0);
+  digitalWrite(24,0);
+  digitalWrite(31,0);
   Serial.begin(9600);
   Serial1.begin(9600);
   Serial2.begin(9600);
-  pinMode(30,INPUT);
-  digitalWrite(31,0);
 }
 
 void loop() {
   SerialEvent();
   CTRL();
-  if (digitalRead(30)){
+  if (!digitalRead(30)){
+    Serial.println("startBrake");
     brake();
   }
 }
