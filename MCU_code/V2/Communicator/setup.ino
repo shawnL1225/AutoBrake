@@ -20,6 +20,8 @@ void setup() {
   Serial6.setTimeout(100);
   Serial7.setTimeout(100);
   Serial8.setTimeout(100);
+
+  for (int i =34;i<=46;i++) pinMode(i,INPUT);
     
   //------------------===== SD Check ====-------------
     randomSeed(analogRead(A1));
@@ -35,15 +37,20 @@ void setup() {
     
     //--------------------------board check----------------------------
     Serial.print("?A");
-    if (digitalRead(34)) Serial.print("?R");
-    if (digitalRead(35)) Serial.print("?L");
-    if (digitalRead(36)) Serial.print("?C");
-    if (digitalRead(37)) Serial.print("?S");
-    if (digitalRead(38)) Serial.print("?Z");
+    if (digitalRead(S2)) Serial.print("?R");
+    if (digitalRead(S3)) Serial.print("?L");
+    if (digitalRead(S4)) Serial.print("?C");
+    if (digitalRead(S5)) Serial.print("?S");
+    if (digitalRead(S6)) Serial.print("?Z");
     else statusForBluetooth = 'E';
-    if (digitalRead(39)) Serial.print("?X");
+    if (digitalRead(S7)) Serial.print("?X");
     else statusForBluetooth = 'E';
-    if (digitalRead(40)) Serial.print("?T");
+    if (digitalRead(S8)) Serial.print("?T");
+    if (digitalRead(S9)) Serial.print("?D");
+    if (digitalRead(S10)) Serial.print("?E");
+    if (digitalRead(S11)) Serial.print("?N");
+    if (digitalRead(S12)) Serial.print("?F");
+    
 
     // ----------------------Name a file name------------------
     if (isAlphaNumeric(fileName[1])) ;

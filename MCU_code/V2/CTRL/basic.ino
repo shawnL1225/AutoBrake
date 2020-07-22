@@ -10,7 +10,9 @@ void setup() {
   pinMode(8,INPUT_PULLUP);
   
   pinMode(A1,INPUT);
-  pinMode(A2,INPUT);
+  pinMode(A4,INPUT);
+  pinMode(A5,INPUT);
+  pinMode(A6,INPUT);
   
   Serial.println("\nbegin");
 }

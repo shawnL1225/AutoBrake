@@ -1,5 +1,7 @@
 // -------------------------PORTS----------------------------------------
   //digital Ports
+    // D14-19 -> Serial ports
+    // D22-32 -> Serial ports
     // D33 -> motor permission to CTRL digital Pin 7
     // D34 -> distance sensor [R]
     // D35 -> distance sensor [L]
@@ -8,6 +10,11 @@
     // D38 -> caculation board
     // D39 -> CTRL
     // D40 -> heat n Gsensorg
+    // D41 -> Brake [F]
+    // D42 -> Brake [B]
+    // D43 -> Xavier
+    // D44 -> distance [F]
+    // D50-53 -> SPI
   
   //Communication
 /**/// -----=========Serial (deskopSite)======---------
