@@ -16,8 +16,8 @@ void SerialEvent(){
         Serial6.print("A0");
       }
     }
-    else if (in == '@') digitalWrite(41,1);
-    else if (in == '#') digitalWrite(41,0);
+    else if (in == '@') digitalWrite(33,1);
+    else if (in == '#') digitalWrite(33,0);
     else if (in == '?') SDWrite("Computer Connected");
     else if (in == 'E') {
       frontBrakeForce = Serial.parseInt();
@@ -32,7 +32,10 @@ void SerialEvent(){
       Serial6.print(' ');
     }
     else if (in == 'M') {
-      CTRLP = Serial.parseInt();
+      int CTRLP = Serial.parseInt();
+      Serial7.print('X');
+      Serial7.print(CTRLP);
+      Serial7.print(' ');
     }
   }
   
@@ -40,68 +43,53 @@ void SerialEvent(){
     char in = Serial1.read();
     if (in == '?') SDWrite("Bluetooth Connected");
     else if (in == '@') {
-      digitalWrite(41,1);
+      digitalWrite(33,1);
       Serial.println('@');
     }
     else if (in == '#') {
-      digitalWrite(41,0);
+      digitalWrite(33,0);
       Serial.println('#');
     }
   }
-  if (Serial2.available()){
+  String R ="";
+  while (Serial2.available()){
     char in = Serial2.read();
-    String R = 'R';
-    if (in == 'R') {
-      while (Serial2.available()){
-        char a = Serial2.read();
-        R += a;
-        if (a =='S') {
-          Serial1.print("Z1r|");
-          R = "";
-          break;
-        }
-      }
+    R += in ;
+    if (in == '^') {
       Serial.println(R);
+      R = "";
     }
+    else if (in == 'S') Serial1.print("Z1r|");
   }
-  if (Serial3.available()){
+  
+  String L = "";
+  while (Serial3.available()){
     char in = Serial3.read();
-    String L = 'L';
-    if (in == 'L') {
-      while (Serial2.available()){
-        char a = Serial2.read();
-        L += a;
-        if (a =='L') {
-          Serial1.print("Z1l|");
-          L = "";
-          break;
-        }
-      }
+    L += in ;
+    if (in == '^') {
       Serial.println(L);
+      L = "";
     }
+    else if (in == 'S') Serial1.print("Z1l|");
   }
-  if (Serial4.available()){
+  
+  String C = "" ;
+  while (Serial4.available()){
     char in = Serial4.read();
-    String C = 'C';
-    if (in == 'C') {
-      while (Serial2.available()){
-        char a = Serial2.read();
-        C += a;
-        if (a =='C') {
-          Serial1.print("Z1b|");
-          C = "";
-          break;
-        }
-      }
+    C += in ;
+    if (in == '^') {
       Serial.println(C);
+      C = "";
     }
+    else if (in == 'S') Serial1.print("Z1b|");
   }
+  
   if (Serial5.available()){
     char in = Serial5.read();
-    String F = 'F' ;
+    String F = "F" ;
     if (in == 'V'){
       int nowSpeed = Serial5.parseInt();
-      String send = 'V' + nowSpeed ;
+      String send = "V" + nowSpeed ;
       Serial.println(send);
       Serial1.print('S');
       Serial1.print(nowSpeed);
@@ -111,6 +99,7 @@ void SerialEvent(){
   }
   if (Serial6.available()){
     char in = Serial6.read();
+    String F = "F";
     if (in == 'E'){
       frontBrakeForce = Serial.parseInt();
       Serial.print("E");
@@ -134,34 +123,46 @@ void SerialEvent(){
   if (Serial7.available()){
     char in = Serial7.read();
     if (in == 'X'){
-      
+     int CTRLP = Serial7.parseInt();
+     Serial.print('X');
+     Serial.print(CTRLP); 
+     Serial.print(' ');
+     Serial1.print('M');
+     Serial1.print(CTRLP);
+     Serial1.print(' ');
     }
     else if (in == '^') ;
     else if (in == 'B') {
-      int bateryP = parseInt();
-      String send = 'B' + batteryP;
+      int batteryP = Serial7.parseInt();
+      String B = "B" + batteryP;
       Serial.println(B);
       Serial1.println(B);
-      if (batteyP<1000) digitalWrite(41,0);
+      if (batteryP<1000) digitalWrite(41,0);
     }
   }
   if (Serial8.available()){
     char in = Serial8.read();
     if (in == 'G'){
       int tiltA = Serial8.parseInt();
-      String G = 'G' + tiltA ;
+      String G = "G" + tiltA ;
       Serial.print(G);
     }
     else if (in == 'I'){
       int RiseA = Serial8.parseInt();
-      String I = 'I' + RiseA ;
+      String I = "I" + RiseA ;
       Serial.print(I);
       Serial6.print(I);
     }
     else if (in == 'A'){
       int Acc = Serial8.parseInt();
-      String A = 'A' + Acc ;
+      String A = "A" + Acc ;
       Serial.print(A);
+    }
+    else if (in == 'T'){
+      int motorTemp = Serial8.parseInt();
+      String send = "T" + motorTemp;
+      Serial.print(send);
+      Serial1.print(send);
     }
     else if (in == 't'){
       

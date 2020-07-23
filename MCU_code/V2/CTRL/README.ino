@@ -1,7 +1,7 @@
 // -------------------------PORTS----------------------------------------
   //-------analogRead-----------
     // A1 -> controller
-    // A2 -> battery
+    // A4,5,6 -> battery
 
   //-------digitalRead----------
     // D2 -> Permission from Mother Board
