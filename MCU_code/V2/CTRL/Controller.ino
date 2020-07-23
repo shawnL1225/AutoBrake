@@ -8,14 +8,8 @@ void CTRL(){
       Serial.println(CTRLP);
       Serial4.print("X");
       Serial4.print(CTRLP);
-<<<<<<< HEAD
-      Serial.print("X");
-      Serial.print(CTRLP);
-      LCTRLP = CTRLP;
-=======
       Serial4.print(' ');
-      CTRLP = LCTRLP;
->>>>>>> f73dc2aca2235564452727b1c9a29f28f170df8c
+      LCTRLP = CTRLP;
     }
     
   //Take botton be press on the controller
