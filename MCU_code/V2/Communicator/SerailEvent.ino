@@ -7,29 +7,31 @@ void SerialEvent(){
         Serial2.print("A1");
         Serial3.print("A1");
         Serial4.print("A1");
-        Serial6.print("A1");
+        Serial9.print("A1");
       }
       else {
         Serial2.print("A0");
         Serial3.print("A0");
         Serial4.print("A0");
-        Serial6.print("A0");
+        Serial9.print("A0");
       }
     }
-    else if (in == '@') digitalWrite(33,1);
-    else if (in == '#') digitalWrite(33,0);
+    else if (in == '@') {
+      if (statusForBluetooth=="")  digitalWrite(MP,1);
+    }
+    else if (in == '#') digitalWrite(MP,0);
     else if (in == '?') SDWrite("Computer Connected");
     else if (in == 'E') {
-      frontBrakeForce = Serial.parseInt();
-      Serial6.print("E");
-      Serial6.print(frontBrakeForce);
-      Serial6.print(' ');
+      int frontBrakeForce = Serial.parseInt();
+      Serial9.print("E");
+      Serial9.print(frontBrakeForce);
+      Serial9.print(' ');
     }
     else if (in == 'D') {
-      backBrakeForce = Serial.parseInt();
-      Serial6.print("D");
-      Serial6.print(backBrakeForce);
-      Serial6.print(' ');
+      int backBrakeForce = Serial.parseInt();
+      Serial9.print("D");
+      Serial9.print(backBrakeForce);
+      Serial9.print(' ');
     }
     else if (in == 'M') {
       int CTRLP = Serial.parseInt();
@@ -43,11 +45,13 @@ void SerialEvent(){
     char in = Serial1.read();
     if (in == '?') SDWrite("Bluetooth Connected");
     else if (in == '@') {
-      digitalWrite(33,1);
-      Serial.println('@');
+      if (statusForBluetooth==""){
+        digitalWrite(MP,1);
+        Serial.println('@');
+      }
     }
     else if (in == '#') {
-      digitalWrite(33,0);
+      digitalWrite(MP,0);
       Serial.println('#');
     }
   }
@@ -72,7 +76,6 @@ void SerialEvent(){
     }
     else if (in == 'S') Serial1.print("Z1l|");
   }
-  
   String C = "" ;
   while (Serial4.available()){
     char in = Serial4.read();
@@ -89,32 +92,33 @@ void SerialEvent(){
     String F = "F" ;
     if (in == 'V'){
       int nowSpeed = Serial5.parseInt();
+      SP = nowSpeed;
       String send = "V" + nowSpeed ;
       Serial.println(send);
       Serial1.print('S');
       Serial1.print(nowSpeed);
-      Serial6.print(send);
       Serial7.print(send);
+      Serial9.print(send);
     }
   }
-  if (Serial6.available()){
-    char in = Serial6.read();
+  if (Serial9.available()){
+    char in = Serial9.read();
     String F = "F";
     if (in == 'E'){
-      frontBrakeForce = Serial.parseInt();
+      int frontBrakeForce = Serial.parseInt();
       Serial.print("E");
       Serial.print(frontBrakeForce);
       Serial.println(' ');
     }
     else if (in == 'D') {
-      backBrakeForce = Serial.parseInt();
+      int backBrakeForce = Serial.parseInt();
       Serial.print("D");
       Serial.print(backBrakeForce);
       Serial.println(' ');
     }
     else if (in == 'F'){
-      while (Serial6.available()){
-        char a = Serial6.read();
+      while (Serial9.available()){
+        char a = Serial9.read();
         F += a;
       }
       Serial.println(F);
@@ -137,6 +141,7 @@ void SerialEvent(){
       String B = "B" + batteryP;
       Serial.println(B);
       Serial1.println(B);
+      BP = batteryP;
       if (batteryP<1000) digitalWrite(41,0);
     }
   }
@@ -151,7 +156,7 @@ void SerialEvent(){
       int RiseA = Serial8.parseInt();
       String I = "I" + RiseA ;
       Serial.print(I);
-      Serial6.print(I);
+      Serial9.print(I);
     }
     else if (in == 'A'){
       int Acc = Serial8.parseInt();
@@ -163,6 +168,7 @@ void SerialEvent(){
       String send = "T" + motorTemp;
       Serial.print(send);
       Serial1.print(send);
+      MT = motorTemp;
     }
     else if (in == 't'){
       

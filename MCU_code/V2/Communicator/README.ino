@@ -1,19 +1,34 @@
 // -------------------------PORTS----------------------------------------
   //digital Ports
     // D14-19 -> Serial ports
-    // D22-32 -> Serial ports
-    // D33 -> motor permission to CTRL digital Pin 7
-    // D34 -> distance sensor [R]
-    // D35 -> distance sensor [L]
-    // D36 -> distance sensor [B]
-    // D37 -> speed sensor
-    // D38 -> caculation board
-    // D39 -> CTRL
-    // D40 -> heat n Gsensorg
-    // D41 -> Brake [F]
-    // D42 -> Brake [B]
-    // D43 -> Xavier
-    // D44 -> distance [F]
+    // D22-42 -> Serial ports & status ports
+   //-===ststus ports===-
+    // D36 -> motor permission to CTRL digital Pin 7
+    #define MP 36
+    // D22 -> distance sensor [R]
+    #define S2 22 //distance[R]
+    // D23 -> distance sensor [L]
+    #define S3 23 //distance[L]
+    // D26 -> distance sensor [B]
+    #define S4 26 //distance[B]
+    // D29 -> speed sensor
+    #define S5 29 //speedSensor
+    // D42 -> ESP
+    #define S6 42 //ESP
+    // D35 -> CTRL
+    #define S7 35 //CTRL
+    // D39 -> heat n Gsensorg
+    #define S8 39 //Heat n Gsensor
+    // D42 -> caculation board
+    #define S9 42 //caculation
+    // D43 -> Brake [F]
+    #define S10 43 //Brake [F]
+    // D45 -> Brake [B]
+    #define S11 45 //Brake [B]
+    // D47 -> Xavier
+    #define S12 47 //Xavier
+    // D49 -> distance [F]
+    #define S13 49 //distance[F]
     // D50-53 -> SPI
   
   //Communication
@@ -58,59 +73,47 @@
     // --Code symbol for Serial1 (O)--
       //'S' + speed 
       //'B' + batteryPercentage
-      //'M' + motorPercentage
-      //'T' + motorTemperature
       //'X' -> Red Light warning 
       //'Y' -> vechile devious
       //'Z' + '1/0' + 'f/r/l/b' -> distance under limited 
      //----------===== start status =====---------
       //'=' -> System All Set
-      //"SC" -> SD Checking
-      //"SO" -> SD OK
-      //"SE" -> SD Error
-      //"CC" -> CTRL Checking
-      //"CO" -> CTRL OK
-      //"CE" -> CTRL Error
+      //"E" -> Error
 
 
-    // -----=========Serial2 (distance [R]<R>)|34|======---------
+    // -----=========Serial2 (distance [R]<R>)|22|======---------
     // --Code symbol for Serial2 (I)--
       //'R' -> ultraRD + IRD80_1 + ultraMD + IRD80_2 + ultraLD
-      //RS -> Right side has car
+      // RS -> Right side has car
     // --Code symbol for Serial2 (O)--
       //'A' + '1/0' -> 1 is all distance is required / 0 is not required
 
-    // -----=========Serial3 (distance [L]<L>)|35|======---------
+    // -----=========Serial3 (distance [L]<L>)|23|======---------
     // --Code symbol for Serial3 (I)--
       //'L' -> ultraLD + IRD80_2 + ultraMD + IRD80_1 + ultraRD
       // LS -> Left side has car
     // --Code symbol for Serial3 (O)--
       //'A' + '1/0' -> 1 is all distance is required / 0 is not required
 
-/**/// -----=========Serial4 (distance [B]<C>)|36|======---------
+/**/// -----=========Serial4 (distance [B]<C>)|26|======---------
     // --Code symbol for Serial4 (I)--
       //'C' -> ultraLD + IRD80_2 + ultraMD + IRD80_1 + ultraRD
       // CS -> Left side has car
     // --Code symbol for Serial4 (O)--
       //'A' + '1/0' -> 1 is all distance is required / 0 is not required
 
-    // -----=========Serial5 (SpeedSensor <S>)|37|======---------
+    // -----=========Serial5 (SpeedSensor <S>)|29|======---------
     // --Code symbol for Serial5 (I)--
-      // 'V' + hv
-      // 'E' <Error Occur>
+      //'V' + hv
+      //'E' <Error Occur>
     // --Code symbol for Serial5 (O)--
 
-    // -----=========Serial6 (Caculation <Z>)|38|======---------
+    // -----=========Serial6 (ESP <P>)|32|======---------
     // --Code symbol for Serial6 (I)--
-      //'E' + frontBrakeForce
-      //'D' + backBrakeForce
-      //'F' + F_1 + F_2 + F_3
     // --Code symbol for Serial6 (O)--
-      //'A' + '1/0' -> 1 is front distance is required / 0 is not required
-      //'I' + riseAngle
-      //'V' + nowSpeed
+      //'B'+batteryV+'T'+temperature+'S'+speed+'E'+errorCode
 
-    // -----=========Serial7 (CTRL <X>)|39|======---------
+    // -----=========Serial7 (CTRL <X>)|35|======---------
     // --Code symbol for Serial7 (I)--
       //'X' + CTRLP
       //'^' -> Button Pressed
@@ -121,7 +124,7 @@
     //digitalPin 
       //D41 -> motor permission
 
-    // -----=========Serial8 (Heat n Gsensor <T>)|40|======---------
+    // -----=========Serial8 (Heat n Gsensor <T>)|39|======---------
     // --Code symbol for Serial8 (I)--
       //'G' -> Tilt Angle
       //'I' -> Rise Angle
@@ -130,9 +133,16 @@
       //'t' -> Temperature for sound
       //'h' -> Humidity for sound
     // --Code symbol for Serial8 (O)--
-    
 
-      
-      
-    
-    
+
+    // -----=========Serial9 (Caculation <Z>)|42|======---------
+    // --Code symbol for Serial9 (I)--
+      //'E' + frontBrakeForce
+      //'D' + backBrakeForce
+      //'F' + F_1 + F_2 + F_3
+    // --Code symbol for Serial9 (O)--
+      //'A' + '1/0' -> 1 is front distance is required / 0 is not required
+      //'I' + riseAngle
+      //'V' + nowSpeed
+      //'E' + frontBrakeForce
+      //'D' + backBrakeForce

@@ -2,28 +2,32 @@
   //digital Ports
     // D2-11 -> Serial ports
     // D12 -> brake permission
+    
   //Communication
-    //------------======= Serial1 brake [F] =======------------
+    //------------======= Serial10 brake [F] =======------------
       //--=== INPUT ===--
         // 'E' + brakeForce
       //--=== OUTPUT ===--
         // 'E' + brakeForce
-    //------------======= Serial2 brake [B] =======------------
+        
+    //------------======= Serial11 brake [B] =======------------
       //--=== INPUT ===--
         // 'D' + brakeForce
       //--=== OUTPUT ===--
         // 'D' + brakeForce
-    //------------======== Serial3 Xavier =======------------
+        
+    //------------======== Serial12 Xavier [N]=======------------
       //--=== INPUT ===--
         //
       //--=== OUTPUT ===--
-        //
-    //------------====== Serial4 distance [F] =======------------
+        //'F' + F_1 + F_2 + F_3
+        
+    //------------======== Serial13 distance [F] =======------------
       //--=== INPUT ===--
-        //
+        //'F' + F_1 + F_2 + F_3
       //--=== OUTPUT ===--
-        //'A' + '1/0' -> 1 is front distance is required / 0 is not required
-    //-----------======= Serial5 Mother [F] =======------------
+        
+    //-----------========= Serial4 Mother [A] =======------------
       //--=== INPUT ===--
         //'A' + '1/0' -> 1 is front distance is required / 0 is not required
         //'I' + riseAngle
@@ -34,3 +38,5 @@
         //'E' + frontBrakeForce
         //'D' + backBrakeForce
         //'F' + F_1 + F_2 + F_3
+
+        
