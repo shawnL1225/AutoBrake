@@ -3,32 +3,19 @@
     // D14-19 -> Serial ports
     // D22-42 -> Serial ports & status ports
    //-===ststus ports===-
-    // D36 -> motor permission to CTRL digital Pin 7
-    #define MP 36
+    // D36 -> motor permission to CTRL digital Pin 12
     // D22 -> distance sensor [R]
-    #define S2 22 //distance[R]
     // D23 -> distance sensor [L]
-    #define S3 23 //distance[L]
     // D26 -> distance sensor [B]
-    #define S4 26 //distance[B]
     // D29 -> speed sensor
-    #define S5 29 //speedSensor
     // D42 -> ESP
-    #define S6 42 //ESP
     // D35 -> CTRL
-    #define S7 35 //CTRL
-    // D39 -> heat n Gsensorg
-    #define S8 39 //Heat n Gsensor
+    // D39 -> heat n Gsensor
     // D42 -> caculation board
-    #define S9 42 //caculation
     // D43 -> Brake [F]
-    #define S10 43 //Brake [F]
     // D45 -> Brake [B]
-    #define S11 45 //Brake [B]
     // D47 -> Xavier
-    #define S12 47 //Xavier
     // D49 -> distance [F]
-    #define S13 49 //distance[F]
     // D50-53 -> SPI
   
   //Communication

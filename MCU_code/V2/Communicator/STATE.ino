@@ -1,11 +1,11 @@
 void STATE() {
   String inS="";
-  Serial2.println("AT+STATE");
-  while (Serial2.available()<0);
-    char in = Serial2.read();
+  Serial1.println("AT+STATE");
+  while (Serial1.available()<0);
+    char in = Serial1.read();
     if (in=='+'){
-      while(Serial2.available()){
-        char iin = Serial2.read();
+      while(Serial1.available()){
+        char iin = Serial1.read();
         inS += iin;
       }
     }
@@ -29,4 +29,10 @@ void STATE() {
     }
   }
   else bluetoothStatus = inS.toInt();
+
+  if (bluetoothStatus!=6) digitalWrite(MP,0);
+
+  Serial.print("W");
+  Serial.print(bluetoothStatus);
+  Serial.println("");
 }

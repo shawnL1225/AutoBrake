@@ -17,15 +17,26 @@ void SerialEvent(){
       }
     }
     else if (in == '@') {
-      if (statusForBluetooth=="")  digitalWrite(MP,1);
+      if (statusForBluetooth==""&&bluetoothStatus=='6') {
+        digitalWrite(MP,1);
+        Serial2.print('@');
+      }
+      else {
+        Serial.println('#');
+        Serial2.print('#');
+      }
     }
-    else if (in == '#') digitalWrite(MP,0);
+    else if (in == '#') {
+      digitalWrite(MP,0);
+      Serial.print('#');
+    }
     else if (in == '?') SDWrite("Computer Connected");
     else if (in == 'E') {
       int frontBrakeForce = Serial.parseInt();
       Serial9.print("E");
       Serial9.print(frontBrakeForce);
       Serial9.print(' ');
+      
     }
     else if (in == 'D') {
       int backBrakeForce = Serial.parseInt();
@@ -45,9 +56,13 @@ void SerialEvent(){
     char in = Serial1.read();
     if (in == '?') SDWrite("Bluetooth Connected");
     else if (in == '@') {
-      if (statusForBluetooth==""){
+      if (statusForBluetooth==""&&bluetoothStatus=='6'){
         digitalWrite(MP,1);
         Serial.println('@');
+      }
+      else {
+        Serial.println('#');
+        Serial2.print('#');
       }
     }
     else if (in == '#') {

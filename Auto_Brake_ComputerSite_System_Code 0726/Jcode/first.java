@@ -1,5 +1,4 @@
 package example;
-
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
@@ -42,7 +41,7 @@ import java.awt.TextArea;
 import javax.swing.JTextPane;
 
 
-public class first {
+public class computerSite {
 
   static JFrame MSBA_AutoBrake_ComputerSite_System;
   
@@ -57,6 +56,8 @@ public class first {
   static JLabel Distance_B_ConditionLight;
   static JLabel Speed_Sensor_ConditionLight;
   static JLabel Heat_n_Gsensor__ConditionLight;
+  static JLabel Caculation_chip_ConditionLight;
+  static JLabel Bluetooth_ConditionLight;
   
   static JLabel Motor_Temp_V;
   static JLabel Vichele_Tilt_Angle_V;
@@ -121,7 +122,7 @@ public class first {
     timer.scheduleAtFixedRate(new RemindTask(),0, 2);
     MSBA_AutoBrake_ComputerSite_System = new JFrame();
     MSBA_AutoBrake_ComputerSite_System.setTitle("MSBA_AutoBrake_ComputerSite_System");
-    MSBA_AutoBrake_ComputerSite_System.setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\AutoBrake\\Auto_Brake_ComputerSite_System_Code 0719\\image\\MSBA_icon.png"));
+    MSBA_AutoBrake_ComputerSite_System.setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\AutoBrake\\Auto_Brake_ComputerSite_System_Code 0726\\image\\MSBA_icon.png"));
     MSBA_AutoBrake_ComputerSite_System.getContentPane().setBackground(Color.WHITE);
     MSBA_AutoBrake_ComputerSite_System.setBounds(100, 100, 450, 300);
     MSBA_AutoBrake_ComputerSite_System.setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -142,18 +143,34 @@ public class first {
     Panel Caculation_chip_Panel = new Panel();
     verticalBox_1.add(Caculation_chip_Panel);
     
-    JLabel Caculation_chip_ConditionLight_1 = new JLabel("\u25CF");
-    Caculation_chip_ConditionLight_1.setToolTipText("disconnect");
-    Caculation_chip_ConditionLight_1.setForeground(Color.RED);
-    Caculation_chip_ConditionLight_1.setFont(new Font("新細明體", Font.PLAIN, 16));
-    Caculation_chip_ConditionLight_1.setAlignmentY(0.0f);
-    Caculation_chip_Panel.add(Caculation_chip_ConditionLight_1);
+    Caculation_chip_ConditionLight = new JLabel("\u25CF");
+    Caculation_chip_ConditionLight.setToolTipText("disconnect");
+    Caculation_chip_ConditionLight.setForeground(Color.RED);
+    Caculation_chip_ConditionLight.setFont(new Font("新細明體", Font.PLAIN, 16));
+    Caculation_chip_ConditionLight.setAlignmentY(0.0f);
+    Caculation_chip_Panel.add(Caculation_chip_ConditionLight);
     
-    JLabel Caculation_chip = new JLabel("Caculation chip");
+    JLabel Caculation_chip = new JLabel("Caculation chip ");
     Caculation_chip.setToolTipText("Caculation chip \" connection status");
     Caculation_chip.setHorizontalAlignment(SwingConstants.LEFT);
     Caculation_chip.setFont(new Font("新細明體", Font.PLAIN, 14));
     Caculation_chip_Panel.add(Caculation_chip);
+    
+    Panel Bluetooth_Panel = new Panel();
+    verticalBox_1.add(Bluetooth_Panel);
+
+    Bluetooth_ConditionLight = new JLabel("\u25CF");
+    Bluetooth_ConditionLight.setToolTipText("disconnect");
+    Bluetooth_ConditionLight.setForeground(Color.RED);
+    Bluetooth_ConditionLight.setFont(new Font("新細明體", Font.PLAIN, 16));
+    Bluetooth_ConditionLight.setAlignmentY(0.0f);
+    Bluetooth_Panel.add(Bluetooth_ConditionLight);
+    
+    JLabel Bluetooth = new JLabel("Bluetooth         ");
+    Bluetooth.setToolTipText("Bluetooth \" connection status");
+    Bluetooth.setHorizontalAlignment(SwingConstants.LEFT);
+    Bluetooth.setFont(new Font("新細明體", Font.PLAIN, 14));
+    Bluetooth_Panel.add(Bluetooth);
     
     Panel NXT_Panel = new Panel();
     verticalBox_1.add(NXT_Panel);
@@ -258,7 +275,7 @@ public class first {
     Mother_Board.setFont(new Font("新細明體", Font.PLAIN, 14));
     Mother_Board.setHorizontalAlignment(SwingConstants.LEFT);
     
-    JLabel Xavier = new JLabel("XAVIER          ");
+    JLabel Xavier = new JLabel("XAVIER           ");
     Xavier.setToolTipText("\"Xavier\" connection status");
     Xavier.setHorizontalAlignment(SwingConstants.LEFT);
     Xavier.setFont(new Font("新細明體", Font.PLAIN, 14));
@@ -533,7 +550,7 @@ public class first {
     
     JLabel Wheelchair_figure = new JLabel("");
     Wheelchair_figure.setToolTipText("Wheelchair");
-    Wheelchair_figure.setIcon(new ImageIcon("D:\\AutoBrake\\Auto_Brake_ComputerSite_System_Code 0719\\image\\wheelChair_TOP.png"));
+    Wheelchair_figure.setIcon(new ImageIcon("D:\\AutoBrake\\Auto_Brake_ComputerSite_System_Code 0726\\image\\wheelChair_TOP.png"));
     Wheelchair_figure.setBounds(1005, 456, 151, 131);
     MSBA_AutoBrake_ComputerSite_System.getContentPane().add(Wheelchair_figure);
     
@@ -1238,124 +1255,162 @@ static void readS() {
           System.out.println(CSin);
           switch (CSin) {
             case 'A':{
-              if (Mother_Board_ConditionLight.getForeground()==Color.RED) {
-                Mother_Board_ConditionLight.setForeground(Color.GREEN);
-                Mother_Board_ConditionLight.setToolTipText("connected");
-              }
-              else {
-                Mother_Board_ConditionLight.setForeground(Color.RED);
-                Mother_Board_ConditionLight.setToolTipText("disconnect");
-              }
-              break;
+            	Mother_Board_ConditionLight.setForeground(Color.RED);
+            	Mother_Board_ConditionLight.setToolTipText("disconnect");
+            	break;
             }
             case 'N':{
-              if (NXT_ConditionLight.getForeground()==Color.RED) {
-                NXT_ConditionLight.setForeground(Color.GREEN);
-                NXT_ConditionLight.setToolTipText("connected");
-              }
-              else {
                 NXT_ConditionLight.setForeground(Color.RED);
                 NXT_ConditionLight.setToolTipText("disconnect");
-              }
-              break;
+                break;
             }
+            case 'B':{
+                NXT_ConditionLight.setForeground(Color.RED);
+                NXT_ConditionLight.setToolTipText("disconnect");
+	            break;
+	        }
             case 'X':{
-              if (CTRL_Board_ConditionLight.getForeground()==Color.RED) {
-                CTRL_Board_ConditionLight.setForeground(Color.GREEN);
-                CTRL_Board_ConditionLight.setToolTipText("connected");
-              }
-              else {
-                CTRL_Board_ConditionLight.setForeground(Color.RED);
-                CTRL_Board_ConditionLight.setToolTipText("disconnect");
-              }
-              break;
+            	CTRL_Board_ConditionLight.setForeground(Color.RED);
+            	CTRL_Board_ConditionLight.setToolTipText("disconnect");
+            	break;
             }
             case 'E':{
-              if (Brake_F_ConditionLight.getForeground()==Color.RED) {
-                Brake_F_ConditionLight.setForeground(Color.GREEN);
-                Brake_F_ConditionLight.setToolTipText("connected");
-              }
-              else {
                 Brake_F_ConditionLight.setForeground(Color.RED);
                 Brake_F_ConditionLight.setToolTipText("disconnect");
-              }
-              break;
+                break;
             }
             case 'D':{
-              if (Brake_B_ConditionLight.getForeground()==Color.RED) {
-                Brake_B_ConditionLight.setForeground(Color.GREEN);
-                Brake_B_ConditionLight.setToolTipText("connected");
-              }
-              else {
                 Brake_B_ConditionLight.setForeground(Color.RED);
                 Brake_B_ConditionLight.setToolTipText("disconnect");
-              }
-              break;
+                break;
             }
             case 'F':{
-              if (Distance_F_ConditionLight.getForeground()==Color.RED) {
-                Distance_F_ConditionLight.setForeground(Color.GREEN);
-                Distance_F_ConditionLight.setToolTipText("connected");
-              }
-              else {
                 Distance_F_ConditionLight.setForeground(Color.RED);
                 Distance_F_ConditionLight.setToolTipText("disconnect");
-              }
-              break;
+                break;
             }
             case 'L':{
-              if (Distance_L_ConditionLight.getForeground()==Color.RED) {
-                Distance_L_ConditionLight.setForeground(Color.GREEN);
-                Distance_L_ConditionLight.setToolTipText("connected");
-              }
-              else {
-                  Distance_L_ConditionLight.setForeground(Color.RED);
-                  Distance_L_ConditionLight.setToolTipText("disconnect");
-              }
-              break;
+                Distance_L_ConditionLight.setForeground(Color.RED);
+                Distance_L_ConditionLight.setToolTipText("disconnect");
+              	break;
             }
             case 'R':{
-              if (Distance_R_ConditionLight.getForeground()==Color.RED) {
-                Distance_R_ConditionLight.setForeground(Color.GREEN);
-                Distance_R_ConditionLight.setToolTipText("connected");
-              }
-              else {
-                  Distance_R_ConditionLight.setForeground(Color.RED);
-                  Distance_R_ConditionLight.setToolTipText("disconnect");
-              }
-              break;
+                Distance_R_ConditionLight.setForeground(Color.RED);
+                Distance_R_ConditionLight.setToolTipText("disconnect");
+                break;
             }
             case 'C':{
-              if (Distance_B_ConditionLight.getForeground()==Color.RED) {
-                Distance_B_ConditionLight.setForeground(Color.GREEN);
-                Distance_B_ConditionLight.setToolTipText("connected");
-              }
-              else {
-                  Distance_B_ConditionLight.setForeground(Color.RED);
-                  Distance_B_ConditionLight.setToolTipText("disconnect");
-              }
+              Distance_B_ConditionLight.setForeground(Color.RED);
+              Distance_B_ConditionLight.setToolTipText("disconnect");
               break;
             }
             case 'S':{
-              if (Speed_Sensor_ConditionLight.getForeground()==Color.RED) {
-                Speed_Sensor_ConditionLight.setForeground(Color.GREEN);
-                Speed_Sensor_ConditionLight.setToolTipText("connected");
-              }
-              else {
-                  Speed_Sensor_ConditionLight.setForeground(Color.RED);
-                  Speed_Sensor_ConditionLight.setToolTipText("disconnect");
-              }
+              Speed_Sensor_ConditionLight.setForeground(Color.RED);
+              Speed_Sensor_ConditionLight.setToolTipText("disconnect");
               break;
             }
             case 'T':{
-              if (Heat_n_Gsensor__ConditionLight.getForeground()==Color.RED) {
-                Heat_n_Gsensor__ConditionLight.setForeground(Color.GREEN);
-                Heat_n_Gsensor__ConditionLight.setToolTipText("connected");
-              }
-              else {
-                  Heat_n_Gsensor__ConditionLight.setForeground(Color.RED);
-                  Heat_n_Gsensor__ConditionLight.setToolTipText("disconnect");
-              }
+              Heat_n_Gsensor__ConditionLight.setForeground(Color.RED);
+              Heat_n_Gsensor__ConditionLight.setToolTipText("disconnect");
+              break;
+            }
+          }
+          break;
+        }
+        case '!':{
+          int CSinascii = scannerSC.next().charAt(0);
+          char CSin = (char)CSinascii;
+          System.out.println(CSin);
+          switch (CSin) {
+            case 'A':{
+          	  Mother_Board_ConditionLight.setForeground(Color.GREEN);
+          	  Mother_Board_ConditionLight.setToolTipText("disconnect");
+          	  break;
+            }
+            case 'N':{
+          	  NXT_ConditionLight.setForeground(Color.GREEN);
+              NXT_ConditionLight.setToolTipText("disconnect");
+              break;
+            }
+            case 'B':{
+              NXT_ConditionLight.setForeground(Color.GREEN);
+              NXT_ConditionLight.setToolTipText("disconnect");
+              break;
+            	}
+            case 'X':{
+          	  CTRL_Board_ConditionLight.setForeground(Color.GREEN);
+          	  CTRL_Board_ConditionLight.setToolTipText("disconnect");
+          	  break;
+            }
+            case 'E':{
+              Brake_F_ConditionLight.setForeground(Color.GREEN);
+              Brake_F_ConditionLight.setToolTipText("disconnect");
+              break;
+            }
+            case 'D':{
+              Brake_B_ConditionLight.setForeground(Color.GREEN);
+              Brake_B_ConditionLight.setToolTipText("disconnect");
+              break;
+            }
+            case 'F':{
+              Distance_F_ConditionLight.setForeground(Color.GREEN);
+              Distance_F_ConditionLight.setToolTipText("disconnect");
+              break;
+            }
+            case 'L':{
+              Distance_L_ConditionLight.setForeground(Color.GREEN);
+              Distance_L_ConditionLight.setToolTipText("disconnect");
+            	break;
+            }
+            case 'R':{
+              Distance_R_ConditionLight.setForeground(Color.GREEN);
+              Distance_R_ConditionLight.setToolTipText("disconnect");
+              break;
+            }
+            case 'C':{
+              Distance_B_ConditionLight.setForeground(Color.GREEN);
+              Distance_B_ConditionLight.setToolTipText("disconnect");
+              break;
+            }
+            case 'S':{
+              Speed_Sensor_ConditionLight.setForeground(Color.GREEN);
+              Speed_Sensor_ConditionLight.setToolTipText("disconnect");
+              break;
+            }
+            case 'T':{
+              Heat_n_Gsensor__ConditionLight.setForeground(Color.GREEN);
+              Heat_n_Gsensor__ConditionLight.setToolTipText("disconnect");
+              break;
+            }
+          }
+          break;
+        }
+        case 'W':{
+          int num = scannerSC.nextInt();
+          System.out.println(num);
+          switch(num){
+            case '0' :{
+              Caculation_chip_ConditionLight.setToolTipText("BTH Initializning");
+              break;
+            }
+            case '1' :{
+              Caculation_chip_ConditionLight.setToolTipText("BTH Ready");
+              break;
+            }
+            case '2' :{
+              Caculation_chip_ConditionLight.setToolTipText("BTH Inquring");
+              break;
+            }
+            case '3' :{
+              Caculation_chip_ConditionLight.setToolTipText("BTH Pairable");
+              break;
+            }
+            case '4' :{
+              Caculation_chip_ConditionLight.setToolTipText("BTH Connecting");
+              break;
+            }
+            case '5' :{
+              Caculation_chip_ConditionLight.setToolTipText("BTH connected");
               break;
             }
           }

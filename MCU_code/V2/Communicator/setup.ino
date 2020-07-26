@@ -21,7 +21,21 @@ void setup() {
   Serial7.setTimeout(100);
   Serial8.setTimeout(100);
 
-  for (int i =34;i<=46;i++) pinMode(i,INPUT);
+  pinMode(S2,INPUT);
+  pinMode(S3,INPUT);
+  pinMode(S4,INPUT);
+  pinMode(S5,INPUT);
+  pinMode(S6,INPUT);
+  pinMode(S7,INPUT);
+  pinMode(S8,INPUT);
+  pinMode(S9,INPUT);
+  pinMode(S10,INPUT);
+  pinMode(S11,INPUT);
+  pinMode(S12,INPUT);
+  pinMode(S13,INPUT);
+  pinMode(MP,OUTPUT);
+  digitalWrite(MP,0);
+  
   
   //------------------===== SD Check ====-------------
     randomSeed(analogRead(A1));
@@ -35,32 +49,10 @@ void setup() {
       }
     }
     
-    //--------------------------board check----------------------------
-    Serial.print("?A");
-    Serial1.println("AT");
-    delay(100);
-    char a1 = Serial1.read();
-    char b1 = Serial1.read();
-/**/if (a1=='A'&&b1=='T') Serial.print("?B");
-    else statusForBluetooth = 'E';
-    if (digitalRead(S2)) Serial.print("?R");
-    if (digitalRead(S3)) Serial.print("?L");
-    if (digitalRead(S4)) Serial.print("?C");
-    if (digitalRead(S5)) Serial.print("?S");
-    if (digitalRead(S9)) Serial.print("?P");
-    if (digitalRead(S7)) Serial.print("?X");
-    else statusForBluetooth = 'E';
-    if (digitalRead(S8)) Serial.print("?T");
-    if (digitalRead(S9)) Serial.print("?Z");
-    else statusForBluetooth = 'E';
-    if (digitalRead(S10)) Serial.print("?D");
-    if (digitalRead(S11)) Serial.print("?E");
-    if (digitalRead(S12)) Serial.print("?N");
-    else statusForBluetooth = 'E';
-    if (digitalRead(S13)) Serial.print("?F");
-    
+  //--------------------------board check----------------------------
+    boardCheck();
 
-    // ----------------------Name a file name------------------
+  // ----------------------Name a file name------------------
     if (isAlphaNumeric(fileName[1])) ;
     else {
       file = SD.open("fileNo.txt");
