@@ -37,6 +37,12 @@ void setup() {
     
     //--------------------------board check----------------------------
     Serial.print("?A");
+    Serial1.println("AT");
+    delay(100);
+    char a1 = Serial1.read();
+    char b1 = Serial1.read();
+/**/if (a1=='A'&&b1=='T') Serial.print("?B");
+    else statusForBluetooth = 'E';
     if (digitalRead(S2)) Serial.print("?R");
     if (digitalRead(S3)) Serial.print("?L");
     if (digitalRead(S4)) Serial.print("?C");

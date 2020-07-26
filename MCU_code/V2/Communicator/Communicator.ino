@@ -14,6 +14,7 @@ int BP = 0; //BattereyP
 int MT = 0; //Motor Temperature
 int speed = 0; //speed
 int EC = 0; //Error code
+int bluetoothStatus = 0;
 
 String statusForBluetooth = "";
 String fileName;
