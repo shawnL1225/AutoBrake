@@ -5,133 +5,50 @@
     android:id="@+id/myLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#41434C">
+    android:background="#41434C"
+    android:paddingTop="0dp">
 
 
     <TextView
-        android:id="@+id/battery_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="100%"
-        android:textColor="#FFFFFF"
-        android:textSize="36sp"
-        android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/time_txt"
+        android:id="@+id/hour_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="00:00"
-        android:textColor="#FFFFFF"
-        android:textSize="36sp"
+        android:text="12:"
+        android:textColor="#50E8B3"
+        android:textSize="72sp"
         android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/minute_txt"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/speed_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="236dp"
+        android:layout_marginTop="72dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="0"
         android:textColor="#71B3E8"
         android:textSize="100sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btn_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/progress_circular" />
 
 
     <TextView
         android:id="@+id/speedUnit_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="116dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:text="km/h"
         android:textColor="#71B3E8"
         android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@+id/motor_txt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.198"
         app:layout_constraintStart_toEndOf="@+id/speed_txt"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.97" />
-
-    <LinearLayout
-        android:id="@+id/btn_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-
-        <Button
-            android:id="@+id/reconnect_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_button"
-            android:text="reconnect"
-            android:textColor="#FFF" />
-
-        <Button
-            android:id="@+id/start_receive_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_margin="5dp"
-            android:layout_weight="15"
-            android:background="@drawable/custom_button"
-            android:text="start"
-            android:textColor="#FFF" />
-
-        <Button
-            android:id="@+id/exit_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_button"
-            android:text="exit"
-            android:textColor="#FFF" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/motor_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:text="0%"
-        android:textColor="#FFFFFF"
-        android:textSize="36sp"
-        android:textStyle="italic"
-        app:layout_constraintStart_toEndOf="@+id/speed_txt"
-        app:layout_constraintTop_toBottomOf="@+id/speed_txt" />
-
-    <TextView
-        android:id="@+id/engineT_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:text="32℃"
-        android:textColor="#FFFFFF"
-        android:textSize="36sp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toStartOf="@+id/speed_txt"
-        app:layout_constraintTop_toBottomOf="@+id/speed_txt" />
+        app:layout_constraintTop_toTopOf="@+id/speed_txt" />
 
 
     <ProgressBar
@@ -139,39 +56,134 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="280dp"
         android:layout_height="284dp"
-        android:layout_marginBottom="180dp"
+        android:layout_marginTop="32dp"
         android:progress="0"
         android:progressDrawable="@drawable/progressbar_circle"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/btn_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/battery_img" />
 
     <ImageView
         android:id="@+id/warning_img"
         android:layout_width="350dp"
         android:layout_height="340dp"
-        android:layout_marginBottom="150dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/btn_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@mipmap/close_warning" />
+        app:layout_constraintTop_toBottomOf="@+id/battery_img"
+        app:srcCompat="@drawable/close_warning" />
 
     <TextView
         android:id="@+id/ready_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:text="Bike Preparing..."
         android:textAlignment="center"
         android:textColor="#50E888"
         android:textStyle="bold|italic"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/btn_layout"
+        app:layout_constraintBottom_toTopOf="@+id/start_btn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/minute_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="16dp"
+        android:padding="0dp"
+        android:text="59"
+        android:textColor="#38D873"
+        android:textSize="48sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/battery_img"
+        android:layout_width="164dp"
+        android:layout_height="107dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toStartOf="@+id/hour_txt"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/battery_disconnected" />
+
+    <TextView
+        android:id="@+id/battery_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="未連線"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/battery_img"
+        app:layout_constraintEnd_toEndOf="@+id/battery_img"
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintStart_toStartOf="@+id/battery_img"
+        app:layout_constraintTop_toTopOf="@+id/battery_img" />
+
+    <Button
+        android:id="@+id/exit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/custom_button"
+        android:text="離開"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/start_btn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/custom_button"
+        android:text="開始"
+        android:textColor="#FFF"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/call_btn"
+        app:layout_constraintStart_toEndOf="@+id/exit_btn"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="87dp" />
+
+    <ImageButton
+        android:id="@+id/call_btn"
+        android:layout_width="84dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/custom_button_pause"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:srcCompat="@drawable/ic_call" />
+
+    <TextView
+        android:id="@+id/note_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="note"
+        android:textColor="#9DE8BB"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/ready_txt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

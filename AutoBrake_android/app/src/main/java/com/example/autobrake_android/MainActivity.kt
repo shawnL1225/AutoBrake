@@ -1,23 +1,29 @@
 package com.example.autobrake_android
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.ProgressDialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.Uri
 import android.os.*
 import android.speech.tts.TextToSpeech
-import android.text.Html
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.fragment.app.FragmentActivity
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.IOException
@@ -29,32 +35,35 @@ class MainActivity: AppCompatActivity() {
 
     companion object {
         var m_myUUID: UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
-        private const val BLUETOOTH_SEND_STRING = 1
-        var m_bluetoothSocket: BluetoothSocket? = null
-        lateinit var m_progress: ProgressDialog
-        var m_bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        var m_isConnected: Boolean = false
         lateinit var m_address: String
+        var m_bluetoothSocket: BluetoothSocket? = null
+        var m_bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+        var m_isConnected: Boolean = false
+        lateinit var m_progress: ProgressDialog
+
 
         lateinit var mTTS:TextToSpeech
 
-        const val BT_TAG = "BLUETOOTH DEBUG"
-        const val TOUCH_TAG = "TOUCH DEBUG"
+        const val BT_TAG = "BLUETOOTH_DEBUG"
+        const val TOUCH_TAG = "TOUCH_DEBUG"
+        const val GPS_TAG = "GPS_DEBUG"
+
+        const val REQUEST_GPS = 1
+        const val REQUEST_CALL = 2
 
         val mmBuffer: ByteArray = ByteArray(1024)
         var numBytes: Int = 0
         var isRun = false
 
-        //onTouch
-        var x1 =0F
-        var x2 =0F
 
         lateinit var initHandler: Handler
+
+        var callNumber = ""
 
     }
 
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar!!.setDisplayShowHomeEnabled(true);
@@ -64,19 +73,18 @@ class MainActivity: AppCompatActivity() {
 
 
 
+
         //connect to BT
-        m_address = "AB:F5:E7:56:34:02"
-//        m_address = "78:02:B7:25:01:86"
+//        m_address = "AB:F5:E7:56:34:02"
+        m_address = "00:21:13:00:1C:F0"
         ConnectToDevice(this,this).execute()
 
-        //connect btn
-        reconnect_btn.setOnClickListener { disconnect(this)
-            ConnectToDevice(this, this).execute() }
-        exit_btn.setOnClickListener { disconnect(this)
-            finish()    }
 
         //GPS
         getLocation(this)
+
+
+        firebase()
 
 
         //speech init
@@ -92,7 +100,8 @@ class MainActivity: AppCompatActivity() {
                 when(msg.what) {
                     2 -> {
                         ready_txt.text = "System All Set"
-                        btn_layout.alpha = 1F
+                        start_btn.isEnabled = true
+                        start_btn.alpha = 1F
                     }
                     3 ->  ready_txt.text = "SD Card Checking"
                     4 ->  ready_txt.text = "SD Card OK"
@@ -107,21 +116,42 @@ class MainActivity: AppCompatActivity() {
 
 
 
-        btn_layout.alpha = 0.5F
+
+        exit_btn.setOnClickListener { disconnect(this)
+                                        finish()}
+        call_btn.setOnClickListener {
+            val callIntent = Intent(Intent.ACTION_CALL)
+            val string = "tel:$callNumber"
+            callIntent.data = Uri.parse(string)
+
+            if (ActivityCompat.checkSelfPermission(this@MainActivity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.CALL_PHONE),
+                    REQUEST_CALL)
+            }else
+                startActivity(callIntent)
+        }
+
+
+        start_btn.alpha = 0.4F
+        start_btn.isEnabled = false
 
         //start BT and show BT receiveThread value
-        start_receive_btn.setOnClickListener {
-            val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
-            var warningLight = 0
-            var warningLine = 0
-            var warningRecognition = 0
+        var warningLight = 0
+        var warningLine = 0
+        var warningRecognition = 0
+        var speed = 0
+
+        start_btn.setOnClickListener {
+
 
             val startingHandler = @SuppressLint("HandlerLeak") object: Handler() {
                 override fun handleMessage(msg: Message) {
 
                     //GET BT data
-                    if(msg.what==BLUETOOTH_SEND_STRING) {
+                    if(msg.what==1) {
                         // copy and split
                         var b: ByteArray = mmBuffer.copyOf(numBytes)
                         var bufToString = b.toString(Charsets.UTF_8)
@@ -141,7 +171,7 @@ class MainActivity: AppCompatActivity() {
 
                                 //set speed and progress bar
                                 'S' -> {
-                                    var speed = part[i].toInt()
+                                    speed = part[i].toInt()
                                     if (speed > 30) speed = 30
                                     speed_txt.text = speed.toString()
                                     progress_circular.max = 40
@@ -149,7 +179,17 @@ class MainActivity: AppCompatActivity() {
                                 }
 
                                 //set battery
-                                'B' -> battery_txt.text = part[i] + '%'
+                                'B' -> {
+                                    battery_txt.text = part[i] + '%'
+                                    var battery = part[i].toInt()
+                                    when(battery) {
+                                        in 81..100 -> battery_img.setImageResource(R.drawable.battery_5)
+                                        in 61..80 -> battery_img.setImageResource(R.drawable.battery_4)
+                                        in 41..60 -> battery_img.setImageResource(R.drawable.battery_3)
+                                        in 21..40 -> battery_img.setImageResource(R.drawable.battery_2)
+                                        in 0..20 -> battery_img.setImageResource(R.drawable.battery_1)
+                                    }
+                                }
 
 
                                 'X' -> warningLight = part[i].toInt()
@@ -158,9 +198,9 @@ class MainActivity: AppCompatActivity() {
                                         if(part[i].length>1) warningDirection = part[i][1]}
 
                                 //set motor
-                                'M' -> motor_txt.text = part[i] + '%'
-
-                                'T' -> engineT_txt.text = part[i] + "℃"
+//                                'M' -> motor_txt.text = part[i] + '%'
+//
+//                                'T' -> engineT_txt.text = part[i] + "℃"
 
                             }
                         }
@@ -186,9 +226,10 @@ class MainActivity: AppCompatActivity() {
                                 }
                             }
 
+
                             // object warning
                             if(warningRecognition == 1) {
-                                warning_img.setImageResource(R.mipmap.close_warning)
+                                warning_img.setImageResource(R.drawable.close_warning)
                                 warning_img.visibility = View.VISIBLE
                                 if(warningDirection == 'l') {
                                     mTTS.speak(
@@ -209,18 +250,21 @@ class MainActivity: AppCompatActivity() {
                                     )
                                 }
                             }
+
                             // traffic light warning
                             else if(warningLight == 1) {
-                                warning_img.setImageResource(R.mipmap.light_warning)
+                                warning_img.setImageResource(R.drawable.light_warning)
                                 warning_img.visibility = View.VISIBLE
 
                                 mTTS.speak(
                                     "Red light detected", TextToSpeech.QUEUE_FLUSH, null
                                 )
                             }
+
+
                             // deviation warning
                             else if(warningLine == 1) {
-                                warning_img.setImageResource(R.mipmap.line_warning)
+                                warning_img.setImageResource(R.drawable.line_warning)
                                 warning_img.visibility = View.VISIBLE
 
                                 mTTS.speak(
@@ -232,14 +276,14 @@ class MainActivity: AppCompatActivity() {
                     }
                 }
             }
-            val thread = ReceiveThread(startingHandler)
+            val thread = MovingMode(startingHandler)
 
 
             if(!isRun)
             {
                 isRun = true
-                start_receive_btn.setBackgroundResource(R.drawable.custom_button_pause)
-                start_receive_btn.text = "PAUSE"
+                start_btn.setBackgroundResource(R.drawable.custom_button_pause)
+                start_btn.text = "暫停"
                 thread.start()
                 val cal = Calendar.getInstance()
                 val dateReturn = '@'+SimpleDateFormat("yy:MM:dd:HH:mm:ss:SS").format(cal.time)
@@ -249,8 +293,8 @@ class MainActivity: AppCompatActivity() {
             else
             {
                 isRun = false
-                start_receive_btn.setBackgroundResource(R.drawable.custom_button)
-                start_receive_btn.text = "START"
+                start_btn.setBackgroundResource(R.drawable.custom_button)
+                start_btn.text = "開始"
                 sendData("#")
             }
             
@@ -260,31 +304,33 @@ class MainActivity: AppCompatActivity() {
 
         // current time
         object: CountDownTimer(86400000, 1000) {
-            @SuppressLint("SetTextI18n")
             override fun onFinish() {
-                time_txt.text = "run over 24H"
+                hour_txt.text = "run over 24H"
             }
             @SuppressLint("SimpleDateFormat")
             override fun onTick(millisUntilFinished: Long) {
                 val cal = Calendar.getInstance()
-                time_txt.text = SimpleDateFormat("HH:mm:ss").format(cal.time)
+                hour_txt.text = SimpleDateFormat("HH:").format(cal.time)
+                minute_txt.text = SimpleDateFormat("mm").format(cal.time)
             }
 
         }.start()
     }
 
     // open google map
+    var x1 =0F
+    var x2 =0F
     override fun onTouchEvent(e: MotionEvent): Boolean {
 
 
         var isTouched = false
         when (e.action) {
             MotionEvent.ACTION_DOWN -> {
-                x1 = e.getX()
+                x1 = e.x
                 Log.d(TOUCH_TAG, "DOWN!!!$x1")
             }
             MotionEvent.ACTION_UP -> {
-                x2 = e.getX()
+                x2 = e.x
                 Log.d(TOUCH_TAG, "UP!!!$x2")
                 isTouched = true
             }
@@ -299,7 +345,7 @@ class MainActivity: AppCompatActivity() {
     }
 
     //BT Receive Data
-    class ReceiveThread(private val handler: Handler) : Thread() {
+    class MovingMode(private val handler: Handler) : Thread() {
         override fun run() {
 
             Log.d(BT_TAG, "START THREAD")
@@ -317,7 +363,7 @@ class MainActivity: AppCompatActivity() {
 
                             //debug show the num and value of BT
                             Log.d(BT_TAG, "--------------------------")
-                            Log.d(BT_TAG, "numBytes :  " +numBytes)
+                            Log.d(BT_TAG, "numBytes :  $numBytes")
 //                            for(x in 0..numBytes-1)
 //                            {
 //                                Log.d(BT_TAG, "buffer :  " + mmBuffer[x])
@@ -325,7 +371,7 @@ class MainActivity: AppCompatActivity() {
 
                             //return msg to UI
                             val message = Message.obtain()
-                            message.what = BLUETOOTH_SEND_STRING
+                            message.what = 1
                             handler.sendMessage(message)
 
                         }
@@ -347,15 +393,13 @@ class MainActivity: AppCompatActivity() {
         if(m_bluetoothSocket != null)
         {
             try{
-                Log.d(BT_TAG, "BT write :　"+ input)
+                Log.d(BT_TAG, "BT write :　$input")
                 m_bluetoothSocket!!.outputStream.write(input.toByteArray())
             } catch(e: IOException) {
                 e.printStackTrace()
                 Log.d(BT_TAG, "BT write got wrong ", e)
             }
         }
-
-
     }
 
     //BT disconnect
@@ -365,145 +409,162 @@ class MainActivity: AppCompatActivity() {
                 m_bluetoothSocket!!.close()
                 m_bluetoothSocket = null
                 m_isConnected = false
-                Toast.makeText(context,"disconnected", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context,"disconnected", Toast.LENGTH_SHORT).show()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
-//        finish()
     }
 
-    //BT connect
+    //BT connect and receive bike state
     class ConnectToDevice(private var context: Context, private var activity: MainActivity) : AsyncTask<Void, Void, String>() {
 
 
-        private var connectSuccess: Boolean = true
-
         override fun onPreExecute() {
             super.onPreExecute()
-            m_progress = ProgressDialog.show(context, "Connecting...", "please wait")
+            if (m_bluetoothAdapter?.isEnabled == false) {
+                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                startActivityForResult(activity,enableBtIntent, 1,Bundle())
+            }
+
+            m_progress = ProgressDialog.show(context, "connecting...", "please wait")
+
         }
 
         override fun doInBackground(vararg p0: Void?): String? {
-            try {
-                if (m_bluetoothSocket == null || !m_isConnected) {
-                    val device: BluetoothDevice = m_bluetoothAdapter.getRemoteDevice(m_address)
-                    m_bluetoothSocket = device.createInsecureRfcommSocketToServiceRecord(m_myUUID)
-                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery()
-                    m_bluetoothSocket!!.connect()
+            if (m_bluetoothSocket == null || !m_isConnected) {
+                val device: BluetoothDevice = m_bluetoothAdapter!!.getRemoteDevice(m_address)
+                m_bluetoothSocket = device.createInsecureRfcommSocketToServiceRecord(m_myUUID)
+                m_bluetoothAdapter!!.cancelDiscovery()
+
+                //keep connecting BT
+                while(true){
+                    try{
+                        Log.d(BT_TAG,"reconnect ! ")
+                        m_bluetoothSocket!!.connect()
+
+                        if(m_bluetoothSocket!!.isConnected){
+                            m_isConnected = true
+                            break
+                        }
+                    }catch (e: IOException) {
+                        Log.d(BT_TAG,"catch IOE ! ")
+                    }
+
                 }
-            } catch (e: IOException) {
-                connectSuccess = false
-                e.printStackTrace()
+
             }
             return null
         }
 
-        @SuppressLint("SetTextI18n")
+        //connect successfully
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
 
-
-            if (connectSuccess) {
-                m_isConnected = true
-                activity.sendData("?")
-
-                Toast.makeText(context,"connected", Toast.LENGTH_SHORT).show()
-
-            } else {
-                Toast.makeText(context,"couldn't connect", Toast.LENGTH_SHORT).show()
-            }
-
+            Log.d(BT_TAG,"onPostExecute ! ")
             m_progress.dismiss()
+            Toast.makeText(context,"connected", Toast.LENGTH_SHORT).show()
+            activity.sendData("?")
+
+            try {
+                Log.d(BT_TAG, "start listen bike init status")
+
+                Thread {
+                    while (true) {
+
+                        Thread.sleep(50)
+                        if(!m_isConnected) break
+
+                        if (m_bluetoothSocket!!.inputStream.available() > 0) {
+                            // wait for read
+                            Thread.sleep(30)
+                            numBytes = m_bluetoothSocket!!.inputStream.read(mmBuffer, 0, 500)
+
+                            var b: ByteArray = mmBuffer.copyOf(numBytes)
+                            var bufToString = b.toString(Charsets.UTF_8)
+                            Log.d(BT_TAG, "BTget: $bufToString")
 
 
-            if(connectSuccess) {
-                try {
-                    Log.d(BT_TAG, "start listen bike init status")
-
-                    Thread {
-                        while (true) {
-
-                            Thread.sleep(50)
-                            if(!m_isConnected) break
-
-                            if (m_bluetoothSocket!!.inputStream.available() > 0) {
-                                // wait for read
-                                Thread.sleep(30)
-                                numBytes = m_bluetoothSocket!!.inputStream.read(mmBuffer, 0, 500)
-
-                                var b: ByteArray = mmBuffer.copyOf(numBytes)
-                                var bufToString = b.toString(Charsets.UTF_8)
-                                Log.d(BT_TAG, "BTget: $bufToString")
-
-
-                                val message = Message.obtain()
-                                if (bufToString == "=") {
-                                    message.what = 2
-                                    initHandler.sendMessage(message)
-                                    break
-                                }
-                                else if (bufToString == "SC") {
-                                    message.what = 3
-                                }
-                                else if (bufToString == "SO") {
-                                    message.what = 4
-                                }
-                                else if (bufToString == "SE") {
-                                    message.what = 5
-                                }
-                                else if (bufToString == "CC") {
-                                    message.what = 6
-                                }
-                                else if (bufToString == "CO") {
-                                    message.what = 7
-                                }
-                                else if (bufToString == "CE") {
-                                    message.what = 8
-                                }
+                            val message = Message.obtain()
+                            if (bufToString == "=") {
+                                message.what = 2
                                 initHandler.sendMessage(message)
+                                break
                             }
+                            else if (bufToString == "SC") {
+                                message.what = 3
+                            }
+                            else if (bufToString == "SO") {
+                                message.what = 4
+                            }
+                            else if (bufToString == "SE") {
+                                message.what = 5
+                            }
+                            else if (bufToString == "CC") {
+                                message.what = 6
+                            }
+                            else if (bufToString == "CO") {
+                                message.what = 7
+                            }
+                            else if (bufToString == "CE") {
+                                message.what = 8
+                            }
+                            initHandler.sendMessage(message)
                         }
-                    }.start()
+                    }
+                }.start()
 
-                } catch (e: IOException) {
-                    Log.d(BT_TAG, "BT Input stream was disconnected", e)
-                }
+            } catch (e: IOException) {
+                Log.d(BT_TAG, "BT Input stream was disconnected", e)
             }
+
+
+
+
         }
 
     }
 
-    @SuppressLint("MissingPermission")
     private fun getLocation(context: Context) {
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val hasGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-
-        val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-        val myRef: DatabaseReference = database.getReference("autobrake")
 
 
-        if (hasGps) {
-            Log.d("GPS", "hasGps")
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0F, object : LocationListener {
+        //request permission
+        if (ActivityCompat.checkSelfPermission(this@MainActivity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_GPS)
 
-                override fun onLocationChanged(location: Location?) {
-                    Log.d("GPS", "changed")
-                    if (location != null) {
-                        val latitude = location.latitude
-                        val longitude = location.longitude
+        }
+        else{
+            val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val hasGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
-                        Log.d("GPS", " GPS Latitude : $latitude")
-                        Log.d("GPS", " GPS Longitude : $longitude")
-
-                        val cal = Calendar.getInstance()
-                        val date = SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(cal.time)
+            val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+            val myRef: DatabaseReference = database.getReference("autobrake")
 
 
-                        //to firebase
-                        myRef.child("lat").setValue(latitude.toString())
-                        myRef.child("lon").setValue(longitude.toString())
-                        myRef.child("date").setValue(date)
+            if (hasGps) {
+                Log.d(GPS_TAG, "hasGps")
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0F, object : LocationListener {
+
+                    override fun onLocationChanged(location: Location?) {
+                        Log.d(GPS_TAG, "changed")
+                        if (location != null) {
+                            val latitude = location.latitude
+                            val longitude = location.longitude
+
+                            Log.d(GPS_TAG, " GPS Latitude : $latitude")
+                            Log.d(GPS_TAG, " GPS Longitude : $longitude")
+
+                            val cal = Calendar.getInstance()
+                            val date = SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(cal.time)
+
+
+                            //to firebase
+                            myRef.child("lat").setValue(latitude.toString())
+                            myRef.child("lon").setValue(longitude.toString())
+                            myRef.child("date").setValue(date)
 
 
 
@@ -523,31 +584,84 @@ class MainActivity: AppCompatActivity() {
 
 
 
+                        }
                     }
+
+                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+                    override fun onProviderEnabled(provider: String?) {}
+                    override fun onProviderDisabled(provider: String?) {}
+
+                })
+
+                val localGpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                if (localGpsLocation != null) {
+                    Log.d(GPS_TAG, " End GPS Latitude : " + localGpsLocation.latitude)
+                    Log.d(GPS_TAG, " End GPS Longitude : " + localGpsLocation.longitude)
+
+                    val cal = Calendar.getInstance()
+                    val date = SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(cal.time)
+
+                    myRef.child("lat").setValue(localGpsLocation.latitude.toString())
+                    myRef.child("lon").setValue(localGpsLocation.longitude.toString())
+                    myRef.child("date").setValue(date)
+
                 }
 
-                override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-                override fun onProviderEnabled(provider: String?) {}
-                override fun onProviderDisabled(provider: String?) {}
+            }
+        }
 
-            })
+    }
 
-            val localGpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            if (localGpsLocation != null) {
-                Log.d("GPS", " End GPS Latitude : " + localGpsLocation.latitude)
-                Log.d("GPS", " End GPS Longitude : " + localGpsLocation.longitude)
+    private fun firebase() {
+        val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+        val myRef: DatabaseReference = database.getReference("autobrake")
 
-                val cal = Calendar.getInstance()
-                val date = SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(cal.time)
 
-                myRef.child("lat").setValue(localGpsLocation.latitude.toString())
-                myRef.child("lon").setValue(localGpsLocation.longitude.toString())
-                myRef.child("date").setValue(date)
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
 
+                var note = dataSnapshot.child("note").value
+                note_txt.text = note.toString()
+
+                var number = dataSnapshot.child("callNumber").value
+                callNumber = number.toString()
             }
 
-        }
-        
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
+
+    //request permission
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            REQUEST_CALL -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+
+                }
+            }
+
+            REQUEST_GPS -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    getLocation(this)
+                }
+            }
+        }
+    }
+
+    //second check when exit
+    private var lastTime: Long = 0
+    override fun finish() {
+        Log.d("flow", "finish")
+        val currentTime = System.currentTimeMillis()
+
+        if(currentTime - lastTime > 3 * 1000) {
+            lastTime = currentTime
+            Toast.makeText(this, "\t\t再次按下離開\n請確認車體電源已關閉", Toast.LENGTH_SHORT).show()
+        } else {
+            super.finish()
+        }
+    }
+
 
 }
