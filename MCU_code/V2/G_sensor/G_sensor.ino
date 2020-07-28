@@ -5,8 +5,8 @@
 #include <Adafruit_Sensor.h>
 
 #define dhtPin 8
-#define MPU6050_addr 0x68
 #define dhtType DHT11 
+#define MPU6050_addr 0x68
 
 SoftwareSerial Serial4(10,11);
 DHT dht(dhtPin, dhtType);
