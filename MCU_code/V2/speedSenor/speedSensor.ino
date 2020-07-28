@@ -60,9 +60,9 @@ void speedSensor(){
   }
 
 //----------------------mix two sensor value------------------------
-//  if (abs(hv1-hv2)<2)
-//  else errt++;
-   fhv =(hv1+hv2)/2.00;
+  if (abs(hv1-hv2)<2)fhv =(hv1+hv2)/2.00;
+  else errt++;
+   
 //--------------show fianl value & send value-----------------------
   if (hv1==0&&hv2==0&&fhv!=printed){
     Serial.print("V0");

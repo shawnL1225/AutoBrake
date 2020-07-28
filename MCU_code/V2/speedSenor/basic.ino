@@ -5,6 +5,8 @@ void setup() {
   pinMode(6,OUTPUT);
   digitalWrite(5,1);
   digitalWrite(6,1);
+  Serial.println("READY");
+  Serial.println("BEGIN");
 }
 
 void loop() {

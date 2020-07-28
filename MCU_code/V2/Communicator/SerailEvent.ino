@@ -30,7 +30,10 @@ void SerialEvent(){
       digitalWrite(MP,0);
       Serial.print('#');
     }
-    else if (in == '?') SDWrite("Computer Connected");
+    else if (in == '?') {
+      SDWrite("Computer Connected");
+      
+    }
     else if (in == 'E') {
       int frontBrakeForce = Serial.parseInt();
       Serial9.print("E");
