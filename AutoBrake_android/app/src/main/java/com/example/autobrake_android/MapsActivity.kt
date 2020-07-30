@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_maps.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -68,6 +69,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         createLocationRequest()
 
+        back_btn.setOnClickListener {
+            finish()
+        }
+
     }
 
 
@@ -77,7 +82,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         Log.d(MAP_TAG, "map start")
 
         //zoom btn
-        map.getUiSettings().setZoomControlsEnabled(true)
+        map.uiSettings.isZoomControlsEnabled = true
         map.setOnMarkerClickListener(this)
         setUpMap()
 

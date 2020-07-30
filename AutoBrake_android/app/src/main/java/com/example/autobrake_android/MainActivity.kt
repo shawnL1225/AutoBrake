@@ -50,6 +50,7 @@ class MainActivity: AppCompatActivity() {
 
         const val REQUEST_GPS = 1
         const val REQUEST_CALL = 2
+        const val REQUEST_BT = 3
 
         val mmBuffer: ByteArray = ByteArray(1024)
         var numBytes: Int = 0
@@ -77,7 +78,13 @@ class MainActivity: AppCompatActivity() {
         //connect to BT
 //        m_address = "AB:F5:E7:56:34:02"
         m_address = "00:21:13:00:1C:F0"
-        ConnectToDevice(this,this).execute()
+
+        if (m_bluetoothAdapter?.isEnabled == false) {
+            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            startActivityForResult(enableBtIntent, REQUEST_BT)
+        }else {
+            ConnectToDevice(this,this).execute()
+        }
 
 
         //GPS
@@ -158,7 +165,7 @@ class MainActivity: AppCompatActivity() {
                         // in case n==0 get null
                         if(bufToString[0] == '|')   bufToString = bufToString.drop(1)
                         val part = bufToString.split('|').toMutableList()
-                        Log.d(BT_TAG, "BTget: $bufToString")
+                        Log.d(BT_TAG, "BTget:$bufToString")
                         Log.d(BT_TAG, part.size.toString())
 
                         var warningDirection = ' '
@@ -422,11 +429,6 @@ class MainActivity: AppCompatActivity() {
 
         override fun onPreExecute() {
             super.onPreExecute()
-            if (m_bluetoothAdapter?.isEnabled == false) {
-                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                startActivityForResult(activity,enableBtIntent, 1,Bundle())
-            }
-
             m_progress = ProgressDialog.show(context, "connecting...", "please wait")
 
         }
@@ -482,7 +484,7 @@ class MainActivity: AppCompatActivity() {
 
                             var b: ByteArray = mmBuffer.copyOf(numBytes)
                             var bufToString = b.toString(Charsets.UTF_8)
-                            Log.d(BT_TAG, "BTget: $bufToString")
+                            Log.d(BT_TAG, "init_BTget:$bufToString")
 
 
                             val message = Message.obtain()
@@ -645,6 +647,22 @@ class MainActivity: AppCompatActivity() {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     getLocation(this)
                 }
+            }
+        }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_BT) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (m_bluetoothAdapter!!.isEnabled) {
+                    ConnectToDevice(this,this).execute()
+                } else {
+                    Toast.makeText(this,"Bluetooth has been disabled", Toast.LENGTH_SHORT).show()
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(this,"Bluetooth enabling has been canceled", Toast.LENGTH_SHORT).show()
             }
         }
     }
