@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chart_scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.chart.ChartFragment"
+    android:paddingBottom="60dp"
+    tools:ignore="WebViewLayout">
+
+    <TextView
+        android:id="@+id/title_battery_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/chart_battery"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title_temp_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/chart_temp"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/battery_web" />
+
+    <TextView
+        android:id="@+id/title_speed_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/chart_speed"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/temp_web" />
+
+    <TextView
+        android:id="@+id/title_rpm_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/chart_rpm"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speed_web" />
+
+    <WebView
+        android:id="@+id/battery_web"
+        android:layout_width="0dp"
+        android:layout_height="215dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_battery_chart" />
+
+    <WebView
+        android:id="@+id/temp_web"
+        android:layout_width="0dp"
+        android:layout_height="215dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_temp_chart" />
+
+    <WebView
+        android:id="@+id/speed_web"
+        android:layout_width="0dp"
+        android:layout_height="215dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_speed_chart" />
+
+    <WebView
+        android:id="@+id/rpm_web"
+        android:layout_width="0dp"
+        android:layout_height="215dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_rpm_chart" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

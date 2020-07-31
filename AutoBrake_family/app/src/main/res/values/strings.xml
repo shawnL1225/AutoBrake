@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">AutoBrake Family</string>
+    <string name="title_home">即時狀態</string>
+    <string name="title_map">目前位置</string>
+    <string name="title_chart">圖表統計</string>
+    <string name="title_setting">個人設定</string>
+
+    <string name="title_battery">剩餘電量</string>
+    <string name="title_temp">馬達溫度</string>
+    <string name="title_speed">目前車速</string>
+    <string name="unit_percent">%</string>
+    <string name="unit_kmh">KM/H</string>
+    <string name="unit_celcius">°C</string>
+
+    <string name="chart_battery">剩餘電量統計圖表</string>
+    <string name="chart_temp">馬達溫度統計圖表</string>
+    <string name="chart_speed">車速統計圖表</string>
+    <string name="chart_rpm">馬達驅動力統計圖表</string>
+
+    <string name="title_location">目前位置</string>
+    <string name="gotomap">查看詳細位置</string>
+    <string name="connecting">連線中</string>
+    <string name="input_message">輸入給長輩的提醒...</string>
+    <string name="input_phoneNum">輸入緊急連絡人電話</string>
+    <string name="last_message">上次傳送 : </string>
+    <string name="last_phoneNum">目前為 : </string>
+    <string name="dotdotdot">. . .</string>
+    <string name="title_alarm_person">緊急聯絡人</string>
+    <string name="title_note">提醒事項</string>
+    <string name="title_setplace">常去地點</string>
+    <string name="gotoSetPlace">點我設定</string>
+</resources>

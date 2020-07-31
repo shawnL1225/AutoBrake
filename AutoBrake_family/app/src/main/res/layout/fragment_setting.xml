@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.setting.SettingFragment"
+    android:background="@color/gray"
+    android:paddingTop="10dp"
+    android:paddingBottom="60dp">
+
+    <EditText
+        android:id="@+id/send_message_box"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:ems="10"
+        android:hint="@string/input_message"
+        android:inputType="textPersonName"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:theme="@style/MyEditText"
+        app:layout_constraintBottom_toBottomOf="@+id/title_sendMsg"
+        app:layout_constraintEnd_toStartOf="@+id/send_message_btn"
+        app:layout_constraintTop_toTopOf="@+id/title_sendMsg" />
+
+    <Button
+        android:id="@+id/send_message_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/send_ripper"
+        android:backgroundTint="@color/lightBlue"
+        app:layout_constraintBottom_toBottomOf="@+id/send_message_box"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/send_message_box" />
+
+    <TextView
+        android:id="@+id/last_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/last_message"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/send_message_box" />
+
+    <TextView
+        android:id="@+id/title_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_setting"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title_sendMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/text_background"
+        android:textColor="#000000"
+        android:text="@string/title_note"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_setting" />
+
+    <TextView
+        android:id="@+id/title_alarm_person"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/text_background"
+        android:textColor="#000000"
+        android:text="@string/title_alarm_person"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/last_message" />
+
+
+    <EditText
+        android:id="@+id/editTextPhone"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:ems="10"
+        android:hint="@string/input_phoneNum"
+        android:inputType="phone"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:theme="@style/MyEditText"
+        app:layout_constraintBottom_toBottomOf="@+id/title_alarm_person"
+        app:layout_constraintEnd_toStartOf="@+id/send_btn"
+        app:layout_constraintTop_toTopOf="@+id/title_alarm_person" />
+
+    <Button
+        android:id="@+id/send_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/send_ripper"
+        android:backgroundTint="@color/lightBlue"
+        app:layout_constraintBottom_toBottomOf="@+id/title_alarm_person"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title_alarm_person" />
+
+    <TextView
+        android:id="@+id/last_phoneNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/last_phoneNum"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
+
+    <TextView
+        android:id="@+id/title_setplace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/text_background"
+        android:textColor="#000000"
+        android:text="@string/title_setplace"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/last_phoneNum" />
+
+    <Button
+        android:id="@+id/btn_toMap"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/button_style"
+        android:text="@string/gotoSetPlace"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/title_setplace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title_setplace" />
+
+    <ListView
+        android:id="@+id/place_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:text="目前已設定地點 :"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_toMap" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
