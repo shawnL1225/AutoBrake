@@ -18,8 +18,8 @@ import com.msba.autobrakefamily.R
 import com.msba.autobrakefamily.SetPlaceFragment
 
 class SettingFragment : Fragment(){
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         val root = inflater.inflate(R.layout.fragment_setting, container, false)
         val sendBtn : Button = root.findViewById(R.id.send_btn)
         val phoneNum : EditText = root.findViewById(R.id.editTextPhone)
@@ -30,6 +30,7 @@ class SettingFragment : Fragment(){
         val lastMessage : TextView = root.findViewById(R.id.last_message)
 
         val btnSetPlace : Button = root.findViewById(R.id.btn_toMap)
+        val placeList : ListView = root.findViewById(R.id.place_list)
 
         var database = FirebaseDatabase.getInstance().reference
 
@@ -38,8 +39,7 @@ class SettingFragment : Fragment(){
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                lastMessage.text = "上次傳送 : ${p0.child("autobrake/note").getValue() as String}"
-                lastphoneNum.text = "目前為 : ${p0.child("autobrake/callNumber").getValue()}"
+
             }
         }
         database.addValueEventListener(getData)
@@ -47,6 +47,7 @@ class SettingFragment : Fragment(){
         btnSendMessage.setOnClickListener(){
             val ime = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             ime.hideSoftInputFromWindow(view?.windowToken, 0)
+
             var message :String = "${sendMessage.text}"
             Toast.makeText(activity, "傳送成功!", Toast.LENGTH_SHORT).show()
             database.child("autobrake/note").setValue(message)
@@ -55,8 +56,9 @@ class SettingFragment : Fragment(){
         sendBtn.setOnClickListener(){
             val ime = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             ime.hideSoftInputFromWindow(view?.windowToken, 0)
+
             var message :String = "${phoneNum.text}"
-            if (phoneNum.length()<9){
+            if (phoneNum.length()<9 || phoneNum.length()>10){
                 Toast.makeText(activity, "格式錯誤 請重新輸入", Toast.LENGTH_SHORT).show()
             }else{
                 database.child("autobrake/callNumber").setValue(message)
@@ -69,25 +71,27 @@ class SettingFragment : Fragment(){
 
         val list = ArrayList<String>()
         val adapter = activity?.let { ArrayAdapter(it, R.layout.listview, list) }
-
-        val placeList : ListView = root.findViewById(R.id.place_list)
         placeList.adapter = adapter
 
 
-        val listRef = FirebaseDatabase.getInstance().reference.child("autobrake/setLocation")
+        val listRef = FirebaseDatabase.getInstance().getReference("autobrake")
         listRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
                 list.clear()
-                if(p0.exists()){for(e in p0.children){
-                    val placeString = e.value.toString()
-                    val placeName = placeString.substring(0,placeString.indexOf(':'))
-                    list.add(placeName)
+                lastMessage.text = "上次傳送 : ${p0.child("note").getValue() as String}"
+                lastphoneNum.text = "目前為 : ${p0.child("callNumber").getValue()}"
+                if(p0.exists()){
+                    for(e in p0.child("setLocation").children){
+                        val placeString = e.value as String
+                        val placeName = placeString.substring(0,placeString.indexOf(':'))
+                        list.add(placeName)
 
-                    adapter!!.notifyDataSetChanged()
-                }}
+                        adapter!!.notifyDataSetChanged()
+                    }
+                }
                 adapter!!.notifyDataSetChanged()
             }
         })
@@ -108,7 +112,7 @@ class SettingFragment : Fragment(){
             mBuilder.setView(mLayout)
 
             mBuilder.setPositiveButton("確定"){dialogInterface, i ->
-                listRef.child(list[position]).removeValue()
+                listRef.child("setLocation").child(list[position]).removeValue()
             }
 
             mBuilder.setNeutralButton("取消"){dialogInterface, i ->

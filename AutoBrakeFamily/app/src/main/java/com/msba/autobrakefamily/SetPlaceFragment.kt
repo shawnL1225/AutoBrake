@@ -36,16 +36,13 @@ class SetPlaceFragment : DialogFragment(), OnMapReadyCallback {
             dialog.window!!.setLayout(width, height)
         }
     }
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
         val rootView: View = inflater.inflate(R.layout.fragment_setplace, container, false)
         val BtnDone : Button = rootView.findViewById(R.id.btn_setplace_done)
         val BtnConfirm : Button = rootView.findViewById(R.id.btn_setplace_confirm)
-        val mapFragment =
-            childFragmentManager.findFragmentById(R.id.setplace_map) as SupportMapFragment
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.setplace_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
 
@@ -76,14 +73,13 @@ class SetPlaceFragment : DialogFragment(), OnMapReadyCallback {
                                 .position(LatLng(place.substring(place.indexOf(":")+1, place.indexOf(",")).toDouble(), place.substring(place.indexOf(",")+1, place.length).toDouble()))
                                 .title("已設定")
                                 .snippet(place.substring(0,place.indexOf(":")))
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                         )
                         list.add(place)
                     }
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
@@ -100,38 +96,41 @@ class SetPlaceFragment : DialogFragment(), OnMapReadyCallback {
                         .position(LatLng(i.substring(i.indexOf(":")+1, i.indexOf(",")).toDouble(), i.substring(i.indexOf(",")+1, i.length).toDouble()))
                         .title("已設定")
                         .snippet(i.substring(0,i.indexOf(":")))
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                 )
             }
 
             btn_setplace_confirm.visibility = View.VISIBLE
             btn_setplace_confirm.setOnClickListener{
-                //alert dialog with layout Programmatically
+
                 val mBuilder = AlertDialog.Builder(activity)
                 val mLayout  = LinearLayout(activity)
-                val mTvName  = TextView(activity)
-                val mEtName  = EditText(activity)
+                val mTitle  = TextView(activity)
+                val mPlaceName  = EditText(activity)
 
-                mTvName.text  = "請輸入地點名稱 :"
-                mTvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
-                mEtName.setSingleLine()
+                mTitle.text  = "請輸入地點名稱 :"
+                mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+                mPlaceName.setSingleLine()
                 mLayout.orientation = LinearLayout.VERTICAL
-                mLayout.addView(mTvName)
-                mLayout.addView(mEtName)
+                mLayout.addView(mTitle)
+                mLayout.addView(mPlaceName)
                 mLayout.setPadding(50, 40, 50, 10)
 
                 mBuilder.setView(mLayout)
 
                 mBuilder.setPositiveButton("完成"){dialogInterface, i ->
 
-                    val name = mEtName.text.toString()
+                    val name = mPlaceName.text.toString()
                     if (name != ""){
                         database.child("autobrake/setLocation/${name}").setValue("$name:${setPoint.latitude},${setPoint.longitude}")
                         Toast.makeText(activity, "設定成功!", Toast.LENGTH_SHORT).show()
+
                         val ime = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                         ime.hideSoftInputFromWindow(view?.windowToken, 0)
                         dialog?.dismiss()
-                    }else{Toast.makeText(activity, "請輸入名稱", Toast.LENGTH_SHORT).show()}
+                    }else{
+                        Toast.makeText(activity, "請輸入名稱", Toast.LENGTH_SHORT).show()
+                    }
                 }
 
                 mBuilder.setNeutralButton("取消"){dialogInterface, i ->

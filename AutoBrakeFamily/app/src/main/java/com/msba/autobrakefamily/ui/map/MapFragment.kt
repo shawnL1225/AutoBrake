@@ -37,9 +37,12 @@ class MapFragment : Fragment() , OnMapReadyCallback{
         val root = inflater.inflate(R.layout.fragment_map, container, false)
         val latlon : TextView = root.findViewById(R.id.lat_lon)
         val date : TextView = root.findViewById(R.id.date)
-        val mapFragment = childFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+
         //Firebase GetData
         var getData = object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
@@ -52,24 +55,11 @@ class MapFragment : Fragment() , OnMapReadyCallback{
                 lat = lat.substring(0, lat.indexOf(".")+7)
                 lon = lon.substring(0, lon.indexOf(".")+7)
 
-//                val loc1 = Location("")
-//                loc1.setLatitude(lat.toDouble())
-//                loc1.setLongitude(lon.toDouble())
-//
-//                val loc2 = Location("")
-//                loc2.setLatitude(lat2)
-//                loc2.setLongitude(lon2)
-//
-//                val distanceInMeters: Float = loc1.distanceTo(loc2)
-
                 latlon.text = "經緯度:$lon , $lat"
                 date.text = "(上次取得時間 : $dateVal)"
 
             }
         }
-
-
-
         database.addValueEventListener(getData)
 
         return root
@@ -78,11 +68,12 @@ class MapFragment : Fragment() , OnMapReadyCallback{
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
-        var databaseList = FirebaseDatabase.getInstance().getReference("autobrake/setLocation")
-        // Add a marker in Sydney and move the camera
+
+        // Add a marker
         val locationNow = LatLng(lat.toDouble(), lon.toDouble())
         mMap.addMarker(MarkerOptions().position(locationNow).title("長者即時位置"))
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationNow, 16.0f))
+
         // Add a circle to map
         var getPlaceList = object : ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -105,7 +96,7 @@ class MapFragment : Fragment() , OnMapReadyCallback{
                 Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
-        databaseList.addValueEventListener(getPlaceList)
+        database.child("autobrake/setLocation").addValueEventListener(getPlaceList)
     }
 
 }

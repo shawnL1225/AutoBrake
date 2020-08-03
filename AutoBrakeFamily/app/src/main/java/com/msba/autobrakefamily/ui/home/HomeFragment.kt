@@ -12,17 +12,13 @@ import com.msba.autobrakefamily.R
 
 class HomeFragment : Fragment() {
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        var database = FirebaseDatabase.getInstance().reference
+        val database = FirebaseDatabase.getInstance().reference
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        var battery: TextView = root.findViewById(R.id.val_battery)
-        var temp: TextView = root.findViewById(R.id.val_temp)
-        var speed: TextView = root.findViewById(R.id.val_speed)
+        val battery: TextView = root.findViewById(R.id.val_battery)
+        val temp: TextView = root.findViewById(R.id.val_temp)
+        val speed: TextView = root.findViewById(R.id.val_speed)
 
         val imgBattery : ImageView = root.findViewById(R.id.img_battery)
 
@@ -41,14 +37,14 @@ class HomeFragment : Fragment() {
         sUnit.visibility=View.INVISIBLE
 
         //getdata
-        var getData = object : ValueEventListener{
+        val getData = object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                val valBattery :Int = p0.child("autobrake/battery").getValue(Int::class.java) as Int
-                val valTemp :Int = p0.child("autobrake/temp").getValue(Int::class.java) as Int
-                val valSpeed :Int = p0.child("autobrake/speed").getValue(Int::class.java) as Int
+                val valBattery = p0.child("autobrake/battery").getValue(Int::class.java) as Int
+                val valTemp = p0.child("autobrake/temp").getValue(Int::class.java) as Int
+                val valSpeed = p0.child("autobrake/speed").getValue(Int::class.java) as Int
                 //battery
 
                 when (valBattery){
