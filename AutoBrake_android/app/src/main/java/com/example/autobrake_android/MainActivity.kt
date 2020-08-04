@@ -292,9 +292,7 @@ class MainActivity: AppCompatActivity() {
                 start_btn.setBackgroundResource(R.drawable.custom_button_pause)
                 start_btn.text = "暫停"
                 thread.start()
-                val cal = Calendar.getInstance()
-                val dateReturn = '@'+SimpleDateFormat("yy:MM:dd:HH:mm:ss:SS").format(cal.time)
-                sendData(dateReturn)
+                sendData("@")
                 ready_txt.visibility = View.INVISIBLE
             }
             else
@@ -466,7 +464,9 @@ class MainActivity: AppCompatActivity() {
             Log.d(BT_TAG,"onPostExecute ! ")
             m_progress.dismiss()
             Toast.makeText(context,"connected", Toast.LENGTH_SHORT).show()
-            activity.sendData("?")
+            val cal = Calendar.getInstance()
+            val dateReturn = '@'+SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(cal.time)
+            activity.sendData(dateReturn)
 
             try {
                 Log.d(BT_TAG, "start listen bike init status")
@@ -560,7 +560,7 @@ class MainActivity: AppCompatActivity() {
                             Log.d(GPS_TAG, " GPS Longitude : $longitude")
 
                             val cal = Calendar.getInstance()
-                            val date = SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(cal.time)
+                            val date = SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(cal.time)
 
 
                             //to firebase
