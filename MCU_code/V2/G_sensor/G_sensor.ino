@@ -4,11 +4,13 @@
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
 
-#define dhtPin 8
+#define dhtPin 3
 #define dhtType DHT11 
 #define MPU6050_addr 0x68
+#define TP 4
+#define EP 5
 
-SoftwareSerial Serial4(10,11);
+SoftwareSerial Serial4(12,11);
 DHT dht(dhtPin, dhtType);
 Adafruit_MPU6050 mpu6050;
 
@@ -24,3 +26,4 @@ double ax,dx;
 double ay,dy;
 double az,dz;
 double h,t;
+double distanceB;

@@ -38,7 +38,6 @@ void setup() {
   
   
   //------------------===== SD Check ====-------------
-    randomSeed(analogRead(A1));
     int a = 0;
     if (!SD.begin(4/*CS port*/)) {
       Serial.println("SD err <I>");
@@ -48,6 +47,14 @@ void setup() {
         statusForBluetooth = "E";
       }
     }
+    else Serial.print("SD OK");
+
+
+  // RTC Setup
+    if (! rtc.begin()) {
+      Serial.println("RTC Error");
+    }
+    else Serial.print("RTC OK");
     
   //--------------------------board check----------------------------
     boardCheck();

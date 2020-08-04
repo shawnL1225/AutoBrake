@@ -1,0 +1,56 @@
+{
+  "uuid": "38ad90f1cdd399a72e4fe543eee4849f",
+  "path": "Offline/distanceSensor",
+  "name": "distanceSensor",
+  "content": "",
+  "created_at": "2020-07-14 13:11:27",
+  "updated_at": "2020-07-23 10:57:46",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "51dc184d3f120af2f56b946c6a1d40df",
+      "title": "Sheet_1",
+      "description": "",
+      "docType": "1",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {},
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ]
+      ],
+      "updateTime": 1594703892,
+      "createTime": 1594703892,
+      "histories": [],
+      "created_at": "2020-07-14 13:18:12",
+      "updated_at": "2020-07-14 13:18:12"
+    },
+    {
+      "uuid": "ff159b3b1cb8d37fad6e429cc7f4e560",
+      "puuid": "38ad90f1cdd399a72e4fe543eee4849f",
+      "title": "distanceSensor(L)",
+      "filename": "distanceSensor(L).json",
+      "description": "",
+      "docType": "3",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {},
+      "BOM": [],
+      "updateTime": 1595473066,
+      "createTime": 1594710815,
+      "histories": [],
+      "created_at": "2020-07-14 15:13:35",
+      "updated_at": "2020-07-23 10:57:46"
+    }
+  ],
+  "sort": [],
+  "title": "distanceSensor",
+  "foldername": "distanceSensor",
+  "schfilename": "distanceSensor.json",
+  "schfilemtime": 1594703892048
+}

@@ -57,7 +57,16 @@ void SerialEvent(){
   
   if (Serial1.available()) {
     char in = Serial1.read();
-    if (in == '?') SDWrite("Bluetooth Connected");
+    if (in == '?') {
+      SDWrite("Bluetooth Connected");
+      int YYYY = Serial1.parseInt();
+      int MM = Serial1.parseInt();
+      int DD = Serial1.parseInt();
+      int HH = Serial1.parseInt();
+      int mm = Serial1.parseInt();
+      int SS = Serial1.parseInt();
+      rtc.adjust(DateTime(YYYY,MM,DD,HH,mm,SS));   // would set to February 28, 2015 at 14:50:00 (2:50pm)
+    }
     else if (in == '@') {
       if (statusForBluetooth==""&&bluetoothStatus=='6'){
         digitalWrite(MP,1);

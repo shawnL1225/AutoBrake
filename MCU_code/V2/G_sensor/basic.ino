@@ -4,6 +4,7 @@ void setup() {
   Serial4.begin(9600);
   dht.begin();
   mpu6050.begin();
+  Serial.println("START");
   Wire.begin();
   Wire.beginTransmission(MPU6050_addr);
   Wire.write(0x6B);
@@ -23,11 +24,14 @@ void setup() {
   fixdx=-dx;
   fixdy=-dy;
   fixdz=-dz;
+  Serial.println("START");
+  pinMode(TP,OUTPUT);
 }
 
 void loop() {
   acc();
   gyro();
   temp();
+  ultra();
   send();
 }

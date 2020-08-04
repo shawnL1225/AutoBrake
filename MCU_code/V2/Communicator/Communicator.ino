@@ -1,6 +1,8 @@
 #include <SoftwareSerial.h>
 #include <SPI.h>
+#include <Wire.h>
 #include <SD.h>
+#include <RTClib.h>
 
 #define MP 36 //Motor permission
 #define S2 22 //distance[R]
@@ -23,6 +25,12 @@ SoftwareSerial Serial7 (28,29);
 SoftwareSerial Serial8 (30,32);
 
 File file;  //SD card 
+
+RTC_DS3231 rtc;
+
+DateTime dt;  //variable of type DateTime
+
+bool RTCS = 0;
 
 int BP = 0; //BattereyP
 int MT = 0; //Motor Temperature

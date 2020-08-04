@@ -1,5 +1,7 @@
 // -------------------------PORTS----------------------------------------
   //digital Ports
+    
+    // D12 -> SD CS port
     // D14-19 -> Serial ports
     // D22-42 -> Serial ports & status ports
    //-===ststus ports===-

@@ -9,8 +9,8 @@
 #define ultraLEP 2
 #define ultraMTP 8
 #define ultraMEP 7
-#define ultraRTP 12
-#define ultraREP 11
+#define ultraRTP 11
+#define ultraREP 12
 
 SoftwareSerial Serial4(4,5);
 
@@ -22,7 +22,11 @@ double ultraLD,ultraMD,ultraRD;
 
 double soundSpeed=58.0;
 
-unsigned long trigger_time=0;
+unsigned long urtrigger_time=0;
+unsigned long umtrigger_time=0;
+unsigned long ultrigger_time=0;
+unsigned long i1trigger_time=0;
+unsigned long i2trigger_time=0;
 
 bool BIRD80_1 = 0,BIRD80_2 = 0,BultraLD = 0,BultraMD = 0,BultraRD = 0;
 bool Serial4required = 0;

@@ -1,0 +1,86 @@
+{
+  "uuid": "549c62e2489c953254c237b544583622",
+  "path": "Offline/brake",
+  "name": "brake",
+  "content": "",
+  "created_at": "2020-07-05 16:36:43",
+  "updated_at": "2020-07-09 17:06:00",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "1235ca324d42669d73847a9eb991369b",
+      "title": "Sheet_1",
+      "description": "",
+      "docType": "1",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "e1351d38d0ea4147986bb80f8193052d": 3,
+        "25941d0a3007a8365e2032d4278dd8c0": 2
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "HDR-IDC-2.54-2X3P",
+          2,
+          "IDC-TH_6P-P2.54_C11214",
+          "P1,P2",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "BOOMELE",
+            "BOM_Manufacturer Part": "2X3 2.54mm IDC Box",
+            "BOM_Supplier Part": "C11214",
+            "puuid": "847fe177175048f3817aae6b5949e649",
+            "uuid": "25941d0a3007a8365e2032d4278dd8c0"
+          }
+        ],
+        [
+          "1k",
+          3,
+          "R_AXIAL-0.5",
+          "R1,R2,R3",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "e46b9352a8354a20870bdcdcb288663a",
+            "uuid": "e1351d38d0ea4147986bb80f8193052d"
+          }
+        ]
+      ],
+      "updateTime": 1593938326,
+      "createTime": 1593938203,
+      "histories": [],
+      "created_at": "2020-07-05 16:36:43",
+      "updated_at": "2020-07-05 16:38:46"
+    },
+    {
+      "uuid": "04993d254f759a19202d777105a89908",
+      "puuid": "549c62e2489c953254c237b544583622",
+      "title": "brake(F,B) nano",
+      "filename": "brake(F,B) nano.json",
+      "description": "",
+      "docType": "3",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {},
+      "BOM": [],
+      "updateTime": 1594285560,
+      "createTime": 1593941442,
+      "histories": [],
+      "created_at": "2020-07-05 17:30:42",
+      "updated_at": "2020-07-09 17:06:00"
+    }
+  ],
+  "sort": [],
+  "title": "brake",
+  "foldername": "brake",
+  "schfilename": "brake.json",
+  "schfilemtime": 1593938326669
+}
