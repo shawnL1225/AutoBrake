@@ -1,7 +1,7 @@
 void setup() {
   // begin
   Serial.begin(9600);
-  Serial1.begin (9600);
+  Serial1.begin(9600);
   Serial2.begin(9600);
   Serial3.begin(9600);
   Serial4.begin(9600);
@@ -39,28 +39,28 @@ void setup() {
   
   //------------------===== SD Check ====-------------
     int a = 0;
-    if (!SD.begin(4/*CS port*/)) {
-      Serial.println("SD err <I>");
+    if (!SD.begin(12/*CS port*/)) {
+      Serial.println("HSD Error");
       a++;
       if (a<=5) return;
-      else {
-        statusForBluetooth = "E";
-      }
     }
-    else Serial.print("SD OK");
+    else {
+      statusForBluetooth = "E";
+    }
 
 
   // RTC Setup
     if (! rtc.begin()) {
-      Serial.println("RTC Error");
+      Serial.println("HRTC Error");
     }
-    else Serial.print("RTC OK");
     
   //--------------------------board check----------------------------
-    boardCheck();
+//    boardCheck();
 
   // ----------------------Name a file name------------------
-    if (isAlphaNumeric(fileName[1])) ;
+    if (RTCS){
+      fileName = (dt.year()+'/'+dt.month()+'/'+dt.day()+".TXT");
+    }
     else {
       file = SD.open("fileNo.txt");
       int fileNo = file.parseInt();

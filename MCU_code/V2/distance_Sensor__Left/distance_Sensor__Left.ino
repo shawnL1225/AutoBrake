@@ -51,4 +51,5 @@ void loop() {
   ultra();
   show();
   detect();
+  SerialEvent();
 }

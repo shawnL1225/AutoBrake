@@ -18,11 +18,12 @@
 #define S12 47 //Xavier
 #define S13 49 //distance[F]
 
-SoftwareSerial Serial4 (22,23);
-SoftwareSerial Serial5 (24,25);
-SoftwareSerial Serial9 (26,27);
-SoftwareSerial Serial7 (28,29);
-SoftwareSerial Serial8 (30,32);
+SoftwareSerial Serial4 (A13,23);
+SoftwareSerial Serial5 (A14,25);
+SoftwareSerial Serial6 (A8,27);
+SoftwareSerial Serial7 (A15,48);
+SoftwareSerial Serial8 (A11,A12);
+SoftwareSerial Serial9 (A9,A10);
 
 File file;  //SD card 
 
@@ -38,16 +39,16 @@ int speed = 0; //speed
 int EC = 0; //Error code
 int bluetoothStatus = 0;
 
-unsigned long times = 0;
+unsigned short times = 0;
 
 String statusForBluetooth = "";
 String fileName;
 
 void loop() {
   SerialEvent();
-  if (millis()/1000>times){
-    STATE();
-    boardCheck();
+  if (millis()/2000>times){
+    Serial1.println("AT+STATE");
+//    if (Serial) boardCheck();
     times++;
   }
 }
