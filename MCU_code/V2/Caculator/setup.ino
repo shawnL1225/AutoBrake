@@ -14,4 +14,12 @@ void setup() {
   Serial12.setTimeout(100);
   Serial13.setTimeout(100);
   Serial4.setTimeout(100);
+
+  //--MPU6050 setup--
+  mpu6050.begin();
+  Wire.begin();
+  Wire.beginTransmission(MPU6050_addr);
+  Wire.write(0x6B);
+  Wire.write(0);
+  Wire.endTransmission(true);
 }

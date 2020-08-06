@@ -18,7 +18,7 @@ void SerialEvent(){
       }
     }
     else if (in == '@') {
-      if (statusForBluetooth==""&&bluetoothStatus=='5') {
+      if (errC==""&&bluetoothStatus=='5') {
         digitalWrite(MP,1);
         Serial2.print('@');
       }
@@ -81,7 +81,7 @@ void SerialEvent(){
       bluetoothStatus = 5;
     }
     else if (in == '@') {
-      if (statusForBluetooth==""&&bluetoothStatus=='5'){
+      if (errC==""&&bluetoothStatus=='5'){
         digitalWrite(MP,1);
         Serial.println('@');
       }
@@ -152,12 +152,10 @@ void SerialEvent(){
   
   if (Serial5.available()){
     char in = Serial5.read();
-//    Serial.print(in);
-//    String F = "F" ;
     if (in == 'V'){
       int nowSpeed = Serial5.parseInt();
       Serial.println(nowSpeed);
-//      SP = nowSpeed;
+      speed = nowSpeed;
       String send = "V" + String(nowSpeed) ;
       Serial.println(send);
       Serial1.print('S');
@@ -175,18 +173,21 @@ void SerialEvent(){
      Serial.print('X');
      Serial.print(CTRLP); 
      Serial.print(' ');
-     Serial1.print('M');
-     Serial1.print(CTRLP);
-     Serial1.print(' ');
     }
     else if (in == '^') ;
     else if (in == 'B') {
       int batteryP = Serial7.parseInt();
       String B = "B" + batteryP;
       Serial.println(B);
-      Serial1.println(B);
+      Serial1.print(B);
+      Serial1.print('|');
       BP = batteryP;
       if (batteryP<1000) digitalWrite(41,0);
+    }
+    else if (in =='T'){
+      MT = Serial7.parseInt();
+      Serial.print('T');
+      Serial.println(MP);
     }
   }
   
@@ -246,4 +247,19 @@ void SerialEvent(){
       Serial.println(F);
     }
   }
+
+
+
+
+  //======SEND======
+  Serial6.print('B');
+  Serial6.print(BP);
+  Serial6.print('T');
+  Serial6.print(MT);
+  Serial6.print('S');
+  Serial6.print(speed);
+  Serial6.print('E');
+  Serial6.print(errC.length());
+  Serial6.print(errC);
+  
 }

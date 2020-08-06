@@ -3,7 +3,7 @@ void setup() {
   Serial.begin(9600);
   Serial4.begin(9600);
   dht.begin();
-  mpu6050.begin();
+//  mpu6050.begin();
   Serial.println("START");
   Wire.begin();
   Wire.beginTransmission(MPU6050_addr);
@@ -29,7 +29,7 @@ void setup() {
 }
 
 void loop() {
-  acc();
+//  acc();
   gyro();
   temp();
   ultra();

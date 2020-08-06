@@ -45,17 +45,28 @@ void setup() {
       if (a<=5) return;
     }
     else {
-      statusForBluetooth = "E";
+      errC = "E";
     }
-
 
   // RTC Setup
     if (! rtc.begin()) {
       Serial.println("HRTC Error");
+      RTCS = 0;
     }
     
   //--------------------------board check----------------------------
-//    boardCheck();
+    boardCheck();
+
+//  -------------------------MPU6050----------------------------
+//    Wire.begin();
+//    Wire.beginTransmission(MPU6050_addr);
+//    Wire.write(0x6B);
+//    Wire.write(0);
+//    Wire.endTransmission(true);
+//    gyro();
+//    fixdx=-dx;
+//    fixdy=-dy;
+//    fixdz=-dz;
 
   // ----------------------Name a file name------------------
     if (RTCS){
@@ -72,6 +83,4 @@ void setup() {
       file.println(fileNo);
       file.close();
     }
-
-    if (statusForBluetooth == "") statusForBluetooth = "=";
 }

@@ -25,5 +25,4 @@ void gyro(){
   if (dx>180) dx-=360;
   if (dy>180) dy-=360;
   if (dz>180) dz-=360;
-  
 }

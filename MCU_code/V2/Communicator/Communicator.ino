@@ -17,6 +17,7 @@
 #define S11 45 //Brake [B]
 #define S12 47 //Xavier
 #define S13 49 //distance[F]
+#define MPU6050_addr 0x68
 
 SoftwareSerial Serial4 (A13,23);
 SoftwareSerial Serial5 (A14,25);
@@ -36,12 +37,24 @@ bool RTCS = 0;
 int BP = 0; //BattereyP
 int MT = 0; //Motor Temperature
 int speed = 0; //speed
-int EC = 0; //Error code
 int bluetoothStatus = 0;
+//int16_t AcX,AcY,AcZ,GyX,GyY,GyZ;
+//int minVal=265;
+//int maxVal=402;
+//
+//float fixdx;
+//float fixdy;
+//float fixdz;
+//
+//double dx;
+//double dy;
+//double dz;
 
 unsigned short times = 0;
 
-String statusForBluetooth = "";
+char statusForBluetooth= '=';
+
+String errC = "";
 String fileName;
 
 void loop() {
@@ -51,4 +64,5 @@ void loop() {
 //    if (Serial) boardCheck();
     times++;
   }
+//  gyro();
 }
