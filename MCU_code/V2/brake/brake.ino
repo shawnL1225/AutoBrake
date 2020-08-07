@@ -7,9 +7,9 @@ int manualBMax=650, manualBMin=280, manualBMaxF=650, manualBMinF=280;
 int autoBF = 0, manualBF = 0, TbrakeF = 0;
 
 void setup() {
-  
+  Serial.begin(9600);
 }
 
 void loop() {
-  
+  brakeS();
 }

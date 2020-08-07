@@ -1,6 +1,6 @@
 void setup() {
   // begin
-  Serial.begin(9600);
+  Serial.begin(38400);
   Serial1.begin(9600);
   Serial2.begin(9600);
   Serial3.begin(9600);
@@ -47,30 +47,24 @@ void setup() {
     else {
       errC = "E";
     }
-
-  // RTC Setup
-    if (! rtc.begin()) {
+    
+  //--------------------------board check----------------------------
+    boardCheck();
+    // RTC Setup
+    if (!rtc.begin() || !rtc.isrunning()) {
       Serial.println("HRTC Error");
       RTCS = 0;
     }
     
-  //--------------------------board check----------------------------
-    boardCheck();
-
-//  -------------------------MPU6050----------------------------
-//    Wire.begin();
-//    Wire.beginTransmission(MPU6050_addr);
-//    Wire.write(0x6B);
-//    Wire.write(0);
-//    Wire.endTransmission(true);
-//    gyro();
-//    fixdx=-dx;
-//    fixdy=-dy;
-//    fixdz=-dz;
-
-  // ----------------------Name a file name------------------
+// ----------------------Name a file name------------------
     if (RTCS){
-      fileName = (dt.year()+'/'+dt.month()+'/'+dt.day()+".TXT");
+      dt = rtc.now();
+      int YYYY = dt.year();
+      int MM = dt.month();
+      int DD = dt.day();
+      fileName = (String(YYYY)+'_'+String(MM)+'_'+String(DD)+".TXT");
+      Serial.println(fileName);
+      file.close();
     }
     else {
       file = SD.open("fileNo.txt");
@@ -83,4 +77,17 @@ void setup() {
       file.println(fileNo);
       file.close();
     }
+    SDWrite("setup accomplish");
+    SDWrite(errC);
+    
+//  -------------------------MPU6050----------------------------
+//    Wire.begin();
+//    Wire.beginTransmission(MPU6050_addr);
+//    Wire.write(0x6B);
+//    Wire.write(0);
+//    Wire.endTransmission(true);
+//    gyro();
+//    fixdx=-dx;
+//    fixdy=-dy;
+//    fixdz=-dz;
 }

@@ -1,12 +1,31 @@
-void brakeS(){
-  autoBF = map(analogRead(A2), autoBMin, autoBMax, autoBMinF, autoBMaxF);
-  manualBF = map(analogRead(A3), manualBMin, manualBMax, manualBMinF, manualBMaxF);
-  TbrakeF = autoBF + manualBF;
-  Serial.print("autoBrake Force : ");
-  Serial.print(autoBF);
-  Serial.print(" N\tManual Brake : ");
-  Serial.print(manualBF);
-  Serial.print(" N\tTotal Force : ");
-  Serial.print(TbrakeF);
-  Serial.println(" N");
+void brakeA(int requestForce){
+  if (requestForce>TbrakeF){
+    digitalWrite(6,1);
+    while (requestForce>TbrakeF){
+    brakeS();
+      if (TbrakeF>=requestForce){
+        digitalWrite(6,0);
+        break;
+      }
+    }
+    
+    if (TbrakeF>=requestForce){
+      digitalWrite(6,0);
+    }
+  }
+  
+  else if (requestForce<TbrakeF){
+    digitalWrite(5,1);
+    while (requestForce<TbrakeF){
+    brakeS();
+      if (TbrakeF<=requestForce){
+        digitalWrite(5,0);
+        break;
+      }
+    }
+    
+    if (TbrakeF<=requestForce){
+      digitalWrite(5,0);
+    }
+  }
 }

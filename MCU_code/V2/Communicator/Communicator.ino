@@ -32,12 +32,12 @@ RTC_DS3231 rtc;
 
 DateTime dt;  //variable of type DateTime
 
-bool RTCS = 0;
+bool RTCS = 1;
 
 int BP = 0; //BattereyP
 int MT = 0; //Motor Temperature
-int speed = 0; //speed
-int bluetoothStatus = 0;
+int nowSpeed = 0; //speed
+int bluetoothStatus = 7;
 //int16_t AcX,AcY,AcZ,GyX,GyY,GyZ;
 //int minVal=265;
 //int maxVal=402;
@@ -55,13 +55,12 @@ unsigned short times = 0;
 char statusForBluetooth= '=';
 
 String errC = "";
-String fileName;
+String fileName = "";
 
 void loop() {
-  SerialEvent();
+  SerialEvent(); 
   if (millis()/2000>times){
     Serial1.println("AT+STATE");
-//    if (Serial) boardCheck();
     times++;
   }
 //  gyro();

@@ -1,4 +1,5 @@
 void SerialEvent(){
+//  Serial.println("SEIN");
   if (Serial.available()){
     char in = Serial.read();
     Serial.print(in);
@@ -62,10 +63,10 @@ void SerialEvent(){
       Serial7.print(' ');
     }
   }
-  
+
   if (Serial1.available()) {
     char in = Serial1.read();
-    Serial.println(in);
+//    Serial.println(in);
     if (in == '?') {
       SDWrite("Bluetooth Connected");
       int YYYY = Serial1.parseInt();
@@ -96,17 +97,14 @@ void SerialEvent(){
     }
     else if (in == '='){
       bluetoothStatus = Serial1.parseInt();
-      
       if (bluetoothStatus!=5) digitalWrite(MP,0);
       else digitalWrite(MP,0);
-
       Serial.print("W");
       Serial.print(bluetoothStatus);
       Serial.println("");
     }
   }
   
-  String R ="";
   if (Serial2.available()){
     char in = Serial2.read();
     if (in == 'd'){
@@ -115,14 +113,12 @@ void SerialEvent(){
       float in3 = Serial2.parseFloat();
       float in4 = Serial2.parseFloat();
       float in5 = Serial2.parseFloat();
-      R ="R "+String(in1)+' '+String(in2)+' '+String(in3)+' '+String(in4)+' '+String(in5) ;
+      String R ="R "+String(in1)+' '+String(in2)+' '+String(in3)+' '+String(in4)+' '+String(in5) ;
       Serial.println(R);
     }
     else if (in == 'S') Serial1.print("Z1r|");
   }
-  R = "";
   
-  String L = "";
   if (Serial3.available()){
     char in = Serial3.read();
     if (in == 'd'){
@@ -131,32 +127,57 @@ void SerialEvent(){
       float in3 = Serial3.parseFloat();
       float in4 = Serial3.parseFloat();
       float in5 = Serial3.parseFloat();
-      L ="L "+String(in1)+' '+String(in2)+' '+String(in3)+' '+String(in4)+' '+String(in5) ;
+      String L ="L "+String(in1)+' '+String(in2)+' '+String(in3)+' '+String(in4)+' '+String(in5) ;
       Serial.println(L);
     }
     else if (in == 'S') Serial1.print("Z1l|");
   }
-  L = "";
-  
-  String C = "" ;
+
+  Serial4.listen();
+  delay(20);
+  Serial4.listen();
   if (Serial4.available()){
     char in = Serial4.read();
-    if (in == 'd'){
-      float in1 = Serial2.parseFloat();
-      C ="C "+String(in1);
-      Serial.println(R);
+//    Serial.println(in);
+    if (in == 'C'){
+      float disB = Serial4.parseFloat();
+      String C ="C "+String(disB);
+      Serial.println(C);
+      if (disB>100) Serial4.print("Z1b|");
     }
-    else if (in == 'S') Serial1.print("Z1b|");
+    else if (in == 'G'){
+      int tiltA = Serial4.parseInt();
+      String G = "G" + tiltA ;
+      Serial.print(G);
+    }
+    else if (in == 'I'){
+      int RiseA = Serial4.parseInt();
+      String I = "I" + RiseA ;
+      Serial.print(I);
+      Serial9.print(I);
+    }
+    else if (in == 'A'){
+      int Acc = Serial4.parseInt();
+      String A = "A" + Acc ;
+      Serial.print(A);
+    }
+    else if (in == 't'){
+      int temp = Serial4.parseInt();
+      Serial.print("t");
+      Serial.println(temp);
+    }
   }
-  C = "";
-  
+
+  Serial5.listen();
+  delay(20);
+  Serial5.listen();
   if (Serial5.available()){
     char in = Serial5.read();
+//    Serial.println(in);
     if (in == 'V'){
-      int nowSpeed = Serial5.parseInt();
-      Serial.println(nowSpeed);
-      speed = nowSpeed;
-      String send = "V" + String(nowSpeed) ;
+      nowSpeed = Serial5.parseInt();
+//      Serial.println(nowSpeed);
+      String send = "V" + String(nowSpeed);
       Serial.println(send);
       Serial1.print('S');
       Serial1.print(nowSpeed);
@@ -165,7 +186,10 @@ void SerialEvent(){
       Serial9.print(send);
     }
   }
- 
+
+  Serial7.listen();
+  delay(20);
+  Serial7.listen();
   if (Serial7.available()){
     char in = Serial7.read();
     if (in == 'X'){
@@ -187,43 +211,20 @@ void SerialEvent(){
     else if (in =='T'){
       MT = Serial7.parseInt();
       Serial.print('T');
-      Serial.println(MP);
+      Serial.println(MT);
     }
   }
-  
+
+  Serial8.listen();
+  delay(20);
+  Serial8.listen();
   if (Serial8.available()){
     char in = Serial8.read();
-    if (in == 'G'){
-      int tiltA = Serial8.parseInt();
-      String G = "G" + tiltA ;
-      Serial.print(G);
-    }
-    else if (in == 'I'){
-      int RiseA = Serial8.parseInt();
-      String I = "I" + RiseA ;
-      Serial.print(I);
-      Serial9.print(I);
-    }
-    else if (in == 'A'){
-      int Acc = Serial8.parseInt();
-      String A = "A" + Acc ;
-      Serial.print(A);
-    }
-    else if (in == 'T'){
-      int motorTemp = Serial8.parseInt();
-      String send = "T" + motorTemp;
-      Serial.print(send);
-      Serial1.print(send);
-      MT = motorTemp;
-    }
-    else if (in == 't'){
-      
-    }
-    else if (in == 'h'){
-      
-    }
   }
-  
+
+  Serial9.listen();
+  delay(20);
+  Serial9.listen();
   if (Serial9.available()){
     char in = Serial9.read();
     String F = "F";
@@ -240,7 +241,7 @@ void SerialEvent(){
       Serial.println(' ');
     }
     else if (in == 'F'){
-      while (Serial9.available()){
+      if (Serial9.available()){
         char a = Serial9.read();
         F += a;
       }
@@ -257,9 +258,9 @@ void SerialEvent(){
   Serial6.print('T');
   Serial6.print(MT);
   Serial6.print('S');
-  Serial6.print(speed);
-  Serial6.print('E');
-  Serial6.print(errC.length());
-  Serial6.print(errC);
-  
+  Serial6.print(nowSpeed);
+//  Serial6.print('E');
+//  Serial6.print(errC.length());
+//  Serial6.print(errC);
+//  Serial.println("SEOUT");
 }
