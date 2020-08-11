@@ -76,8 +76,8 @@ class MainActivity: AppCompatActivity() {
 
 
         //connect to BT
-//        m_address = "AB:F5:E7:56:34:02"
-        m_address = "00:21:13:00:1C:F0"
+        m_address = "AB:F5:E7:56:34:02"
+//        m_address = "00:21:13:00:1C:F0"
 
         if (m_bluetoothAdapter?.isEnabled == false) {
             val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -110,12 +110,8 @@ class MainActivity: AppCompatActivity() {
                         start_btn.isEnabled = true
                         start_btn.alpha = 1F
                     }
-                    3 ->  ready_txt.text = "SD Card Checking"
-                    4 ->  ready_txt.text = "SD Card OK"
-                    5 ->  ready_txt.text = "SD Card Error (Please Insert SD Card)"
-                    6 ->  ready_txt.text = "Controller Checking"
-                    7 ->  ready_txt.text = "Controller OK"
-                    8 ->  ready_txt.text = "Controller Error (Please Restart)"
+                    3 ->  ready_txt.text = "System Error"
+
                 }
 
             }
@@ -465,7 +461,7 @@ class MainActivity: AppCompatActivity() {
             m_progress.dismiss()
             Toast.makeText(context,"connected", Toast.LENGTH_SHORT).show()
             val cal = Calendar.getInstance()
-            val dateReturn = '@'+SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(cal.time)
+            val dateReturn = '?'+SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(cal.time)
             activity.sendData(dateReturn)
 
             try {
@@ -493,23 +489,8 @@ class MainActivity: AppCompatActivity() {
                                 initHandler.sendMessage(message)
                                 break
                             }
-                            else if (bufToString == "SC") {
+                            else if (bufToString == "E") {
                                 message.what = 3
-                            }
-                            else if (bufToString == "SO") {
-                                message.what = 4
-                            }
-                            else if (bufToString == "SE") {
-                                message.what = 5
-                            }
-                            else if (bufToString == "CC") {
-                                message.what = 6
-                            }
-                            else if (bufToString == "CO") {
-                                message.what = 7
-                            }
-                            else if (bufToString == "CE") {
-                                message.what = 8
                             }
                             initHandler.sendMessage(message)
                         }
@@ -550,14 +531,15 @@ class MainActivity: AppCompatActivity() {
                 Log.d(GPS_TAG, "hasGps")
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0F, object : LocationListener {
 
+                    @SuppressLint("SimpleDateFormat")
                     override fun onLocationChanged(location: Location?) {
                         Log.d(GPS_TAG, "changed")
                         if (location != null) {
                             val latitude = location.latitude
                             val longitude = location.longitude
 
-                            Log.d(GPS_TAG, " GPS Latitude : $latitude")
-                            Log.d(GPS_TAG, " GPS Longitude : $longitude")
+                            Log.d(GPS_TAG, "GPS Latitude : $latitude")
+                            Log.d(GPS_TAG, "GPS Longitude : $longitude")
 
                             val cal = Calendar.getInstance()
                             val date = SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(cal.time)
@@ -601,7 +583,7 @@ class MainActivity: AppCompatActivity() {
                     Log.d(GPS_TAG, " End GPS Longitude : " + localGpsLocation.longitude)
 
                     val cal = Calendar.getInstance()
-                    val date = SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(cal.time)
+                    val date = SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(cal.time)
 
                     myRef.child("lat").setValue(localGpsLocation.latitude.toString())
                     myRef.child("lon").setValue(localGpsLocation.longitude.toString())
