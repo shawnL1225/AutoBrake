@@ -50,14 +50,15 @@ class HomeFragment : Fragment() {
                 when (valBattery){
                     -7626 -> {
                         battery.textSize = 30f
-                        battery.text = "裝置\n未連線"
+                        battery.text = "裝置未連線"
+                        battery.setTextColor(Color.parseColor("#71B3E8"))
                         imgBattery.setImageResource(R.drawable.battery_disconnected)
                         bBar.visibility=View.VISIBLE
                         bUnit.visibility=View.INVISIBLE
                     }
                     in 0..20 -> {
                         battery.textSize = 75f
-                        battery.text = "${valBattery}"
+                        battery.text = "$valBattery"
                         battery.setTextColor(Color.parseColor("#F44336"))
                         imgBattery.setImageResource(R.drawable.battery_1)
                         bBar.visibility=View.GONE
@@ -65,7 +66,7 @@ class HomeFragment : Fragment() {
                     }
                     in 21..40 -> {
                         battery.textSize = 75f
-                        battery.text = "${valBattery}"
+                        battery.text = "$valBattery"
                         battery.setTextColor(Color.parseColor("#FF9800"))
                         imgBattery.setImageResource(R.drawable.battery_2)
                         bBar.visibility=View.GONE
@@ -73,7 +74,7 @@ class HomeFragment : Fragment() {
                     }
                     in 41..60 -> {
                         battery.textSize = 75f
-                        battery.text = "${valBattery}"
+                        battery.text = "$valBattery"
                         battery.setTextColor(Color.parseColor("#4CAF50"))
                         imgBattery.setImageResource(R.drawable.battery_3)
                         bBar.visibility=View.GONE
@@ -81,7 +82,7 @@ class HomeFragment : Fragment() {
                     }
                     in 61..80 -> {
                         battery.textSize = 75f
-                        battery.text = "${valBattery}"
+                        battery.text = "$valBattery"
                         battery.setTextColor(Color.parseColor("#4CAF50"))
                         imgBattery.setImageResource(R.drawable.battery_4)
                         bBar.visibility=View.GONE
@@ -89,7 +90,7 @@ class HomeFragment : Fragment() {
                     }
                     in 81..100 -> {
                         battery.textSize = 75f
-                        battery.text = "${valBattery}"
+                        battery.text = "$valBattery"
                         battery.setTextColor(Color.parseColor("#4CAF50"))
                         imgBattery.setImageResource(R.drawable.battery_5)
                         bBar.visibility=View.GONE
@@ -106,7 +107,7 @@ class HomeFragment : Fragment() {
                     }
                     else ->{
                         temp.textSize = 90f
-                        temp.text = "${valTemp}"
+                        temp.text = "$valTemp"
                         tBar.visibility=View.GONE
                         tUnit.visibility=View.VISIBLE
                     }
@@ -123,7 +124,7 @@ class HomeFragment : Fragment() {
                     }
                     else ->{
                         speed.textSize = 90f
-                        speed.text = "${valSpeed}"
+                        speed.text = "$valSpeed"
                         sBar.visibility=View.GONE
                         sUnit.visibility=View.VISIBLE
                     }
@@ -140,4 +141,6 @@ class HomeFragment : Fragment() {
 
 
     }
+
+
 }

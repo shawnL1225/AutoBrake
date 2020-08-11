@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment"
     android:background="@color/gray"
-    android:paddingTop="10dp">
+    android:paddingTop="10dp"
+    android:visibility="visible"
+    tools:context=".ui.home.HomeFragment">
 
 
     <TextView
         android:id="@+id/title_battery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_battery"
         android:background="@drawable/text_background"
+        android:text="@string/title_battery"
         android:textColor="#000000"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,10 +26,12 @@
         android:id="@+id/val_battery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="@string/connecting"
         android:textColor="@color/lightBlue"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_battery" />
 
@@ -49,9 +52,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
+        android:background="@drawable/text_background"
         android:text="@string/title_speed"
         android:textColor="#000000"
-        android:background="@drawable/text_background"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/vertical_line"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,8 +89,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="@string/title_temp"
         android:background="@drawable/text_background"
+        android:text="@string/title_temp"
         android:textColor="#000000"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -100,6 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/vertical_line"
         app:layout_constraintTop_toBottomOf="@+id/title_temp" />
@@ -134,6 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/img_battery"
         app:layout_constraintEnd_toEndOf="@+id/img_battery"
         app:layout_constraintStart_toStartOf="@+id/img_battery"

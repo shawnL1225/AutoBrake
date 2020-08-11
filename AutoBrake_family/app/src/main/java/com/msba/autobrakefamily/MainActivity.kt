@@ -1,20 +1,21 @@
 package com.msba.autobrakefamily
 
-import android.app.Notification
-import android.content.Context
+
+
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Html
-import android.view.View
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
+
+@Suppress("UNREACHABLE_CODE")
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar!!.setDisplayShowHomeEnabled(true);
         supportActionBar!!.setIcon(R.mipmap.ic_launcher_foreground_black);
+        supportActionBar!!.title = Html.fromHtml("<font color=\"black\">" + getString(R.string.app_name) + "</font>");
         setContentView(R.layout.activity_main)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
@@ -36,4 +38,6 @@ class MainActivity : AppCompatActivity() {
         startService(intent)
 
     }
+
+
 }
