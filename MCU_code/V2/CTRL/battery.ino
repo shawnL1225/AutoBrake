@@ -5,6 +5,7 @@ void battery(){
     Serial.print(batteryV/100.00);
     Serial.println(" V");
     int percentage=map(batteryV,4600,5400,0,100);
+    if (percentage < 100) 
     String sendS = 'B'+String(percentage)+' ';
     Serial4.print(sendS);
     lbsms=millis();

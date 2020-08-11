@@ -2,7 +2,6 @@ void setup() {
   Serial.begin(9600);
   Serial4.begin(9600);
   Serial4.print("");
-  Serial.println("\nbegin");
 
   pinMode(2,INPUT_PULLUP);
   pinMode(3,INPUT_PULLUP);
@@ -14,15 +13,14 @@ void setup() {
   pinMode(A5,INPUT);
   pinMode(A6,INPUT);
   
-  Serial.println("\nbegin");
+  Serial.println("START");
 }
 
 void loop() {
   CTRL();
   battery();
   serialEvent();
-  motorper = (!digitalRead(2)&&!digitalRead(3));
-  if (motorper) digitalWrite(7,1);
+  if (!digitalRead(2)&&!digitalRead(3)&&SB) digitalWrite(7,1);
   else digitalWrite(7,0);
-//  speed();
+//  ifOverSpeed();
 }

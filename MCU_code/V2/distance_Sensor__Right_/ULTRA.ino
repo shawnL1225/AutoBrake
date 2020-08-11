@@ -25,7 +25,7 @@ void ultra(){
     BultraLD = 1 ;
     ultrigger_time  = millis();;
   }
-  else if (millis()-ultrigger_time <5000) BultraLD = 0 ;
+  else if (millis()-ultrigger_time >5000) BultraLD = 0 ;
   
   ultraMD = Mduration/soundSpeed;
   ultraMD-=3.1;
@@ -33,13 +33,13 @@ void ultra(){
     BultraMD = 1 ;
     umtrigger_time  = millis();
   }
-  else if (millis()-umtrigger_time <2000) BultraMD = 0 ;
+  else if (millis()-umtrigger_time >2000) BultraMD = 0 ;
   
   ultraRD = Rduration/soundSpeed;
   if (ultraRD<50) {
     BultraRD = 1 ;
     urtrigger_time  = millis();
   }
-  else if (millis()-urtrigger_time <5000) BultraRD = 0 ;
+  else if (millis()-urtrigger_time >5000) BultraRD = 0 ;
   
 }

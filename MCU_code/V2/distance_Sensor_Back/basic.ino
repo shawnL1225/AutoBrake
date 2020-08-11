@@ -26,6 +26,7 @@ void setup() {
 //  fixdz=-dz;
   Serial.println("START");
   pinMode(TP,OUTPUT);
+  Serial4.print("O ");
 }
 
 void loop() {

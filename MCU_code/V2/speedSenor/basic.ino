@@ -7,6 +7,8 @@ void setup() {
   digitalWrite(6,1);
   Serial.println("READY");
   Serial.println("BEGIN");
+  delay(1000);
+  Serial4.print("O ");
 }
 
 void loop() {

@@ -34,22 +34,27 @@ void send(){
 
 //  Serial.print("Celsius: ");
 //  Serial.print(t);
+ if (distanceB>10&&distanceB<1000){
+    Serial4.print("C d");
+    Serial4.println(distanceB);
+    Serial4.flush();
+    Serial.print("C d");
+    Serial.print(distanceB);
+  }
+  
   Serial.print("t");
   Serial.print(t);
-  Serial4.print("C d");
-  Serial4.print(distanceB);
-  delay(500);
   Serial4.print("t");
   Serial4.println(t);
+  Serial4.flush();
 //  Serial.println("*C\t");
 //  Serial.print("distanceB:");
 //  Serial.println(distanceB);
   
-  Serial.print("C d");
-  Serial.print(distanceB);
+  
   
 
   Serial.println("--------------------------------");
 
-  delay(500);
+  delay(100);
 }

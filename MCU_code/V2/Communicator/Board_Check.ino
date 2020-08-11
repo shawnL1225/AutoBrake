@@ -24,6 +24,7 @@ void boardCheck(){
     digitalWrite(MP,0);
     statusForBluetooth = 'E' ; 
   }
+  delay(10);
   
   while(!Serial2.available()){
     i++;
@@ -36,6 +37,7 @@ void boardCheck(){
     errC = errC+'R';
     Serial.println("?R");
   }
+  delay(10);
   
   while(!Serial3.available()){
     i++;
@@ -48,6 +50,7 @@ void boardCheck(){
     errC = errC+'L';
     Serial.println("?L");
   }
+  delay(10);
 
   while(!Serial4.available()){
     i++;
@@ -60,7 +63,8 @@ void boardCheck(){
     errC = errC+'C';
     Serial.println("?C");
   }
-
+  delay(10);
+  
   while(!Serial5.available()){
     i++;
     if (i>100) break;
@@ -72,7 +76,8 @@ void boardCheck(){
     errC = errC+'S';
     Serial.println("?S");
   }
-
+  delay(10);
+  
   while(!Serial6.available()){
     i++;
     if (i>100) break;
@@ -84,6 +89,7 @@ void boardCheck(){
     errC = errC+'P';
     Serial.println("?P");
   }
+  delay(10);
   
   while(!Serial7.available()){
     i++;
@@ -98,7 +104,8 @@ void boardCheck(){
     digitalWrite(MP,0);
     statusForBluetooth = 'E' ; 
   }
-
+  delay(10);
+  
   while(!Serial8.available()){
     i++;
     if (i>100) break;
@@ -110,7 +117,8 @@ void boardCheck(){
     errC = errC+'T';
     Serial.println("?T");
   }
-
+  delay(10);
+  
   while(!Serial9.available()){
     i++;
     if (i>100) break;
@@ -130,4 +138,5 @@ void boardCheck(){
     digitalWrite(MP,0);
     statusForBluetooth = 'E' ; 
   }
+  delay(10);
 }

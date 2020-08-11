@@ -6,61 +6,57 @@ void SerialEvent(){
     if (in == 'A'){
       bool requestRader= bool (Serial.parseInt());
       if (requestRader) {
-        Serial2.print("A1");
-        Serial3.print("A1");
-        Serial4.print("A1");
-        Serial9.print("A1");
+        Serial2.println("A1");
+        Serial3.println("A1");
+        Serial4.println("A1");
+        Serial9.println("A1");
       }
       else {
-        Serial2.print("A0");
-        Serial3.print("A0");
-        Serial4.print("A0");
-        Serial9.print("A0");
+        Serial2.println("A0");
+        Serial3.println("A0");
+        Serial4.println("A0");
+        Serial9.println("A0");
       }
     }
     else if (in == '@') {
       if (errC==""&&bluetoothStatus=='5') {
         digitalWrite(MP,1);
-        Serial2.print('@');
+        Serial2.println('@');
       }
       else {
         Serial.println('#');
-        Serial2.print('#');
+        Serial2.println('#');
       }
     }
     else if (in == '#') {
       digitalWrite(MP,0);
-      Serial.print('#');
+      Serial.println('#');
     }
     else if (in == '?') {
       SDWrite("Computer Connected");
-      int YYYY = Serial1.parseInt();
-      int MM = Serial1.parseInt();
-      int DD = Serial1.parseInt();
-      int HH = Serial1.parseInt();
-      int mm = Serial1.parseInt();
-      int SS = Serial1.parseInt();
+      int YYYY = Serial.parseInt();
+      int MM = Serial.parseInt();
+      int DD = Serial.parseInt();
+      int HH = Serial.parseInt();
+      int mm = Serial.parseInt();
+      int SS = Serial.parseInt();
       rtc.adjust(DateTime(YYYY,MM,DD,HH,mm,SS));   // would set to February 28, 2015 at 14:50:00 (2:50pm)
-      
     }
     else if (in == 'E') {
       int frontBrakeForce = Serial.parseInt();
       Serial9.print("E");
-      Serial9.print(frontBrakeForce);
-      Serial9.print(' ');
-      
+      Serial9.println(frontBrakeForce);
+      Serial.println(frontBrakeForce);
     }
     else if (in == 'D') {
       int backBrakeForce = Serial.parseInt();
       Serial9.print("D");
-      Serial9.print(backBrakeForce);
-      Serial9.print(' ');
+      Serial9.println(backBrakeForce);
     }
     else if (in == 'M') {
       int CTRLP = Serial.parseInt();
       Serial7.print('X');
-      Serial7.print(CTRLP);
-      Serial7.print(' ');
+      Serial7.println(CTRLP);
     }
   }
 
@@ -88,7 +84,7 @@ void SerialEvent(){
       }
       else {
         Serial.println('#');
-        Serial2.print('#');
+//        Serial2.println('#');
       }
     }
     else if (in == '#') {
@@ -100,8 +96,7 @@ void SerialEvent(){
       if (bluetoothStatus!=5) digitalWrite(MP,0);
       else digitalWrite(MP,0);
       Serial.print("W");
-      Serial.print(bluetoothStatus);
-      Serial.println("");
+      Serial.println(bluetoothStatus);
     }
   }
   
@@ -116,7 +111,10 @@ void SerialEvent(){
       String R ="R "+String(in1)+' '+String(in2)+' '+String(in3)+' '+String(in4)+' '+String(in5) ;
       Serial.println(R);
     }
-    else if (in == 'S') Serial1.print("Z1r|");
+    else if (in == 'S') {
+      Serial1.print("Z1r|");
+      S1T = millis();
+    }
   }
   
   if (Serial3.available()){
@@ -130,7 +128,10 @@ void SerialEvent(){
       String L ="L "+String(in1)+' '+String(in2)+' '+String(in3)+' '+String(in4)+' '+String(in5) ;
       Serial.println(L);
     }
-    else if (in == 'S') Serial1.print("Z1l|");
+    else if (in == 'S') {
+      Serial1.print("Z1l|");
+      S1T = millis();
+    }
   }
 
   Serial4.listen();
@@ -143,7 +144,10 @@ void SerialEvent(){
       float disB = Serial4.parseFloat();
       String C ="C "+String(disB);
       Serial.println(C);
-      if (disB>100) Serial4.print("Z1b|");
+      if (disB>100) {
+        Serial1.print("Z1b|");
+        S1T = millis();
+      }
     }
     else if (in == 'G'){
       int tiltA = Serial4.parseInt();
@@ -177,13 +181,13 @@ void SerialEvent(){
     if (in == 'V'){
       nowSpeed = Serial5.parseInt();
 //      Serial.println(nowSpeed);
-      String send = "V" + String(nowSpeed);
+      String send = "V" + String(nowSpeed)+' ';
       Serial.println(send);
       Serial1.print('S');
       Serial1.print(nowSpeed);
       Serial1.print('|');
       Serial7.print(send);
-      Serial9.print(send);
+      for (int i = 0 ; i<70 ; i++) Serial9.print(send);
     }
   }
 
@@ -229,13 +233,13 @@ void SerialEvent(){
     char in = Serial9.read();
     String F = "F";
     if (in == 'E'){
-      int frontBrakeForce = Serial.parseInt();
+      int frontBrakeForce = Serial9.parseInt();
       Serial.print("E");
       Serial.print(frontBrakeForce);
       Serial.println(' ');
     }
     else if (in == 'D') {
-      int backBrakeForce = Serial.parseInt();
+      int backBrakeForce = Serial9.parseInt();
       Serial.print("D");
       Serial.print(backBrakeForce);
       Serial.println(' ');
@@ -249,6 +253,11 @@ void SerialEvent(){
     }
   }
 
+  if (millis() - S1T < 1000){
+    Serial1.print("Z0|");
+    Serial1.print("Y0|");
+    Serial1.print("X0|");
+  }
 
 
 

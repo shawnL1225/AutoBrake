@@ -30,6 +30,7 @@ unsigned long i2trigger_time=0;
 
 bool BIRD80_1 = 0,BIRD80_2 = 0,BultraLD = 0,BultraMD = 0,BultraRD = 0;
 bool Serial4required = 0;
+bool allSet = 0 ;
 
 void setup() {
   Serial.begin(9600);
@@ -44,6 +45,7 @@ void setup() {
   pinMode(ultraREP,INPUT);
   pinMode(IR80_1P,INPUT);
   pinMode(IR80_2P,INPUT);
+  allSet = 1 ;
 }
 
 void loop() {

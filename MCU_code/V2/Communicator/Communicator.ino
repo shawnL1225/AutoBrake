@@ -4,6 +4,7 @@
 #include <SD.h>
 #include <RTClib.h>
 
+#define SERIAL_BUFFER_SIZE 1024
 #define MP 36 //Motor permission
 #define S2 22 //distance[R]
 #define S3 23 //distance[L]
@@ -19,12 +20,12 @@
 #define S13 49 //distance[F]
 #define MPU6050_addr 0x68
 
-SoftwareSerial Serial4 (A13,23);
-SoftwareSerial Serial5 (A14,25);
-SoftwareSerial Serial6 (A8,27);
-SoftwareSerial Serial7 (A15,48);
-SoftwareSerial Serial8 (A11,A12);
-SoftwareSerial Serial9 (A9,A10);
+SoftwareSerial Serial4 (67,23);
+SoftwareSerial Serial5 (68,25);
+SoftwareSerial Serial6 (62,27);
+SoftwareSerial Serial7 (69,48);
+SoftwareSerial Serial8 (65,66);
+SoftwareSerial Serial9 (63,64);
 
 File file;  //SD card 
 
@@ -51,6 +52,7 @@ int bluetoothStatus = 7;
 //double dz;
 
 unsigned short times = 0;
+unsigned long S1T = 0 ;
 
 char statusForBluetooth= '=';
 
