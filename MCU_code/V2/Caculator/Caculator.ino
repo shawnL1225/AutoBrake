@@ -33,6 +33,7 @@ double az;
 
 bool A_F = 0;
 
+int front_dist = 4000;
 
 void loop() {
   SerialEvent();
