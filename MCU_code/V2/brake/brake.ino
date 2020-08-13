@@ -1,11 +1,14 @@
 #include <SoftwareSerial.h>
 
-SoftwareSerial Serial4(A0,A1);
+bool DirectIn = 0;
+bool RBlink = 0;
+bool LBlink = 0;
+bool BBlink = 0;
 
-int autoBMax=290, autoBMin=150, autoBMaxF=100, autoBMinF=0; // analog200 -> softbrake  
+int autoBMax=737, autoBMin=547, autoBMaxF=100, autoBMinF=0; // analog200 -> softbrake  
 int manualBMax=396, manualBMin=251, manualBMaxF=100, manualBMinF=0;
 int autoBF = 0, manualBF = 0, TbrakeF = 0;
-int requestForce = 0;
+int requestForce = 1;
 
 void setup() {
   Serial.begin(9600);
@@ -13,6 +16,7 @@ void setup() {
   pinMode(A3,INPUT);
   pinMode(5,OUTPUT);
   pinMode(6,OUTPUT);
+  Serial.println("\nSetup OK");
 }
 
 void loop() {

@@ -1,34 +1,36 @@
 void brakeA(){
-  if (requestForce-10>TbrakeF&&autoBF<autoBMaxF){
+  if ((requestForce-15>TbrakeF||DirectIn == 1)&&autoBF<autoBMaxF){
     digitalWrite(5,1);
     while (requestForce>TbrakeF){
       Serial.println("Force bigger");
       brakeS();
       SerialEvent();
-      if (TbrakeF>=requestForce||autoBF>=autoBMaxF){
+      if (TbrakeF+3>=requestForce||autoBF>=autoBMaxF){
         digitalWrite(5,0);
         break;
       }
     }
     digitalWrite(5,0);
     Serial.println("Force STOP");
+    DirectIn = 0;
   }
   
-  else if (requestForce+10<TbrakeF&&autoBF>autoBMinF){
+  else if ((requestForce+15<TbrakeF||DirectIn == 1)&&autoBF>autoBMinF){
     digitalWrite(6,1);
     while (requestForce<TbrakeF){
       Serial.println("Force Smaller");
       brakeS();
       SerialEvent();
-      if (TbrakeF<=requestForce||autoBF<=autoBMinF){
+      if (TbrakeF-5<=requestForce||autoBF<=autoBMinF){
         digitalWrite(6,0);
         break;
       }
     }
     digitalWrite(6,0);
     Serial.println("Force STOP");
+    DirectIn = 0;
   }
-  if (autoBF-5>=autoBMaxF){
+  if (autoBF-3>=autoBMaxF){
     digitalWrite(5,0);
     digitalWrite(6,1);
     delay(100);

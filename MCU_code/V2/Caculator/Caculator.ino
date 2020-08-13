@@ -37,7 +37,6 @@ int VehicleType = 0;
 float nowSpeed = 0;
 
 void loop() {
-  
   SerialEvent();
 //  acc();
   gyro();
