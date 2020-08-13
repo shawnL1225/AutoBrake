@@ -5,7 +5,7 @@ void acc(){
 //   Print out the values
   ax = a.acceleration.x + fixax;
   ay = a.acceleration.y + fixay;
-  az = a.acceleration.z + fixaz;
+  double az = a.acceleration.z + fixaz;
   Serial.print("A x: ");
   Serial.print(ax);
   Serial.print(" y : ");

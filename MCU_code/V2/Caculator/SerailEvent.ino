@@ -23,13 +23,13 @@ void SerialEvent() {
     Serial.println(in);
     if (in == 'A'){
       char inA = Serial4.read();
-      A_F = bool(inA);
+      FDR = bool(inA);
     }
     else if (in == 'V'){
       Serial.println("IN");
-      int inV =Serial4.parseInt();
+      nowSpeed =Serial4.parseInt()/100.00;
       Serial.print('V');
-      Serial.println(inV);
+      Serial.println(nowSpeed);
     }
     else if (in == 'E') {
       int backBrakeForce = Serial4.parseInt();
@@ -118,7 +118,7 @@ void SerialEvent() {
     char in = Serial13.read();
     if (in == 'F') {
       int F1 = Serial13.parseInt();
-      if (A_F) {
+      if (FDR) {
         Serial4.print('F');
         Serial4.println(F1);
       }

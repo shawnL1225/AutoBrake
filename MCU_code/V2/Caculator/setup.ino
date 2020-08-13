@@ -25,7 +25,7 @@ void setup() {
   Serial.println("ALLSET");
 
   gyro();
-  fixdx = -dx;
-  fixdy = -dy;
+  fixdx = -riseAngle;
+  fixdy = -rotateAngle;
   fixdz = -dz;
 }
