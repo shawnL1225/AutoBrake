@@ -23,4 +23,9 @@ void setup() {
   Wire.write(0);
   Wire.endTransmission(true);
   Serial.println("ALLSET");
+
+  gyro();
+  fixdx = -dx;
+  fixdy = -dy;
+  fixdz = -dz;
 }

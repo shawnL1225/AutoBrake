@@ -25,4 +25,11 @@ void gyro(){
   if (dx>180) dx-=360;
   if (dy>180) dy-=360;
   if (dz>180) dz-=360;
+  
+  Serial.print("G x: ");
+  Serial.print(dx);
+  Serial.print(" y : ");
+  Serial.println(dy);
+//  Serial.print(" z : ");
+//  Serial.println(dz);
 }

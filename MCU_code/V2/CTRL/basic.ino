@@ -3,13 +3,14 @@ void setup() {
   Serial4.begin(9600);
   Serial4.print("");
 
-  pinMode(12,INPUT_PULLUP);
   pinMode(2,OUTPUT);
+  pinMode(12,INPUT_PULLUP);
   
-  pinMode(A7,INPUT);
   pinMode(A3,INPUT);
+  pinMode(A7,INPUT);
   
   Serial.println("START");
+  Serial.flush();
 }
 
 void loop() {

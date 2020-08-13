@@ -6,4 +6,10 @@ void acc(){
   ax = a.acceleration.x + fixax;
   ay = a.acceleration.y + fixay;
   az = a.acceleration.z + fixaz;
+  Serial.print("A x: ");
+  Serial.print(ax);
+  Serial.print(" y : ");
+  Serial.print(ay);
+  Serial.print(" z : ");
+  Serial.println(az);
 }

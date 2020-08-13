@@ -20,12 +20,13 @@ void SerialEvent(){
   if (Serial4.available()){
 //    Serial.println("IN");
     char in = Serial4.read();
-//    Serial.println(in);
+    Serial.println(in);
     if (in == 'A'){
       char inA = Serial4.read();
       A_F = bool(inA);
     }
     else if (in == 'V'){
+      Serial.println("IN");
       int inV =Serial4.parseInt();
       Serial.print('V');
       Serial.println(inV);
@@ -93,18 +94,10 @@ void SerialEvent(){
     char in = Serial13.read();
     if (in == 'F'){
       float F1 = Serial13.parseFloat();
-      float F2 = Serial13.parseFloat();
-      float F3 = Serial13.parseFloat();
       if (A_F){
         Serial4.print('F');
-        Serial4.print(' ');
-        Serial4.print(F1);
-        Serial4.print(' ');
-        Serial4.print(F2);
-        Serial4.print(' ');
-        Serial4.print(F3);
+        Serial4.println(F1);
       }
-      /*Xavier COMM*/
     }
   }
 }
