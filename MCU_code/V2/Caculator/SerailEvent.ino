@@ -86,13 +86,25 @@ void SerialEvent() {
   if (Serial12.available()) {
     char in = Serial12.read();
     if (in == 'N') {
-      switch (in){
+      char inbox = Serial12.read();
+      switch (inbox){
         case 'V':
           //Front Vehicle Type
+          //0:No Data
+          //1:person/bicycle/motorbike
+          //2:car 
+          //3:truck/bus
+          VehicleType = Serial12.parseInt();
+          break;         
         case 'R':
           //Traffic Light : RED
+          Serial4.println("R");
+          break;
         case 'D':
           //Division
+          Serial4.println("D");
+          break;
+          
       }
     }
   }
