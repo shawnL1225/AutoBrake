@@ -42,4 +42,6 @@ void loop() {
 //  acc();
   gyro();
   delay(500);
+
+  
 }
