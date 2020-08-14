@@ -6,15 +6,19 @@ void SerialEvent(){
       Serial.println("requestForce:");
       Serial.println(requestForce);
       DirectIn = 1;
+      brakeA();
     }
     else if (in == 'R'){
       RBlink = Serial.parseInt();
+      light();
     }
     else if (in == 'L'){
       LBlink = Serial.parseInt();
+      light();
     }
     else if (in == 'B'){
-      BBlink = Serial.parseInt();
+      BLight = Serial.parseInt();
+      light();
     }
   }
 }
