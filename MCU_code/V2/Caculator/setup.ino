@@ -34,7 +34,7 @@ void setup() {
 
   gyroBack();
   gyroFront();
-  fixdx = -riseAngle;
-  fixdy = -rotateAngle;
-  fixdz = -dz;
+//  fixdx = -riseAngle;
+//  fixdy = -rotateAngle;
+//  fixdz = -dz;
 }

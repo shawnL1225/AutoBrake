@@ -15,9 +15,9 @@ void gyroBack(){
   double dy= RAD_TO_DEG * (atan2(-xAng, -zAng)+PI);
   double dz= RAD_TO_DEG * (atan2(-yAng, -xAng)+PI);
 
-  dx = dx+fixdx;
-  dy = dy+fixdy;
-  dz = dz+fixdz;
+  dx = dx+fixBdx;
+  dy = dy+fixBdy;
+  dz = dz+fixBdz;
   
   if (dx<-180) dx+=360;
   if (dy<-180) dy+=360;
@@ -27,12 +27,15 @@ void gyroBack(){
   if (dz>180) dz-=360;
 
   riseAngle = dx;
-  rotateAngle = dy;
+  flipAngle = dy;
+  BrotateAngle = dz;
   
-  Serial.print("G x: ");
+  Serial.print("riseAngle : ");
   Serial.print(dx);
-  Serial.print(" y : ");
-  Serial.println(dy);
+  Serial.print("flipAngle : ");
+  Serial.print(dy);
+  Serial.print("BrotateAngle : ");
+  Serial.println(dz);
 //  Serial.print(" z : ");
 //  Serial.println(dz);
 }

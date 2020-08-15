@@ -15,9 +15,9 @@ void gyroFront(){
   double dy= RAD_TO_DEG * (atan2(-xAng, -zAng)+PI);
   double dz= RAD_TO_DEG * (atan2(-yAng, -xAng)+PI);
 
-  dx = dx+fixdx;
-  dy = dy+fixdy;
-  dz = dz+fixdz;
+  dx = dx+fixFdx;
+  dy = dy+fixFdy;
+  dz = dz+fixFdz;
   
   if (dx<-180) dx+=360;
   if (dy<-180) dy+=360;
@@ -25,11 +25,13 @@ void gyroFront(){
   if (dx>180) dx-=360;
   if (dy>180) dy-=360;
   if (dz>180) dz-=360;
+
+  frontRotate = dx;
   
-  Serial.print("G x: ");
-  Serial.print(dx);
-  Serial.print(" y : ");
-  Serial.println(dy);
+  Serial.print("frontRotate x: ");
+  Serial.println(dx);
+//  Serial.print(" y : ");
+//  Serial.println(dy);
 //  Serial.print(" z : ");
 //  Serial.println(dz);
 }
