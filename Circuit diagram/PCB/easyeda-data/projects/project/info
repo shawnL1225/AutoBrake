@@ -4,7 +4,11 @@
   "name": "project",
   "content": "",
   "created_at": "2020-07-24 09:07:18",
+<<<<<<< HEAD
   "updated_at": "2020-08-11 21:03:12",
+=======
+  "updated_at": "2020-08-13 19:50:35",
+>>>>>>> 75d59246cb289461733e3d45db5ee39c4ed8d78f
   "stick": "",
   "documents": [
     {
@@ -18,11 +22,11 @@
       "thumb": "/images/thumb-default.png",
       "components": {},
       "BOM": [],
-      "updateTime": 1596096453,
+      "updateTime": 1597319435,
       "createTime": 1595552838,
       "histories": [],
       "created_at": "2020-07-24 09:07:18",
-      "updated_at": "2020-07-30 16:07:33"
+      "updated_at": "2020-08-13 19:50:35"
     },
     {
       "uuid": "0620de4681e6feb24a6ed410da3cf5eb",
@@ -214,6 +218,23 @@
       "histories": [],
       "created_at": "2020-08-05 16:32:16",
       "updated_at": "2020-08-05 17:40:40"
+    },
+    {
+      "uuid": "6e3ed2a7f53523832b504e9777a10611",
+      "puuid": "16386749d1a1da9d3f67dd432632e503",
+      "title": "STEP-DOWN MODEL",
+      "filename": "STEP-DOWN MODEL.json",
+      "description": "",
+      "docType": "3",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {},
+      "BOM": [],
+      "updateTime": 1597298578,
+      "createTime": 1597198564,
+      "histories": [],
+      "created_at": "2020-08-12 10:16:04",
+      "updated_at": "2020-08-13 14:02:58"
     }
   ],
   "sort": [],

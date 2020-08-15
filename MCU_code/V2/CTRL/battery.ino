@@ -10,7 +10,10 @@ void battery(){
     if (percentage < 100) BOK = 0;
     else BOK = 1;
     String sendS = 'B'+String(percentage)+' ';
-    Serial4.print(sendS);
+    Serial.println(sendS);
+    Serial.flush();
+    Serial4.println(sendS);
+    Serial4.flush();
     lbsms=millis();
   }
 }

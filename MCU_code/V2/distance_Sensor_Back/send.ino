@@ -41,7 +41,7 @@ void send(){
     Serial.print("C d");
     Serial.print(distanceB);
   }
-  
+  Serial.print(distanceB);
   Serial.print("t");
   Serial.print(t);
   Serial4.print("t");

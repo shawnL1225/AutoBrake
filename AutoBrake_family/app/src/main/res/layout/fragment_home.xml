@@ -14,11 +14,13 @@
         android:id="@+id/title_battery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:background="@drawable/text_background"
         android:text="@string/title_battery"
         android:textColor="#000000"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,10 +28,9 @@
         android:id="@+id/val_battery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/connecting"
         android:textColor="@color/lightBlue"
-        android:textSize="30sp"
+        android:textSize="70sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,26 +40,29 @@
         android:id="@+id/unit_battery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="30dp"
         android:text="@string/unit_percent"
         android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_battery" />
+        app:layout_constraintHorizontal_bias="0.155"
+        app:layout_constraintStart_toEndOf="@+id/val_battery"
+        app:layout_constraintTop_toTopOf="@+id/val_battery" />
 
     <TextView
         android:id="@+id/title_speed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/text_background"
         android:text="@string/title_speed"
         android:textColor="#000000"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/vertical_line"
+        app:layout_constraintHorizontal_bias="0.604"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_battery" />
+        app:layout_constraintTop_toBottomOf="@+id/val_battery" />
 
     <TextView
         android:id="@+id/val_speed"
@@ -88,14 +92,15 @@
         android:id="@+id/title_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/text_background"
         android:text="@string/title_temp"
         android:textColor="#000000"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="@+id/vertical_line"
-        app:layout_constraintTop_toBottomOf="@+id/img_battery" />
+        app:layout_constraintTop_toBottomOf="@+id/val_battery" />
 
     <ProgressBar
         android:id="@+id/temp_Bar"

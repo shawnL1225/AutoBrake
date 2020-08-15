@@ -1,36 +1,37 @@
-void SerialEvent(){
-  if (Serial.available()){
+void SerialEvent() {
+  if (Serial.available()) {
     char in = Serial.read();
     Serial.print(in);
-    if (in == 'E'){
+    if (in == 'E') {
       int inD = Serial.parseInt();
       Serial.println(inD);
       int i = 0;
-      while(i<100){
+      while (i < 100) {
         Serial4.print('E');
         Serial4.println(inD);
         i++;
       }
     }
   }
-  
+
   Serial4.listen();
   delay(10);
   Serial4.listen();
-  if (Serial4.available()){
-//    Serial.println("IN");
+  if (Serial4.available()) {
+    //    Serial.println("IN");
     char in = Serial4.read();
-//    Serial.println(in);
-    if (in == 'A'){
+    Serial.println(in);
+    if (in == 'A') {
       char inA = Serial4.read();
-      A_F = bool(inA);
+      FDR = bool(inA);
     }
-    else if (in == 'V'){
-      int inV =Serial4.parseInt();
+    else if (in == 'V') {
+      Serial.println("IN");
+      nowSpeed = Serial4.parseInt() / 100.00;
       Serial.print('V');
-      Serial.println(inV);
+      Serial.println(nowSpeed);
     }
-    else if (in == 'E'){
+    else if (in == 'E') {
       int backBrakeForce = Serial4.parseInt();
       Serial.print('E');
       Serial.print(backBrakeForce);
@@ -38,7 +39,7 @@ void SerialEvent(){
       Serial10.print(backBrakeForce);
       Serial10.print(' ');
     }
-    else if (in == 'D'){
+    else if (in == 'D') {
       int frontBrakeForce = Serial4.parseInt();
       Serial.print('D');
       Serial.print(frontBrakeForce);
@@ -50,9 +51,9 @@ void SerialEvent(){
   Serial10.listen();
   delay(10);
   Serial10.listen();
-  if (Serial10.available()){
+  if (Serial10.available()) {
     char in = Serial10.read();
-    if (in == 'E'){
+    if (in == 'E') {
       int backBrakeForce = Serial10.parseInt();;
       Serial.print('E');
       Serial.println(backBrakeForce);
@@ -64,9 +65,9 @@ void SerialEvent(){
   Serial11.listen();
   delay(10);
   Serial11.listen();
-  if (Serial11.available()){
+  if (Serial11.available()) {
     char in = Serial11.read();
-    if (in == 'D'){
+    if (in == 'D') {
       int frontBrakeForce = Serial11.parseInt();;
       Serial.print('D');
       Serial.print(frontBrakeForce);
@@ -75,36 +76,50 @@ void SerialEvent(){
       Serial4.print(' ');
     }
   }
+
+
+  if (front_dist < 500) {
+    Serial12.println("<");//To XAVIER
+  }
   Serial12.listen();
   delay(10);
   Serial12.listen();
-  if (Serial12.available()){
-    char in = Serial12.read();
-    switch(in){
-      case('N'):{
-        ;
-      }
+  if (Serial12.available()) {
+    char inbox = Serial12.read();
+    switch (inbox) {
+      case 'V':
+        //Front Vehicle Type
+        //0:No Data
+        //1:person/bicycle/motorbike
+        //2:car
+        //3:truck/bus
+        VehicleType = Serial12.parseInt();
+        break;
+      case 'R':
+        //Traffic Light : RED
+        Serial4.println("R");
+        break;
+      case 'D':
+        //Division
+        Serial4.println("D");
+        break;
     }
   }
+
+
   Serial13.listen();
   delay(10);
   Serial13.listen();
-  if (Serial13.available()){
+  if (Serial13.available()) {
+    Serial.println("From Dist Board");
     char in = Serial13.read();
-    if (in == 'F'){
-      float F1 = Serial13.parseFloat();
-      float F2 = Serial13.parseFloat();
-      float F3 = Serial13.parseFloat();
-      if (A_F){
+    if (in == 'F') {
+      int F1 = Serial13.parseInt();
+      Serial.println("From Dist Board : " + String(F1));
+      if (FDR) {
         Serial4.print('F');
-        Serial4.print(' ');
-        Serial4.print(F1);
-        Serial4.print(' ');
-        Serial4.print(F2);
-        Serial4.print(' ');
-        Serial4.print(F3);
+        Serial4.println(F1);
       }
-      /*Xavier COMM*/
     }
   }
 }

@@ -5,14 +5,20 @@ void SerialEvent(){
       requestForce = Serial.parseInt();
       Serial.println("requestForce:");
       Serial.println(requestForce);
+      DirectIn = 1;
+      brakeA();
     }
-  }
-  if (Serial4.available()){
-    char in = Serial4.read();
-    if (in == 'E' ){
-      requestForce = Serial4.parseInt();
-      Serial.println("requestForce:");
-      Serial.println(requestForce);
+    else if (in == 'R'){
+      RBlink = Serial.parseInt();
+      light();
+    }
+    else if (in == 'L'){
+      LBlink = Serial.parseInt();
+      light();
+    }
+    else if (in == 'B'){
+      BLight = Serial.parseInt();
+      light();
     }
   }
 }

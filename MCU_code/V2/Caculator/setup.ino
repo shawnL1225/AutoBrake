@@ -15,12 +15,26 @@ void setup() {
   Serial13.setTimeout(100);
   Serial4.setTimeout(100);
 
-  //--MPU6050 setup--
+  //--MPU6050 Back setup--
   mpu6050.begin();
   Wire.begin();
-  Wire.beginTransmission(MPU6050_addr);
+  Wire.beginTransmission(MPU6050BackAddr);
   Wire.write(0x6B);
   Wire.write(0);
   Wire.endTransmission(true);
+
+  //--MPU6050 Front setup--
+  Wire.begin();
+  Wire.beginTransmission(MPU6050FrontAddr);
+  Wire.write(0x6B);
+  Wire.write(0);
+  Wire.endTransmission(true);
+
   Serial.println("ALLSET");
+
+  gyroBack();
+  gyroFront();
+  fixdx = -riseAngle;
+  fixdy = -rotateAngle;
+  fixdz = -dz;
 }
