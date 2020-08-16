@@ -60,7 +60,7 @@ class NotificationService : Service(){
         val tiltWarning = NotificationCompat.Builder(applicationContext,"AutoBrake")
             .setSmallIcon(R.drawable.ic_baseline_report_problem_24)
             .setContentTitle("警告，發生危險")
-            .setContentText("車體傾斜，發生地點")
+            .setContentText("車體傾斜，打開APP查看長輩位置")
             .setAutoCancel(true)
             .build()
 
