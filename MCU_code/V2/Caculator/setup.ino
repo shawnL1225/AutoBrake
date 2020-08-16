@@ -18,22 +18,14 @@ void setup() {
   //--MPU6050 Back setup--
   mpu6050.begin();
   Wire.begin();
-<<<<<<< HEAD
-  Wire.beginTransmission(MPU6050_back_addr);
-=======
   Wire.beginTransmission(MPU6050BackAddr);
->>>>>>> 262c727481c08d506d4fb744d3ac987be608e22e
   Wire.write(0x6B);
   Wire.write(0);
   Wire.endTransmission(true);
 
   //--MPU6050 Front setup--
   Wire.begin();
-<<<<<<< HEAD
-  Wire.beginTransmission(MPU6050_front_addr);
-=======
   Wire.beginTransmission(MPU6050FrontAddr);
->>>>>>> 262c727481c08d506d4fb744d3ac987be608e22e
   Wire.write(0x6B);
   Wire.write(0);
   Wire.endTransmission(true);
@@ -42,13 +34,7 @@ void setup() {
 
   gyroBack();
   gyroFront();
-<<<<<<< HEAD
-  fixdx = -riseAngle;
-  fixdy = -rotateAngle;
-  fixdz = -dz;
-=======
 //  fixdx = -riseAngle;
 //  fixdy = -rotateAngle;
 //  fixdz = -dz;
->>>>>>> 262c727481c08d506d4fb744d3ac987be608e22e
 }
