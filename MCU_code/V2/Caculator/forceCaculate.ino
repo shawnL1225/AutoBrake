@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 forceCaculate(){
+=======
+void forceCaculate(){
+>>>>>>> 262c727481c08d506d4fb744d3ac987be608e22e
 
   
 //  float T = 4;

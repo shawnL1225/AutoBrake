@@ -4,8 +4,13 @@
 #include <Wire.h>
 
 #define SERIAL_BUFFER_SIZE 1024
+<<<<<<< HEAD
 #define MPU6050_back_addr 0x68
 #define MPU6050_front_addr 0x69
+=======
+#define MPU6050BackAddr 0x68
+#define MPU6050FrontAddr 0x69
+>>>>>>> 262c727481c08d506d4fb744d3ac987be608e22e
 
 Adafruit_MPU6050 mpu6050;
 SoftwareSerial Serial10 (2,3); // Front brake
@@ -20,18 +25,22 @@ int16_t AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
 int minVal=265;
 int maxVal=402;
 
-float fixdx;
-float fixdy;
-float fixdz;
+float fixFdx;
+float fixFdy;
+float fixFdz;
+float fixBdx;
+float fixBdy;
+float fixBdz;
 float fixax;
 float fixay;
 float fixaz;
 
 double riseAngle;
-double rotateAngle;
-double dz;
-double ax;
-double ay;
+double flipAngle;
+double BrotateAngle;
+double frontRotate;
+double ax = 0;
+double ay = 0;
 
 bool FDR = 0; //Front distance request by Mother board
 

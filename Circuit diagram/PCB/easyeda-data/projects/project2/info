@@ -1,0 +1,33 @@
+{
+  "uuid": "b1ff716ccb8bf22a1235f65a1e682fcf",
+  "path": "Offline/project2",
+  "name": "project2",
+  "content": "",
+  "created_at": "2020-08-14 21:09:37",
+  "updated_at": "2020-08-14 21:13:04",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "988ec9a40000aee3f7a3d3c083c279dd",
+      "puuid": "b1ff716ccb8bf22a1235f65a1e682fcf",
+      "title": "STEP-DOWN MODEL",
+      "filename": "STEP-DOWN MODEL.json",
+      "description": "",
+      "docType": "3",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {},
+      "BOM": [],
+      "updateTime": 1597410784,
+      "createTime": 1597410595,
+      "histories": [],
+      "created_at": "2020-08-14 21:09:55",
+      "updated_at": "2020-08-14 21:13:04"
+    }
+  ],
+  "sort": [],
+  "title": "project2",
+  "foldername": "project2",
+  "schfilename": "project2.json",
+  "schfilemtime": 1597410577047.987
+}
