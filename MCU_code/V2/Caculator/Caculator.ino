@@ -4,13 +4,8 @@
 #include <Wire.h>
 
 #define SERIAL_BUFFER_SIZE 1024
-<<<<<<< HEAD
-#define MPU6050_back_addr 0x68
-#define MPU6050_front_addr 0x69
-=======
 #define MPU6050BackAddr 0x68
 #define MPU6050FrontAddr 0x69
->>>>>>> 262c727481c08d506d4fb744d3ac987be608e22e
 
 Adafruit_MPU6050 mpu6050;
 SoftwareSerial Serial10 (2,3); // Front brake
