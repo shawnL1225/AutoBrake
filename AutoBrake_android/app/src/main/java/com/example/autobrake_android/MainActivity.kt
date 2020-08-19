@@ -162,7 +162,7 @@ class MainActivity: AppCompatActivity() {
                         if(bufToString[0] == '|')   bufToString = bufToString.drop(1)
                         val part = bufToString.split('|').toMutableList()
                         Log.d(BT_TAG, "BTget:$bufToString")
-                        Log.d(BT_TAG, part.size.toString())
+//                        Log.d(BT_TAG, part.size.toString())
 
                         var warningDirection = ' '
 
@@ -173,7 +173,7 @@ class MainActivity: AppCompatActivity() {
                             when (differentiate) {
 
                                 //set speed and progress bar
-                                'S' -> {
+                                'V' -> {
                                     speed = part[i].toInt()
                                     if (speed > 30) speed = 30
                                     speed_txt.text = speed.toString()
@@ -183,8 +183,8 @@ class MainActivity: AppCompatActivity() {
 
                                 //set battery
                                 'B' -> {
-                                    battery_txt.text = part[i] + '%'
-                                    var battery = part[i].toInt()
+                                    val battery = part[i].toInt()
+                                    if(battery in 0..100) battery_txt.text = part[i] + '%'
                                     when(battery) {
                                         in 81..100 -> battery_img.setImageResource(R.drawable.battery_5)
                                         in 61..80 -> battery_img.setImageResource(R.drawable.battery_4)
@@ -363,8 +363,8 @@ class MainActivity: AppCompatActivity() {
                             numBytes = m_bluetoothSocket!!.inputStream.read(mmBuffer, 0, 500)
 
                             //debug show the num and value of BT
-                            Log.d(BT_TAG, "--------------------------")
-                            Log.d(BT_TAG, "numBytes :  $numBytes")
+//                            Log.d(BT_TAG, "--------------------------")
+//                            Log.d(BT_TAG, "numBytes :  $numBytes")
 //                            for(x in 0..numBytes-1)
 //                            {
 //                                Log.d(BT_TAG, "buffer :  " + mmBuffer[x])
@@ -472,6 +472,7 @@ class MainActivity: AppCompatActivity() {
 
                         Thread.sleep(50)
                         if(!m_isConnected) break
+
 
                         if (m_bluetoothSocket!!.inputStream.available() > 0) {
                             // wait for read
