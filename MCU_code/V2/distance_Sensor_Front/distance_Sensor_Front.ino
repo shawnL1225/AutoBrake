@@ -5,7 +5,7 @@
 //2 TOF Sensor & SerialPost to Calculator Declare
 SoftwareSerial Serial1(8, 13);//TF-Luna
 SoftwareSerial Serial2(6, 7); //LP40
-SoftwareSerial Serial3(A3, A4);//SendData
+SoftwareSerial Serial3(A3, 13);//SendData
 
 // defines pins numbers
 const int trigLU = 9;
@@ -52,6 +52,8 @@ void setup() {
 
   pinMode(trigRD, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoRD, INPUT); // Sets the echoPin as an Input
+  pinMode(7,OUTPUT);
+  digitalWrite(7,0);
   Serial.begin(9600); // Starts the serial communication
   Serial1.begin(115200); //TF-Luna SerialPort
   Serial2.begin(115200); //LP40 SerialPort

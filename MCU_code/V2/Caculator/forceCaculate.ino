@@ -1,6 +1,4 @@
-forceCaculate(){
-
-  
+void forceCaculate(){
 //  float T = 4;
 //
 //  float Fbab = 0;
@@ -17,5 +15,35 @@ forceCaculate(){
 //  Serial.print(Fbc);
 //  Serial.print("Fbd: ");
 //  Serial.print(Fbd);
+
+//--------------------experiment-------------------------
+  if (nowSpeed >= expSetSpeed&&times<3){
+    digitalWrite(A0,0);
+    Serial10.print('E');
+    Serial10.println(RFF);
+    Serial11.print('D');
+    Serial11.println(RBF);
+    Serial11.flush();
+    Serial10.println("R1 L1");
+    Serial11.println("R1 L1");
+    Serial11.flush();
+    times++;
+    Serial.println("Brake START");
+  }
+
+  file = SD.open(fileName,FILE_WRITE);
+  unsigned long msec= millis();
+  int sec=0,mi=0;
+  if (msec%1000>=0){
+    sec=msec/1000;
+    msec=msec-1000*sec;
+    if (sec%60>=0){
+      mi=sec/60;
+      sec=sec-mi*60;
+    }
+  }
+  String send = String(mi)+':'+String(sec)+'.'+String(msec)+"\tF: "+String(front_dist)+"\tS: "+String(nowSpeed)+"\tFB: "+String(frontBrakeForce)+"\tBB: "+String(backBrakeForce);
+  file.println(send);
+  file.close();
   
 }

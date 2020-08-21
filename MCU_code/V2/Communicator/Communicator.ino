@@ -5,19 +5,7 @@
 #include <RTClib.h>
 
 #define SERIAL_BUFFER_SIZE 1024
-#define MP 36 //Motor permission
-#define S2 22 //distance[R]
-#define S3 23 //distance[L]
-#define S4 26 //distance[B]
-#define S5 29 //speedSensor
-#define S6 42 //ESP
-#define S7 35 //CTRL
-#define S8 39 //Heat n Gsensor
-#define S9 42 //caculation
-#define S10 43 //Brake [F]
-#define S11 45 //Brake [B]
-#define S12 47 //Xavier
-#define S13 49 //distance[F]
+#define MP 48 //Motor permission
 #define MPU6050_addr 0x68
 
 SoftwareSerial Serial4 (67,23);
@@ -25,7 +13,7 @@ SoftwareSerial Serial5 (68,25);
 SoftwareSerial Serial6 (62,27);
 SoftwareSerial Serial7 (69,48);
 SoftwareSerial Serial8 (65,66);
-SoftwareSerial Serial9 (63,64);
+//SoftwareSerial Serial9 (63,64);  {S2}
 
 File file;  //SD card 
 
@@ -37,8 +25,9 @@ bool RTCS = 1;
 
 int BP = 0; //BattereyP
 int MT = 0; //Motor Temperature
-int nowSpeed = 0; //speed
 int bluetoothStatus = 7;
+int batteryP = 0;
+int Btimes = 0;
 //int16_t AcX,AcY,AcZ,GyX,GyY,GyZ;
 //int minVal=265;
 //int maxVal=402;
@@ -46,6 +35,7 @@ int bluetoothStatus = 7;
 //float fixdx;
 //float fixdy;
 //float fixdz;
+float nowSpeed = 0; //speed
 //
 //double dx;
 //double dy;
@@ -62,8 +52,19 @@ String fileName = "";
 void loop() {
   SerialEvent(); 
   if (millis()/2000>times){
-    Serial1.println("AT+STATE");
+//    Serial1.println("AT+STATE");
     times++;
+    delay(150);
+    Serial1.print('B');
+    Serial1.print(random(90,92));
+    Serial1.print('|');
+  }
+  if (millis()/60000>Btimes){
+    Btimes++;
+    batteryP=batteryP- 1;
+    Serial1.print('B');
+    Serial1.print(batteryP);
+    Serial1.print('|');
   }
 //  gyro();
 }

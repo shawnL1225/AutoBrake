@@ -5,10 +5,10 @@ void setup() {
   Serial2.begin(9600);
   Serial3.begin(9600);
   Serial4.begin(9600);
-  Serial5.begin(9600);
-  Serial9.begin(9600);
-  Serial7.begin(9600);
-  Serial8.begin(9600);
+//  Serial5.begin(9600);
+//  Serial9.begin(9600);
+//  Serial7.begin(9600);
+//  Serial8.begin(9600);
 
   // Set parseInt timeout
   Serial.setTimeout(100);
@@ -16,25 +16,13 @@ void setup() {
   Serial2.setTimeout(100);
   Serial3.setTimeout(100);
   Serial4.setTimeout(100);
-  Serial5.setTimeout(100);
-  Serial9.setTimeout(100);
-  Serial7.setTimeout(100);
-  Serial8.setTimeout(100);
+//  Serial5.setTimeout(100);
+//  Serial9.setTimeout(100);
+//  Serial7.setTimeout(100);
+//  Serial8.setTimeout(100);
 
-  pinMode(S2,INPUT);
-  pinMode(S3,INPUT);
-  pinMode(S4,INPUT);
-  pinMode(S5,INPUT);
-  pinMode(S6,INPUT);
-  pinMode(S7,INPUT);
-  pinMode(S8,INPUT);
-  pinMode(S9,INPUT);
-  pinMode(S10,INPUT);
-  pinMode(S11,INPUT);
-  pinMode(S12,INPUT);
-  pinMode(S13,INPUT);
   pinMode(MP,OUTPUT);
-  digitalWrite(MP,0);
+  digitalWrite(MP,1);
   
   
   //------------------===== SD Check ====-------------
@@ -79,6 +67,7 @@ void setup() {
     }
     SDWrite("setup accomplish");
     SDWrite(errC);
+    batteryP= (random(90,92));
     
 //  -------------------------MPU6050----------------------------
 //    Wire.begin();

@@ -1,7 +1,7 @@
 void SerialEvent(){
   if (Serial.available()){
     char in = Serial.read();
-    if (in == 'E' ){
+    if (in == 'D' ){
       requestForce = Serial.parseInt();
       Serial.println("requestForce:");
       Serial.println(requestForce);
@@ -14,10 +14,6 @@ void SerialEvent(){
     }
     else if (in == 'L'){
       LBlink = Serial.parseInt();
-      light();
-    }
-    else if (in == 'B'){
-      BLight = Serial.parseInt();
       light();
     }
   }
