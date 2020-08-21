@@ -21,6 +21,7 @@ void setup() {
   pinMode(A3,OUTPUT);
 
   //--MPU6050 Back setup--
+<<<<<<< HEAD
   //===============================================================
 //  mpu6050.begin();
 //  Wire.begin();
@@ -48,6 +49,21 @@ void setup() {
   }
   else {
     Serial.println("SD OK");
+=======
+  mpu6050.begin();
+  Wire.begin();
+  Wire.beginTransmission(MPU6050BackAddr);
+  Wire.write(0x6B);
+  Wire.write(0);
+  Wire.endTransmission(true);
+
+  //--MPU6050 Front setup--
+  Wire.begin();
+  Wire.beginTransmission(MPU6050FrontAddr);
+  Wire.write(0x6B);
+  Wire.write(0);
+  Wire.endTransmission(true);
+>>>>>>> 2a98d7342f3d776fcacb6844fbb86c86bfedb415
 
 //===============================================================
 //  gyroBack();
@@ -57,6 +73,7 @@ void setup() {
 //  gyroFront();
 //===============================================================
 
+<<<<<<< HEAD
 //  fixFdx = -frontRotateAngle;
 
     file = SD.open("frontF.txt");
@@ -101,4 +118,11 @@ void setup() {
     delay(200);
     digitalWrite(A3,0);
   }
+=======
+  gyroBack();
+  gyroFront();
+//  fixdx = -riseAngle;
+//  fixdy = -rotateAngle;
+//  fixdz = -dz;
+>>>>>>> 2a98d7342f3d776fcacb6844fbb86c86bfedb415
 }
