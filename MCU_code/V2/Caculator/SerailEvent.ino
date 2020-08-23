@@ -6,20 +6,25 @@ void SerialEvent() {
       FDR = bool(inA);
     }
     else if (in == 'E') {
-      backBrakeForce = Serial.parseInt();
+      frontBrakeForce = Serial.parseInt();
       Serial.print('E');
-      Serial.print(backBrakeForce);
+      Serial.println(frontBrakeForce);
       Serial10.print('E');
-      Serial10.print(backBrakeForce);
+      Serial10.print(frontBrakeForce);
       Serial10.print(' ');
     }
     else if (in == 'D') {
-      frontBrakeForce = Serial.parseInt();
+      backBrakeForce = Serial.parseInt();
       Serial.print('D');
-      Serial.print(frontBrakeForce);
+      Serial.println(backBrakeForce);
       Serial11.print('D');
-      Serial11.print(frontBrakeForce);
+      Serial11.print(backBrakeForce);
       Serial11.print(' ');
+    }
+    else if (in == 'V') {
+      nowSpeed = Serial.parseFloat();
+      Serial.print('V');
+      Serial.println(nowSpeed);
     }
   }
 
@@ -39,19 +44,19 @@ void SerialEvent() {
       Serial.println(nowSpeed);
     }
     else if (in == 'E') {
-      backBrakeForce = Serial4.parseInt();
+      frontBrakeForce = Serial4.parseInt();
       Serial.print('E');
-      Serial.println(backBrakeForce);
+      Serial.println(frontBrakeForce);
       Serial10.print('E');
-      Serial10.print(backBrakeForce);
+      Serial10.print(frontBrakeForce);
       Serial10.print(' ');
     }
     else if (in == 'D') {
-      frontBrakeForce = Serial4.parseInt();
+      backBrakeForce = Serial4.parseInt();
       Serial.print('D');
-      Serial.println(frontBrakeForce);
+      Serial.println(backBrakeForce);
       Serial11.print('D');
-      Serial11.print(frontBrakeForce);
+      Serial11.print(backBrakeForce);
       Serial11.print(' ');
     }
   }
@@ -62,11 +67,11 @@ void SerialEvent() {
   if (Serial10.available()) {
     char in = Serial10.read();
     if (in == 'E') {
-      backBrakeForce = Serial10.parseInt();;
+      frontBrakeForce = Serial10.parseInt();;
       Serial.print('E');
-      Serial.println(backBrakeForce);
+      Serial.println(frontBrakeForce);
       Serial4.print('E');
-      Serial4.print(backBrakeForce);
+      Serial4.print(frontBrakeForce);
       Serial4.print(' ');
     }
   }
@@ -77,11 +82,11 @@ void SerialEvent() {
   if (Serial11.available()) {
     char in = Serial11.read();
     if (in == 'D') {
-      frontBrakeForce = Serial11.parseInt();;
+      backBrakeForce = Serial11.parseInt();;
       Serial.print('D');
-      Serial.println(frontBrakeForce);
+      Serial.println(backBrakeForce);
       Serial4.print('D');
-      Serial4.print(frontBrakeForce);
+      Serial4.print(backBrakeForce);
       Serial4.print(' ');
     }
   }

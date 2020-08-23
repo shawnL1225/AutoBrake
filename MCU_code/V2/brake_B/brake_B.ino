@@ -5,6 +5,7 @@ bool RBlink = 0;
 bool LBlink = 0;
 bool BLight = 0;
 bool Bstatus = 0;
+bool brake = 0;
 
 int autoBMax=1000, autoBMin=553, autoBMaxF=100, autoBMinF=0; // analog200 -> softbrake  
 int manualBMax=330, manualBMin=154, manualBMaxF=100, manualBMinF=0;
@@ -27,7 +28,9 @@ void setup() {
 
 void loop() {
   brakeS();
-  brakeA();
+  if (brake) brakeA();
   SerialEvent();
   light();
 }
+
+void(* resetFunc) (void) = 0;

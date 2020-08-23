@@ -28,8 +28,8 @@ int maxVal=402;
 int NO = 9999;
 int times=0;
 int expSetSpeed = 0;
-int backBrakeForce=0;
-int frontBrakeForce =0;
+int backBrakeForce=9999;
+int frontBrakeForce =9999;
 int front_dist = 4000;
 int RFF = 0;
 int RBF = 0;
@@ -51,8 +51,8 @@ double frontRotateAngle = 0;
 double ax = 0;
 double ay = 0;
 
-
 bool FDR = 0; //Front distance request by Mother board
+bool brake = 0;
 
 float nowSpeed = 0;
 

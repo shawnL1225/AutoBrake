@@ -1,0 +1,199 @@
+{
+  "uuid": "8221ddcc8cbf6e4556a1297ee15e83b6",
+  "path": "Offline/batery chargint PCB",
+  "name": "batery chargint PCB",
+  "content": "",
+  "created_at": "2020-08-23 20:52:54",
+  "updated_at": "2020-08-23 21:03:00",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "7095f59486e91514250fea80811390ea",
+      "title": "Sheet_1",
+      "description": "",
+      "docType": "1",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "3a8de671d18e47cfa019ea0ba94b1b4d": 4,
+        "21bb3ea8be5247818d252e67ae9cdff2": 9
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "BATTERY",
+          4,
+          "LIPO-1100MAH",
+          "BAT1,BAT2,BAT3,BAT4",
+          {
+            "BOM_Manufacturer Part": "",
+            "puuid": "92cd62c421744f9ba18986eae1fcbbc7",
+            "uuid": "3a8de671d18e47cfa019ea0ba94b1b4d"
+          }
+        ],
+        [
+          "Vcc1",
+          1,
+          "PKG-36.11.9.005.4011",
+          "REL1",
+          {
+            "BOM_Supplier Part": "2311438",
+            "BOM_Supplier": "Element14",
+            "BOM_Manufacturer": "Finder",
+            "BOM_Manufacturer Part": "36.11.9.005.4011",
+            "puuid": "a4eb5e47a7da4217a98b88012c25a90a",
+            "uuid": "21bb3ea8be5247818d252e67ae9cdff2"
+          }
+        ],
+        [
+          "GND1",
+          1,
+          "PKG-36.11.9.005.4011",
+          "REL2",
+          {
+            "BOM_Supplier Part": "2311438",
+            "BOM_Supplier": "Element14",
+            "BOM_Manufacturer": "Finder",
+            "BOM_Manufacturer Part": "36.11.9.005.4011",
+            "puuid": "a4eb5e47a7da4217a98b88012c25a90a",
+            "uuid": "21bb3ea8be5247818d252e67ae9cdff2"
+          }
+        ],
+        [
+          "Vcc2",
+          1,
+          "PKG-36.11.9.005.4011",
+          "REL3",
+          {
+            "BOM_Supplier Part": "2311438",
+            "BOM_Supplier": "Element14",
+            "BOM_Manufacturer": "Finder",
+            "BOM_Manufacturer Part": "36.11.9.005.4011",
+            "puuid": "a4eb5e47a7da4217a98b88012c25a90a",
+            "uuid": "21bb3ea8be5247818d252e67ae9cdff2"
+          }
+        ],
+        [
+          "GND2",
+          1,
+          "PKG-36.11.9.005.4011",
+          "REL4",
+          {
+            "BOM_Supplier Part": "2311438",
+            "BOM_Supplier": "Element14",
+            "BOM_Manufacturer": "Finder",
+            "BOM_Manufacturer Part": "36.11.9.005.4011",
+            "puuid": "a4eb5e47a7da4217a98b88012c25a90a",
+            "uuid": "21bb3ea8be5247818d252e67ae9cdff2"
+          }
+        ],
+        [
+          "Vcc3",
+          1,
+          "PKG-36.11.9.005.4011",
+          "REL5",
+          {
+            "BOM_Supplier Part": "2311438",
+            "BOM_Supplier": "Element14",
+            "BOM_Manufacturer": "Finder",
+            "BOM_Manufacturer Part": "36.11.9.005.4011",
+            "puuid": "a4eb5e47a7da4217a98b88012c25a90a",
+            "uuid": "21bb3ea8be5247818d252e67ae9cdff2"
+          }
+        ],
+        [
+          "GND3",
+          1,
+          "PKG-36.11.9.005.4011",
+          "REL6",
+          {
+            "BOM_Supplier Part": "2311438",
+            "BOM_Supplier": "Element14",
+            "BOM_Manufacturer": "Finder",
+            "BOM_Manufacturer Part": "36.11.9.005.4011",
+            "puuid": "a4eb5e47a7da4217a98b88012c25a90a",
+            "uuid": "21bb3ea8be5247818d252e67ae9cdff2"
+          }
+        ],
+        [
+          "Vcc4",
+          1,
+          "PKG-36.11.9.005.4011",
+          "REL7",
+          {
+            "BOM_Supplier Part": "2311438",
+            "BOM_Supplier": "Element14",
+            "BOM_Manufacturer": "Finder",
+            "BOM_Manufacturer Part": "36.11.9.005.4011",
+            "puuid": "a4eb5e47a7da4217a98b88012c25a90a",
+            "uuid": "21bb3ea8be5247818d252e67ae9cdff2"
+          }
+        ],
+        [
+          "GND4",
+          1,
+          "PKG-36.11.9.005.4011",
+          "REL8",
+          {
+            "BOM_Supplier Part": "2311438",
+            "BOM_Supplier": "Element14",
+            "BOM_Manufacturer": "Finder",
+            "BOM_Manufacturer Part": "36.11.9.005.4011",
+            "puuid": "a4eb5e47a7da4217a98b88012c25a90a",
+            "uuid": "21bb3ea8be5247818d252e67ae9cdff2"
+          }
+        ],
+        [
+          "48Vin",
+          1,
+          "PKG-36.11.9.005.4011",
+          "REL9",
+          {
+            "BOM_Supplier Part": "2311438",
+            "BOM_Supplier": "Element14",
+            "BOM_Manufacturer": "Finder",
+            "BOM_Manufacturer Part": "36.11.9.005.4011",
+            "puuid": "a4eb5e47a7da4217a98b88012c25a90a",
+            "uuid": "21bb3ea8be5247818d252e67ae9cdff2"
+          }
+        ]
+      ],
+      "updateTime": 1598187367,
+      "createTime": 1598187174,
+      "histories": [],
+      "created_at": "2020-08-23 20:52:54",
+      "updated_at": "2020-08-23 20:56:07"
+    },
+    {
+      "uuid": "59c81107c024d50a28a75ec96cab8b63",
+      "puuid": "8221ddcc8cbf6e4556a1297ee15e83b6",
+      "title": "PCB_2020-08-23_21-03-00",
+      "filename": "PCB_2020-08-23_21-03-00.json",
+      "description": "",
+      "docType": "3",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "a4eb5e47a7da4217a98b88012c25a90a": 9,
+        "92cd62c421744f9ba18986eae1fcbbc7": 4
+      },
+      "BOM": [],
+      "updateTime": 1598187780,
+      "createTime": 1598187780,
+      "histories": [],
+      "created_at": "2020-08-23 21:03:00",
+      "updated_at": "2020-08-23 21:03:00"
+    }
+  ],
+  "sort": [],
+  "title": "batery chargint PCB",
+  "foldername": "batery chargint PCB",
+  "schfilename": "batery chargint PCB.json",
+  "schfilemtime": 1598187367654
+}

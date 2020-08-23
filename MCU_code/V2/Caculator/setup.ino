@@ -1,4 +1,6 @@
 void setup() {
+  pinMode(A0,OUTPUT);
+  digitalWrite(A0,0);
   // begin
   Serial.begin(9600);
   Serial10.begin(9600);
@@ -16,12 +18,9 @@ void setup() {
   Serial4.setTimeout(100);
   
   pinMode(A1,INPUT_PULLUP);
-  pinMode(A0,OUTPUT);
-  digitalWrite(A0,1);
   pinMode(A3,OUTPUT);
 
   //--MPU6050 Back setup--
-<<<<<<< HEAD
   //===============================================================
 //  mpu6050.begin();
 //  Wire.begin();
@@ -42,28 +41,29 @@ void setup() {
   if (!SD.begin(10/*CS port*/)) {
     Serial.println("SD Error");
     a++;
-    if (a<=5) return;
+//    if (a<=5) return;
     pinMode(13,OUTPUT);
     digitalWrite(13,1);
+    digitalWrite(A3,1);
+    delay(1000);
+    digitalWrite(A3,0);
+    digitalWrite(A0,1);
     while(1);
   }
   else {
     Serial.println("SD OK");
-=======
-  mpu6050.begin();
-  Wire.begin();
-  Wire.beginTransmission(MPU6050BackAddr);
-  Wire.write(0x6B);
-  Wire.write(0);
-  Wire.endTransmission(true);
-
-  //--MPU6050 Front setup--
-  Wire.begin();
-  Wire.beginTransmission(MPU6050FrontAddr);
-  Wire.write(0x6B);
-  Wire.write(0);
-  Wire.endTransmission(true);
->>>>>>> 2a98d7342f3d776fcacb6844fbb86c86bfedb415
+    SerialEvent();
+    delay(100);
+    while (abs(backBrakeForce)>5||abs(frontBrakeForce)>5){
+      SerialEvent();
+      Serial10.println("E0");
+      Serial11.println("D0");
+      Serial11.flush();
+      digitalWrite(A3,1);
+      delay(40);
+      digitalWrite(A3,0);
+      delay(100);
+    }
 
 //===============================================================
 //  gyroBack();
@@ -73,7 +73,6 @@ void setup() {
 //  gyroFront();
 //===============================================================
 
-<<<<<<< HEAD
 //  fixFdx = -frontRotateAngle;
 
     file = SD.open("frontF.txt");
@@ -100,13 +99,7 @@ void setup() {
     file.print("FileNo."+String(NO)+'\t'+"Front Force: "+String(RFF)+'\t'+"Back Force: "+String(RBF)+'\t'+"setSpeed: "+String(expSetSpeed)+'\n');
     file.close();
     Serial.print(String(RBF)+'\t'+String(RFF)+'\t'+String(expSetSpeed)+'\t'+String(NO)+'\n');
-  
-    Serial10.println("E0");
-    Serial11.println("D0");
-    Serial11.flush();
-    Serial10.println("E0");
-    Serial11.println("D0");
-    Serial11.flush();
+
     Serial10.println("R0");
     Serial11.println("R0");
     Serial11.flush();
@@ -114,15 +107,9 @@ void setup() {
     Serial11.println("L0");
     Serial11.flush();
     Serial.println("ALLSET");
+    digitalWrite(A0,1);
     digitalWrite(A3,1);
     delay(200);
     digitalWrite(A3,0);
   }
-=======
-  gyroBack();
-  gyroFront();
-//  fixdx = -riseAngle;
-//  fixdy = -rotateAngle;
-//  fixdz = -dz;
->>>>>>> 2a98d7342f3d776fcacb6844fbb86c86bfedb415
 }

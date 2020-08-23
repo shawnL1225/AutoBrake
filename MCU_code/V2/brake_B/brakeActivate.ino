@@ -1,11 +1,11 @@
 void brakeA(){
-  if ((requestForce-10>TbrakeF||DirectIn == 1)&&autoBF<autoBMaxF<103){
+  if ((requestForce-5 >TbrakeF||DirectIn == 1)&&autoBF<autoBMaxF<103){
     digitalWrite(5,1);
     while (TbrakeF+5>=requestForce||requestForce>TbrakeF){
       Serial.println("Force bigger");
       brakeS();
       SerialEvent();
-      if (TbrakeF+5>=requestForce||autoBF>=autoBMaxF){
+      if (TbrakeF+2>=requestForce||autoBF>=autoBMaxF){
         digitalWrite(5,0);
         break;
       }
@@ -15,9 +15,9 @@ void brakeA(){
     DirectIn = 0;
   }
   
-  else if ((requestForce+10<TbrakeF||DirectIn == 1)&&autoBF>autoBMinF&&autoBF>3){
+  else if ((requestForce+5<TbrakeF||DirectIn == 1)&&autoBF>autoBMinF&&autoBF>3){
     digitalWrite(6,1);
-    while (TbrakeF-5<=requestForce|requestForce<TbrakeF){
+    while (TbrakeF-2<=requestForce|requestForce<TbrakeF){
       Serial.println("Force Smaller");
       brakeS();
       SerialEvent();

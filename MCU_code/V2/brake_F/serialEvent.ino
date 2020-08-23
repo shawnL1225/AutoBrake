@@ -6,6 +6,7 @@ void SerialEvent(){
       Serial.println("requestForce:");
       Serial.println(requestForce);
       DirectIn = 1;
+      brake = 1;
       brakeA();
     }
     else if (in == 'R'){
@@ -16,5 +17,6 @@ void SerialEvent(){
       LBlink = Serial.parseInt();
       light();
     }
+    else if (in == 'S') resetFunc();
   }
 }
