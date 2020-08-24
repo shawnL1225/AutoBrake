@@ -4,7 +4,7 @@
   "name": "batery chargint PCB",
   "content": "",
   "created_at": "2020-08-23 20:52:54",
-  "updated_at": "2020-08-23 21:03:00",
+  "updated_at": "2020-08-24 13:48:59",
   "stick": "",
   "documents": [
     {
@@ -179,16 +179,13 @@
       "docType": "3",
       "master": "",
       "thumb": "/images/thumb-default.png",
-      "components": {
-        "a4eb5e47a7da4217a98b88012c25a90a": 9,
-        "92cd62c421744f9ba18986eae1fcbbc7": 4
-      },
+      "components": {},
       "BOM": [],
-      "updateTime": 1598187780,
+      "updateTime": 1598248139,
       "createTime": 1598187780,
       "histories": [],
       "created_at": "2020-08-23 21:03:00",
-      "updated_at": "2020-08-23 21:03:00"
+      "updated_at": "2020-08-24 13:48:59"
     }
   ],
   "sort": [],

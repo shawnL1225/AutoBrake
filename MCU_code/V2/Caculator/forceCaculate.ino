@@ -18,6 +18,11 @@ void forceCaculate(){
 //  Serial.print(Fbd);
 
 //--------------------experiment-------------------------
+  if (!digitalRead(A1)) {
+    digitalWrite(A3,1);
+    delay(100);
+    digitalWrite(A3,0);
+  }
   if (nowSpeed >= expSetSpeed&&times<3&&(abs(RFF-frontBrakeForce)>5||abs(RBF-backBrakeForce)>5)||!digitalRead(A1)) brake = 1;
   else brake = 0;
 
