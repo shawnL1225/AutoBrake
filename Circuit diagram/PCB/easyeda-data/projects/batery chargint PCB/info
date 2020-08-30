@@ -4,7 +4,7 @@
   "name": "batery chargint PCB",
   "content": "",
   "created_at": "2020-08-23 20:52:54",
-  "updated_at": "2020-08-25 00:16:49",
+  "updated_at": "2020-08-30 23:43:05",
   "stick": "",
   "documents": [
     {
@@ -181,11 +181,28 @@
       "thumb": "/images/thumb-default.png",
       "components": {},
       "BOM": [],
-      "updateTime": 1598285809,
+      "updateTime": 1598801997,
       "createTime": 1598187780,
       "histories": [],
       "created_at": "2020-08-23 21:03:00",
-      "updated_at": "2020-08-25 00:16:49"
+      "updated_at": "2020-08-30 23:39:57"
+    },
+    {
+      "uuid": "b84e2556a04fbcad43cf41b4ea36ee90",
+      "puuid": "8221ddcc8cbf6e4556a1297ee15e83b6",
+      "title": "speedsensor",
+      "filename": "speedsensor.json",
+      "description": "",
+      "docType": "3",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {},
+      "BOM": [],
+      "updateTime": 1598802185,
+      "createTime": 1598802012,
+      "histories": [],
+      "created_at": "2020-08-30 23:40:12",
+      "updated_at": "2020-08-30 23:43:05"
     }
   ],
   "sort": [],
