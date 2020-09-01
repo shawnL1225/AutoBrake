@@ -54,7 +54,7 @@ void setup() {
     Serial.println("SD OK");
     SerialEvent();
     delay(100);
-    while (abs(backBrakeForce)>5||abs(frontBrakeForce)>5){
+    while (abs(backBrakeForce)>5){
       SerialEvent();
       Serial10.println("E0");
       Serial11.println("D0");
