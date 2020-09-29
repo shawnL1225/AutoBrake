@@ -20,7 +20,7 @@ void forceCaculate(){
 //--------------------experiment-------------------------
   if (!digitalRead(A1)) {
     Serial.println("Brake START");
-    for(int i = 0; i<1 ; i++) {
+    for(int i = 0; i<3 ; i++) {
       Serial4.println(" Z");
       Serial4.flush();
     }
@@ -28,8 +28,8 @@ void forceCaculate(){
     delay(100);
     digitalWrite(A3,0);
     digitalWrite(A0,0);
-    Serial10.print('E');
-    Serial10.println(RBF);
+//    Serial10.print('E');
+//    Serial10.println(RBF);
     Serial11.print('D');
     Serial11.println(RFF_1);
     Serial11.flush();

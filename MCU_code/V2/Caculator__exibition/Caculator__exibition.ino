@@ -69,10 +69,10 @@ char* convert_int16_to_str(int16_t i) { // converts int16 to string. Moreover, r
 
 void loop() {
 //  gyroBack();
-  SerialEvent();
-  if (digitalRead(A4)==1&&digitalRead(A5)==1) gyroFront();
-  SerialEvent();
-  light();
+//  SerialEvent();
+//  if (digitalRead(A4)==1&&digitalRead(A5)==1) gyroFront();
+//  SerialEvent();
+//  light();
   SerialEvent();
   forceCaculate();
 //  delay(500);

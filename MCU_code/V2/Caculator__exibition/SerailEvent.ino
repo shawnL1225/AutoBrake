@@ -70,9 +70,9 @@ void SerialEvent() {
       frontBrakeForce = Serial10.parseInt();;
       Serial.print('E');
       Serial.println(frontBrakeForce);
-      Serial4.print('E');
-      Serial4.print(frontBrakeForce);
-      Serial4.print(' ');
+//      Serial4.print('E');
+//      Serial4.print(frontBrakeForce);
+//      Serial4.print(' ');
     }
   }
   
@@ -85,9 +85,9 @@ void SerialEvent() {
       backBrakeForce = Serial11.parseInt();;
       Serial.print('D');
       Serial.println(backBrakeForce);
-      Serial4.print('D');
-      Serial4.print(backBrakeForce);
-      Serial4.print(' ');
+//      Serial4.print('D');
+//      Serial4.print(backBrakeForce);
+//      Serial4.print(' ');
     }
   }
 
@@ -131,8 +131,8 @@ void SerialEvent() {
       front_dist = Serial13.parseInt();
       Serial.println("F : " + String(front_dist));
       if (FDR) {
-        Serial4.print('F');
-        Serial4.println(front_dist);
+//        Serial4.print('F');
+//        Serial4.println(front_dist);
       }
     }
   }

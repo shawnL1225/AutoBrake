@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>
-#include <SPI.h>
+//#include <SPI.h>
 #include <Wire.h>
-#include <SD.h>
+//#include <SD.h>
 #include <RTClib.h>
 
 #define SERIAL_BUFFER_SIZE 1024
@@ -15,17 +15,18 @@ SoftwareSerial Serial7 (69,48);
 SoftwareSerial Serial8 (65,66);
 //SoftwareSerial Serial9 (63,64);  {S2}
 
-File file;  //SD card 
+//File file;  //SD card 
 
 RTC_DS3231 rtc;
 
 DateTime dt;  //variable of type DateTime
 
 bool RTCS = 1;
+bool Z0P = 0;
 
-int MT = 0; //Motor Temperature
+int MT = 26; //Motor Temperature
 int bluetoothStatus = 7;
-int batteryP = 0; //BattereyP
+int batteryP = 90; //BattereyP
 int Btimes = 0;
 //int16_t AcX,AcY,AcZ,GyX,GyY,GyZ;
 //int minVal=265;
@@ -42,6 +43,7 @@ float nowSpeed = 0; //speed
 
 unsigned short times = 0;
 unsigned long S1T = 0 ;
+unsigned long Zmillis = 0 ;
 
 char statusForBluetooth= '=';
 
