@@ -14,6 +14,7 @@ SoftwareSerial Serial5 (68,25);
 SoftwareSerial Serial7 (69,48);
 SoftwareSerial Serial8 (65,66);
 //SoftwareSerial Serial9 (63,64);  {S2}
+SoftwareSerial Serial10 (7,6);
 
 //File file;  //SD card 
 
@@ -55,10 +56,18 @@ void loop() {
   if (millis()/2000>times){
 //    Serial1.println("AT+STATE");
     times++;
-    delay(150);
-    Serial1.print('B');
-    Serial1.print(random(90,92));
-    Serial1.print('|');
+//    delay(150);
+//    Serial1.print('B');
+//    Serial1.print(random(90,92));
+//    Serial1.print('|');
+    Serial10.print("BBB");
+    Serial10.print(batteryP);
+    Serial10.print("TTT");
+    Serial10.print(MT);
+    Serial10.print("SSS");
+    Serial10.print(nowSpeed);
+    Serial10.print("EEE");
+    Serial10.println('\n');
   }
   if (millis()/60000>Btimes){
     Btimes++;

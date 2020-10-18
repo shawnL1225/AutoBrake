@@ -47,7 +47,7 @@ void setup() {
     Serial10.println("E0");
     Serial11.println("D0");
     Serial11.flush();
-    delay(500);
+    delay(1000);
 //    digitalWrite(A3,1);
 //    delay(40);
 //    digitalWrite(A3,0);

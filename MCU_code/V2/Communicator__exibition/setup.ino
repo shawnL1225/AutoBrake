@@ -11,6 +11,7 @@ void setup() {
 //  Serial9.begin(9600);
 //  Serial7.begin(9600);
 //  Serial8.begin(9600);
+  Serial10.begin(38400);
 
   // Set parseInt timeout
   Serial.setTimeout(100);

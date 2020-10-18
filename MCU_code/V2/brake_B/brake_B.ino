@@ -8,7 +8,7 @@ bool Bstatus = 0;
 bool brake = 0;
 
 int autoBMax=1000, autoBMin=553, autoBMaxF=100, autoBMinF=0; // analog200 -> softbrake  
-int manualBMax=330, manualBMin=154, manualBMaxF=100, manualBMinF=0;
+int manualBMax=492, manualBMin=642, manualBMaxF=100, manualBMinF=0;
 int autoBF = 0, manualBF = 0, TbrakeF = 0;
 int requestForce = 1;
 

@@ -61,7 +61,7 @@ void SerialEvent() {
   }
 
   if (Serial1.available()) {
-    Serial.println("Serial1");
+//    Serial.println("Serial1");
     char in = Serial1.read();
     //    Serial.println(in);
     if (in == '?') {
@@ -103,7 +103,7 @@ void SerialEvent() {
   }
   
   if (Serial2.available()) {
-    Serial.println("Serial2");
+//    Serial.println("Serial2");
     char in = Serial2.read();
     if (in == 'E') {
       int frontBrakeForce = Serial2.parseInt();
@@ -141,7 +141,7 @@ void SerialEvent() {
 
   //  Serial4.listen();
   if (Serial4.available()) {
-    Serial.println("Serial4");
+//    Serial.println("Serial4");
     char in = Serial4.read();
     //    Serial.println(in);
     if (in == 'C') {
@@ -177,7 +177,7 @@ void SerialEvent() {
   }
 
   if (Serial3.available()) {
-    Serial.println("Serial3");
+//    Serial.println("Serial3");
     char in = Serial3.read();
 //    Serial.println(in);
     if (in == 'V') {
@@ -202,17 +202,23 @@ void SerialEvent() {
 
 
   //======SEND======
+
+//  Serial10.print("BBB");
+//  Serial10.print(batteryP);
+//  Serial10.print("TTT");
+//  Serial10.print(MT);
+//  Serial10.print("SSS");
+//  Serial10.print(nowSpeed);
+//  Serial10.print("EEE");
+//  Serial10.println('\n');
   
-  //Serial3.println("BBB" + String(batteryP) + "TTT" + String(MT) + "SSS" + String(nowSpeedInt) + "EEE" + '\n');
-//  Serial.println(nowSpeed);
-  Serial3.print("BBB");
-  Serial3.print(batteryP);
-  Serial3.print("TTT");
-  Serial3.print(MT);
-  Serial3.print("SSS");
-  Serial3.print(nowSpeed);
-  Serial3.print("EEE");
-  Serial3.print('\n');
+//  Serial.print(batteryP);
+//  Serial.print("TTT");
+//  Serial.print(MT);
+//  Serial.print("SSS");
+//  Serial.print(int(nowSpeed));
+//  Serial.print("EEE");
+//  Serial.print('\n');
 
   Serial2.print('V');
   Serial2.println(nowSpeed);
